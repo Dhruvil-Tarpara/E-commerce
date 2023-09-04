@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class FxButton extends StatelessWidget {
@@ -22,7 +21,7 @@ class FxButton extends StatelessWidget {
         backgroundColor: MaterialStatePropertyAll(backgroundColor),
         shape: MaterialStatePropertyAll(
           RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(60),
               side: BorderSide(color: sideColor, width: 2)),
         ),
       ),

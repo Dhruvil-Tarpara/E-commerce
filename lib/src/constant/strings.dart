@@ -1,4 +1,8 @@
 class ConstString {
+  // Intro screen
+  static const String introDescription =
+      "Publish up your selfies to mack yourself more beautiful with this app.";
+
   // login screen
   static const String login = "Login";
   static const String and = "or";
@@ -12,7 +16,15 @@ class ConstString {
   static const String register = "Register!";
   static const String googleLogin = "Sign in with google";
 
-  // text filed
+  // sign up screen
+  static const String signUp = "Sign Up";
+  static const String signUpTitle = "Create an new account!";
+  static const String signUpSubtitle = "Keep your data safe!";
+  static const String haveAccount = "Aleady have an account?";
+  static const String createAcoount =
+      "Congratulations! Your account has been created successfully";
+
+  // User input error
   static const String userName = "User Name";
   static const String email = "Email";
   static const String password = "Password";
@@ -25,13 +37,8 @@ class ConstString {
   static const String passwordError3 = "Passwords do not match.";
   static const String nameError1 = "Please enter your name";
 
-  // sign up screen
-  static const String signUp = "Sign Up";
-  static const String signUpTitle = "Create an new account!";
-  static const String signUpSubtitle = "Keep your data safe!";
-  static const String haveAccount = "Aleady have an account?";
-  static const String createAcoount =
-      "Congratulations! Your account has been created successfully";
+  // Use login success screen
+  static const String errorMassage = "Something went wrong please try again";
 
   static const String success = "Successful!";
   static const String shopping = "Start Shopping";

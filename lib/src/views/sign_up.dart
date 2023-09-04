@@ -4,9 +4,12 @@ import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/constant/widget/text_filed.dart';
-import 'package:ecommerce/src/provider/obscure_cubit.dart';
+import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
-import 'package:ecommerce/src/utils/validetion.dart';
+import 'package:ecommerce/src/utils/udf/udf.dart';
+import 'package:ecommerce/src/utils/udf/validetion.dart';
+import 'package:ecommerce/src/views/check_user.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +21,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  GlobalKey<FormState> _singUpKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _singUpKey = GlobalKey<FormState>();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -26,11 +29,15 @@ class _SignUpPageState extends State<SignUpPage> {
       TextEditingController();
   final ValueNotifier<AutovalidateMode> _valueNotifier =
       ValueNotifier(AutovalidateMode.disabled);
+  final ValueNotifier<bool> _isEmailVerify = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> _isPasswordVerify = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _isConformVerify = ValueNotifier<bool>(true);
 
   @override
   void initState() {
     super.initState();
     _valueNotifier.value = AutovalidateMode.disabled;
+    _clearController();
   }
 
   @override
@@ -41,8 +48,45 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginPassword>(
-      create: (context) => LoginPassword(),
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        state.whenOrNull(
+          loding: () {
+            UDF.showLoadingDialog(context);
+          },
+          success: () {
+            Navigator.pop(context);
+            UDF.fxShowSnackBar(
+              context,
+              FxText(
+                text: ConstString.createAcoount,
+                color: ConstColor.green,
+                size: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              ConstColor.white,
+            );
+            Navigator.pushAndRemoveUntil(
+              context,
+              UDF.pageTransition(page: const CheckUserPage()),
+              (route) => false,
+            );
+          },
+          error: (massage) {
+            Navigator.pop(context);
+            UDF.fxShowSnackBar(
+              context,
+              FxText(
+                text: massage,
+                color: ConstColor.red,
+                size: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              ConstColor.white,
+            );
+          },
+        );
+      },
       child: Scaffold(
         backgroundColor: ConstColor.white,
         body: SafeArea(
@@ -107,115 +151,132 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           height: height(context: context) * 0.01,
                         ),
-                        FxTextFormField(
-                          controller: _emailController,
-                          textInputType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          labelText: FxText(
-                            text: ConstString.email,
-                            color: ConstColor.black,
-                            size: 14,
-                            fontWeight: FontWeight.w500,
+                        ValueListenableBuilder(
+                          valueListenable: _isEmailVerify,
+                          builder: (context, value, _) => FxTextFormField(
+                            controller: _emailController,
+                            textInputType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                            labelText: FxText(
+                              text: ConstString.email,
+                              color: ConstColor.black,
+                              size: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            onChanged: (value) {
+                              _isEmailVerify.value =
+                                  emailValidation(email: value);
+                            },
+                            suffix: _isEmailVerify.value
+                                ? const Icon(
+                                    Icons.verified,
+                                    color: Colors.green,
+                                  )
+                                : null,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return ConstString.emailError1;
+                              } else if (!emailValidation(
+                                  email: _emailController.text)) {
+                                return ConstString.emailError2;
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return ConstString.emailError1;
-                            } else if (!emailValidation(
-                                email: _emailController.text)) {
-                              return ConstString.emailError2;
-                            } else {
-                              return null;
-                            }
-                          },
                         ),
                         SizedBox(
                           height: height(context: context) * 0.01,
                         ),
-                        FxTextFormField(
-                          controller: _passwordController,
-                          textInputType: TextInputType.visiblePassword,
-                          textInputAction: TextInputAction.next,
-                          //obscureText: context.watch<SignUpPassword>().state,
-                          maxLine: 1,
-                          suffix: IconButton(
-                            focusColor: Colors.transparent,
-                            disabledColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            onPressed: () {
-                              //   context.read<SignUpPassword>().upDateObscureText();
-                            },
-                            icon:
-                                // context.watch<SignUpPassword>().state
-                                //     ? Icon(
-                                //         Icons.visibility_off,
-                                //         color: ConstColor.grey,
-                                //       )
-                                //     :
-                                Icon(
-                              Icons.visibility,
-                              color: ConstColor.black,
+                        ValueListenableBuilder(
+                          valueListenable: _isPasswordVerify,
+                          builder: (context, value, _) => FxTextFormField(
+                            controller: _passwordController,
+                            textInputType: TextInputType.visiblePassword,
+                            textInputAction: TextInputAction.next,
+                            maxLine: 1,
+                            obscureText: _isPasswordVerify.value,
+                            suffix: IconButton(
+                              focusColor: Colors.transparent,
+                              disabledColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              onPressed: () {
+                                _isPasswordVerify.value =
+                                    !_isPasswordVerify.value;
+                              },
+                              icon: _isPasswordVerify.value
+                                  ? Icon(
+                                      Icons.visibility_off,
+                                      color: ConstColor.grey,
+                                    )
+                                  : Icon(
+                                      Icons.visibility,
+                                      color: ConstColor.black,
+                                    ),
                             ),
+                            labelText: FxText(
+                              text: ConstString.password,
+                              color: ConstColor.black,
+                              size: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return ConstString.passwordError1;
+                              } else if (!passwordValidation(
+                                  password: _passwordController.text)) {
+                                return ConstString.passwordError2;
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          labelText: FxText(
-                            text: ConstString.password,
-                            color: ConstColor.black,
-                            size: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return ConstString.passwordError1;
-                            } else if (!passwordValidation(
-                                password: _passwordController.text)) {
-                              return ConstString.passwordError2;
-                            } else {
-                              return null;
-                            }
-                          },
                         ),
                         SizedBox(
                           height: height(context: context) * 0.01,
                         ),
-                        FxTextFormField(
-                          controller: _conformPasswordController,
-                          textInputType: TextInputType.visiblePassword,
-                          textInputAction: TextInputAction.done,
-                          // obscureText: context.watch<ConformPassword>().state,
-                          maxLine: 1,
-                          suffix: IconButton(
-                            focusColor: Colors.transparent,
-                            disabledColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            onPressed: () {
-                              //    context.read<ConformPassword>().upDateObscureText();
-                            },
-                            icon:
-                                // context.watch<ConformPassword>().state
-                                //     ? Icon(
-                                //         Icons.visibility_off,
-                                //         color: ConstColor.grey,
-                                //       )
-                                //     :
-                                Icon(
-                              Icons.visibility,
-                              color: ConstColor.black,
+                        ValueListenableBuilder(
+                          valueListenable: _isConformVerify,
+                          builder: (context, value, _) => FxTextFormField(
+                            controller: _conformPasswordController,
+                            textInputType: TextInputType.visiblePassword,
+                            textInputAction: TextInputAction.done,
+                            maxLine: 1,
+                            obscureText: _isConformVerify.value,
+                            suffix: IconButton(
+                              focusColor: Colors.transparent,
+                              disabledColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              onPressed: () {
+                                _isConformVerify.value =
+                                    !_isConformVerify.value;
+                              },
+                              icon: _isConformVerify.value
+                                  ? Icon(
+                                      Icons.visibility_off,
+                                      color: ConstColor.grey,
+                                    )
+                                  : Icon(
+                                      Icons.visibility,
+                                      color: ConstColor.black,
+                                    ),
                             ),
+                            labelText: FxText(
+                              text: ConstString.conformPassword,
+                              color: ConstColor.black,
+                              size: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return ConstString.passwordError1;
+                              } else if (value != _passwordController.text) {
+                                return ConstString.passwordError3;
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          labelText: FxText(
-                            text: ConstString.conformPassword,
-                            color: ConstColor.black,
-                            size: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return ConstString.passwordError1;
-                            } else if (value != _passwordController.text) {
-                              return ConstString.passwordError3;
-                            } else {
-                              return null;
-                            }
-                          },
                         ),
                       ],
                     ),
@@ -232,7 +293,15 @@ class _SignUpPageState extends State<SignUpPage> {
                     sideColor: ConstColor.black,
                     onPressed: () {
                       _valueNotifier.value = AutovalidateMode.onUserInteraction;
-                      if (_singUpKey.currentState!.validate()) {}
+                      if (_singUpKey.currentState!.validate()) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        context.read<LoginBloc>().add(
+                              LoginEvent.signUp(
+                                _emailController.text,
+                                _passwordController.text,
+                              ),
+                            );
+                      }
                     },
                     child: FxText(
                       text: ConstString.login,
@@ -251,12 +320,19 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _clearController() {
+    _userNameController.clear();
     _emailController.clear();
     _passwordController.clear();
+    _conformPasswordController.clear();
   }
 
   void _cancelController() {
+    _userNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _conformPasswordController.dispose();
+    _isEmailVerify.dispose();
+    _isPasswordVerify.dispose();
+    _isConformVerify.dispose();
   }
 }

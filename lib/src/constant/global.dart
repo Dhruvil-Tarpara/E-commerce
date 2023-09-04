@@ -5,4 +5,5 @@ class Global {
   static const String googleIcon = "assets/images/icon/google.png";
   static const String appleIcon = "assets/images/icon/apple-logo.png";
   static const String checkLogin = "assets/images/icon/check.png";
+  static const String demo = "assets/images/demo.jpg";
 }
