@@ -4,7 +4,7 @@ import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/utils/udf/udf.dart';
-import 'package:ecommerce/src/views/sign_up.dart';
+import 'package:ecommerce/src/views/login/sign_up.dart';
 import 'package:flutter/material.dart';
 
 class IntroPage extends StatefulWidget {
@@ -16,7 +16,7 @@ class IntroPage extends StatefulWidget {
 
 class _IntroPageState extends State<IntroPage> {
   final PageController _controller = PageController();
-  List<Intro> page = [const Intro(), const Intro(), const Intro()];
+
   final ValueNotifier<int> initPage = ValueNotifier<int>(0);
 
   @override
@@ -28,7 +28,7 @@ class _IntroPageState extends State<IntroPage> {
           initPage.value = value;
         },
         controller: _controller,
-        itemCount: page.length,
+        itemCount: Global.page.length,
         itemBuilder: (context, index) => SafeArea(
           child: Intro(
             index: index,
@@ -37,7 +37,7 @@ class _IntroPageState extends State<IntroPage> {
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.only(left: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -71,10 +71,10 @@ class _IntroPageState extends State<IntroPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                if (initPage.value < page.length - 1) {
+                if (initPage.value < Global.page.length - 1) {
                   _controller.nextPage(
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeInCirc);
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeIn);
                 } else {
                   Navigator.of(context).pushReplacement(
                     UDF.pageTransition(page: const SignUpPage()),
@@ -97,8 +97,8 @@ class _IntroPageState extends State<IntroPage> {
 }
 
 class Intro extends StatelessWidget {
-  final int? index;
-  const Intro({super.key, this.index});
+  final int index;
+  const Intro({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -114,29 +114,33 @@ class Intro extends StatelessWidget {
               width: width(context: context),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                image: const DecorationImage(
-                  image: AssetImage(Global.demo),
+                image: DecorationImage(
+                  image: AssetImage(Global.page[index][ConstString.introimage]),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
-          const Spacer(),
-          const FxText(
-            text: ConstString.introDescription,
-            size: 28,
-            fontWeight: FontWeight.w700,
-          ),
           SizedBox(
-            height: height(context: context) * 0.02,
+            height: height(context: context) * 0.04,
           ),
-          FxText(
-            text: ConstString.introDescription,
-            size: 14,
-            color: ConstColor.black,
-          ),
-          SizedBox(
-            height: height(context: context) * 0.06,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              FxText(
+                text: Global.page[index][ConstString.introTitle],
+                size: 24,
+                fontWeight: FontWeight.w700,
+              ),
+              SizedBox(
+                height: height(context: context) * 0.02,
+              ),
+              FxText(
+                text: Global.page[index][ConstString.introSubTitle],
+                size: 14,
+                color: ConstColor.black,
+              ),
+            ],
           ),
         ],
       ),

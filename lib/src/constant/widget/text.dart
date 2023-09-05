@@ -9,6 +9,8 @@ class FxText extends StatelessWidget {
   final String? fontFamily;
   final TextOverflow? textOverflow;
   final TextAlign? textAlign;
+  final int? maxLines;
+  final bool? softWrap;
 
   const FxText({
     super.key,
@@ -17,7 +19,10 @@ class FxText extends StatelessWidget {
     this.size,
     this.fontWeight,
     this.fontFamily,
-    this.textOverflow, this.textAlign,
+    this.textOverflow,
+    this.textAlign,
+    this.maxLines,
+    this.softWrap,
   });
 
   @override
@@ -26,6 +31,8 @@ class FxText extends StatelessWidget {
       textAlign: textAlign,
       text,
       overflow: textOverflow,
+      maxLines: maxLines,
+      softWrap: softWrap,
       style: GoogleFonts.poppins(
         fontSize: size,
         fontWeight: fontWeight,

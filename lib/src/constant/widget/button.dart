@@ -21,9 +21,12 @@ class FxButton extends StatelessWidget {
         backgroundColor: MaterialStatePropertyAll(backgroundColor),
         shape: MaterialStatePropertyAll(
           RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(60),
-              side: BorderSide(color: sideColor, width: 2)),
+            borderRadius: BorderRadius.circular(60),
+            side: BorderSide(color: sideColor, width: 2),
+          ),
         ),
+        minimumSize: const MaterialStatePropertyAll(Size.zero),
+        padding: const MaterialStatePropertyAll(EdgeInsets.zero),
       ),
       child: child,
     );

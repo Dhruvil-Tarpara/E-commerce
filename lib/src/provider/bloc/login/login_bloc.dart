@@ -1,6 +1,9 @@
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/provider/authentication/auth.dart';
 import 'package:ecommerce/src/provider/authentication/exaption_handle.dart';
+import 'package:ecommerce/src/provider/model/user.dart';
+import 'package:ecommerce/src/utils/hive/hive.dart';
+import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -20,6 +23,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 .signUpWithEmailPassword(
                     email: event.email, password: event.password);
             if (user != null) {
+              await HiveHelper.hiveHelper.set(
+                  HiveKeys.user,
+                  Users(
+                    userId: user.uid,
+                    userName: user.displayName,
+                    profileName: user.displayName,
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    url: user.photoURL,
+                  ).toJson());
               emit(const _Success());
             } else {
               emit(const _Error(ConstString.errorMassage));
@@ -48,6 +61,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             User? user =
                 await FirebaseAuthHelper.firebaseAuthHelper.signInWithGoogle();
             if (user != null) {
+              await HiveHelper.hiveHelper.set(
+                  HiveKeys.user,
+                  Users(
+                    userId: user.uid,
+                    userName: user.displayName,
+                    profileName: user.displayName,
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    url: user.photoURL,
+                  ).toJson());
               emit(const _Success());
             } else {
               emit(const _Error(ConstString.errorMassage));

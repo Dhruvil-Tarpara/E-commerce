@@ -5,8 +5,8 @@ import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/utils/udf/udf.dart';
-import 'package:ecommerce/src/views/intro.dart';
-import 'package:ecommerce/src/views/login.dart';
+import 'package:ecommerce/src/views/login/intro.dart';
+import 'package:ecommerce/src/views/login/login.dart';
 import 'package:flutter/material.dart';
 
 class OptionPage extends StatelessWidget {

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
@@ -5,10 +7,12 @@ import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/constant/widget/text_filed.dart';
 import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
+import 'package:ecommerce/src/utils/hive/hive.dart';
+import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/utils/udf/udf.dart';
 import 'package:ecommerce/src/utils/udf/validetion.dart';
-import 'package:ecommerce/src/views/check_user.dart';
+import 'package:ecommerce/src/views/login/check_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,7 +57,8 @@ class _LoginPageState extends State<LoginPage> {
               loding: () {
                 UDF.showLoadingDialog(context);
               },
-              success: () {
+              success: () async {
+               await HiveHelper.hiveHelper.set(HiveKeys.login, true);
                 Navigator.pop(context);
                 Navigator.pushAndRemoveUntil(
                     context,
@@ -209,8 +214,8 @@ class _LoginPageState extends State<LoginPage> {
                               FocusManager.instance.primaryFocus?.unfocus();
                               context.read<LoginBloc>().add(
                                     LoginEvent.login(
-                                      _emailController.text,
-                                      _passwordController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
                                     ),
                                   );
                             }

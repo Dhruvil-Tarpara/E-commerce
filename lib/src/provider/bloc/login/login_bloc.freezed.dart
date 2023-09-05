@@ -18,22 +18,23 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LoginEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, dynamic password) login,
-    required TResult Function(String email, dynamic password) signUp,
+    required TResult Function(String email, String password) login,
+    required TResult Function(String email, String password, String userName)
+        signUp,
     required TResult Function() googleLogin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, dynamic password)? login,
-    TResult? Function(String email, dynamic password)? signUp,
+    TResult? Function(String email, String password)? login,
+    TResult? Function(String email, String password, String userName)? signUp,
     TResult? Function()? googleLogin,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, dynamic password)? login,
-    TResult Function(String email, dynamic password)? signUp,
+    TResult Function(String email, String password)? login,
+    TResult Function(String email, String password, String userName)? signUp,
     TResult Function()? googleLogin,
     required TResult orElse(),
   }) =>
@@ -85,7 +86,7 @@ abstract class _$$_LoginCopyWith<$Res> {
   factory _$$_LoginCopyWith(_$_Login value, $Res Function(_$_Login) then) =
       __$$_LoginCopyWithImpl<$Res>;
   @useResult
-  $Res call({String email, dynamic password});
+  $Res call({String email, String password});
 }
 
 /// @nodoc
@@ -99,14 +100,17 @@ class __$$_LoginCopyWithImpl<$Res>
   @override
   $Res call({
     Object? email = null,
-    Object? password = freezed,
+    Object? password = null,
   }) {
     return _then(_$_Login(
-      null == email
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      freezed == password ? _value.password! : password,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -114,12 +118,12 @@ class __$$_LoginCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Login implements _Login {
-  const _$_Login(this.email, this.password);
+  const _$_Login({required this.email, required this.password});
 
   @override
   final String email;
   @override
-  final dynamic password;
+  final String password;
 
   @override
   String toString() {
@@ -132,12 +136,12 @@ class _$_Login implements _Login {
         (other.runtimeType == runtimeType &&
             other is _$_Login &&
             (identical(other.email, email) || other.email == email) &&
-            const DeepCollectionEquality().equals(other.password, password));
+            (identical(other.password, password) ||
+                other.password == password));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, email, const DeepCollectionEquality().hash(password));
+  int get hashCode => Object.hash(runtimeType, email, password);
 
   @JsonKey(ignore: true)
   @override
@@ -148,8 +152,9 @@ class _$_Login implements _Login {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, dynamic password) login,
-    required TResult Function(String email, dynamic password) signUp,
+    required TResult Function(String email, String password) login,
+    required TResult Function(String email, String password, String userName)
+        signUp,
     required TResult Function() googleLogin,
   }) {
     return login(email, password);
@@ -158,8 +163,8 @@ class _$_Login implements _Login {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, dynamic password)? login,
-    TResult? Function(String email, dynamic password)? signUp,
+    TResult? Function(String email, String password)? login,
+    TResult? Function(String email, String password, String userName)? signUp,
     TResult? Function()? googleLogin,
   }) {
     return login?.call(email, password);
@@ -168,8 +173,8 @@ class _$_Login implements _Login {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, dynamic password)? login,
-    TResult Function(String email, dynamic password)? signUp,
+    TResult Function(String email, String password)? login,
+    TResult Function(String email, String password, String userName)? signUp,
     TResult Function()? googleLogin,
     required TResult orElse(),
   }) {
@@ -215,10 +220,11 @@ class _$_Login implements _Login {
 }
 
 abstract class _Login implements LoginEvent {
-  const factory _Login(final String email, final dynamic password) = _$_Login;
+  const factory _Login(
+      {required final String email, required final String password}) = _$_Login;
 
   String get email;
-  dynamic get password;
+  String get password;
   @JsonKey(ignore: true)
   _$$_LoginCopyWith<_$_Login> get copyWith =>
       throw _privateConstructorUsedError;
@@ -229,7 +235,7 @@ abstract class _$$_SignUpCopyWith<$Res> {
   factory _$$_SignUpCopyWith(_$_SignUp value, $Res Function(_$_SignUp) then) =
       __$$_SignUpCopyWithImpl<$Res>;
   @useResult
-  $Res call({String email, dynamic password});
+  $Res call({String email, String password, String userName});
 }
 
 /// @nodoc
@@ -243,14 +249,22 @@ class __$$_SignUpCopyWithImpl<$Res>
   @override
   $Res call({
     Object? email = null,
-    Object? password = freezed,
+    Object? password = null,
+    Object? userName = null,
   }) {
     return _then(_$_SignUp(
-      null == email
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      freezed == password ? _value.password! : password,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -258,16 +272,19 @@ class __$$_SignUpCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SignUp implements _SignUp {
-  const _$_SignUp(this.email, this.password);
+  const _$_SignUp(
+      {required this.email, required this.password, required this.userName});
 
   @override
   final String email;
   @override
-  final dynamic password;
+  final String password;
+  @override
+  final String userName;
 
   @override
   String toString() {
-    return 'LoginEvent.signUp(email: $email, password: $password)';
+    return 'LoginEvent.signUp(email: $email, password: $password, userName: $userName)';
   }
 
   @override
@@ -276,12 +293,14 @@ class _$_SignUp implements _SignUp {
         (other.runtimeType == runtimeType &&
             other is _$_SignUp &&
             (identical(other.email, email) || other.email == email) &&
-            const DeepCollectionEquality().equals(other.password, password));
+            (identical(other.password, password) ||
+                other.password == password) &&
+            (identical(other.userName, userName) ||
+                other.userName == userName));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, email, const DeepCollectionEquality().hash(password));
+  int get hashCode => Object.hash(runtimeType, email, password, userName);
 
   @JsonKey(ignore: true)
   @override
@@ -292,33 +311,34 @@ class _$_SignUp implements _SignUp {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, dynamic password) login,
-    required TResult Function(String email, dynamic password) signUp,
+    required TResult Function(String email, String password) login,
+    required TResult Function(String email, String password, String userName)
+        signUp,
     required TResult Function() googleLogin,
   }) {
-    return signUp(email, password);
+    return signUp(email, password, userName);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, dynamic password)? login,
-    TResult? Function(String email, dynamic password)? signUp,
+    TResult? Function(String email, String password)? login,
+    TResult? Function(String email, String password, String userName)? signUp,
     TResult? Function()? googleLogin,
   }) {
-    return signUp?.call(email, password);
+    return signUp?.call(email, password, userName);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, dynamic password)? login,
-    TResult Function(String email, dynamic password)? signUp,
+    TResult Function(String email, String password)? login,
+    TResult Function(String email, String password, String userName)? signUp,
     TResult Function()? googleLogin,
     required TResult orElse(),
   }) {
     if (signUp != null) {
-      return signUp(email, password);
+      return signUp(email, password, userName);
     }
     return orElse();
   }
@@ -359,10 +379,14 @@ class _$_SignUp implements _SignUp {
 }
 
 abstract class _SignUp implements LoginEvent {
-  const factory _SignUp(final String email, final dynamic password) = _$_SignUp;
+  const factory _SignUp(
+      {required final String email,
+      required final String password,
+      required final String userName}) = _$_SignUp;
 
   String get email;
-  dynamic get password;
+  String get password;
+  String get userName;
   @JsonKey(ignore: true)
   _$$_SignUpCopyWith<_$_SignUp> get copyWith =>
       throw _privateConstructorUsedError;
@@ -406,8 +430,9 @@ class _$_GoogleLogin implements _GoogleLogin {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String email, dynamic password) login,
-    required TResult Function(String email, dynamic password) signUp,
+    required TResult Function(String email, String password) login,
+    required TResult Function(String email, String password, String userName)
+        signUp,
     required TResult Function() googleLogin,
   }) {
     return googleLogin();
@@ -416,8 +441,8 @@ class _$_GoogleLogin implements _GoogleLogin {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String email, dynamic password)? login,
-    TResult? Function(String email, dynamic password)? signUp,
+    TResult? Function(String email, String password)? login,
+    TResult? Function(String email, String password, String userName)? signUp,
     TResult? Function()? googleLogin,
   }) {
     return googleLogin?.call();
@@ -426,8 +451,8 @@ class _$_GoogleLogin implements _GoogleLogin {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String email, dynamic password)? login,
-    TResult Function(String email, dynamic password)? signUp,
+    TResult Function(String email, String password)? login,
+    TResult Function(String email, String password, String userName)? signUp,
     TResult Function()? googleLogin,
     required TResult orElse(),
   }) {
