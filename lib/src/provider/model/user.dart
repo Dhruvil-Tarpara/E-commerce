@@ -33,12 +33,12 @@ class Users {
         emailVerified: doc.emailVerified);
   }
   factory Users.fromJson(Map<String, dynamic> json) => Users(
-        userId: json["UserId"],
-        profileName: json["profileName"],
-        userName: json["userName"],
-        url: json["url"],
-        email: json["email"],
-        emailVerified: json["emailVerified"],
+        userId: json["UserId"] ?? "",
+        profileName: json["profileName"] ?? "",
+        userName: json["userName"] ?? "",
+        url: json["url"] ?? "",
+        email: json["email"] ?? "",
+        emailVerified: json["emailVerified"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {

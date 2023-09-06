@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 class Global {
   static final ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);
-  static   final PageController pageController = PageController();
+  static final GlobalKey<ScaffoldState> scaffoldkey =
+      GlobalKey<ScaffoldState>();
 
-  static late Users users;
+  static Users? users;
   static const String splashImage = "assets/images/splash.png";
   static const String logoImage = "assets/images/logo/logo.jpg";
   static const String facebookIcon = "assets/images/icon/facebook.png";

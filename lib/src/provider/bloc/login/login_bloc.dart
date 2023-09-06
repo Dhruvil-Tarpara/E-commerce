@@ -23,17 +23,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 .signUpWithEmailPassword(
                     email: event.email, password: event.password);
             if (user != null) {
-              await HiveHelper.hiveHelper.set(
-                  HiveKeys.user,
-                  Users(
-                    userId: user.uid,
-                    userName: user.displayName,
-                    profileName: user.displayName,
-                    email: user.email,
-                    emailVerified: user.emailVerified,
-                    url: user.photoURL,
-                  ).toJson());
-              emit(const _Success());
+              await HiveHelper.hiveHelper
+                  .set(
+                      HiveKeys.user,
+                      Users(
+                        userId: user.uid,
+                        userName: user.displayName,
+                        profileName: user.displayName,
+                        email: user.email,
+                        emailVerified: user.emailVerified,
+                        url: user.photoURL,
+                      ).toJson())
+                  .then((value) => emit(const _Success()));
             } else {
               emit(const _Error(ConstString.errorMassage));
             }

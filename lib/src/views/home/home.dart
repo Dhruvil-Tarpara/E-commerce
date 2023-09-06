@@ -1,8 +1,8 @@
 import 'package:ecommerce/src/constant/colors.dart';
+import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
-import 'package:ecommerce/src/provider/authentication/auth.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/views/details.dart';
@@ -20,15 +20,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    FirebaseAuthHelper.firebaseAuthHelper.getCurrentUser();
   }
-
-  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _key,
       backgroundColor: ConstColor.white,
       appBar: AppBar(
         backgroundColor: ConstColor.transparent,
@@ -38,7 +34,9 @@ class _HomePageState extends State<HomePage> {
           child: CircleAvatar(
             backgroundColor: ConstColor.black,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Global.scaffoldkey.currentState!.openDrawer();
+              },
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               icon: Icon(
@@ -118,7 +116,7 @@ class _HomePageState extends State<HomePage> {
               height: height(context: context) * 0.02,
             ),
             SizedBox(
-              height: height(context: context) * 0.2,
+              height: height(context: context) * 0.22,
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
@@ -129,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    height: height(context: context) * 0.2,
+                    height: height(context: context) * 0.22,
                     width: width(context: context) * 0.72,
                     decoration: BoxDecoration(
                       color: ConstColor.disable,

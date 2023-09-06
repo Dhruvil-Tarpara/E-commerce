@@ -1,7 +1,6 @@
 import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
-import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:flutter/material.dart';
@@ -28,9 +27,6 @@ class _CartPageState extends State<CartPage> {
             child: IconButton(
               onPressed: () {
                 Global.selectedIndex.value = 0;
-                Global.pageController.jumpToPage(
-                  0,
-                );
               },
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
@@ -98,33 +94,78 @@ class _CartPageState extends State<CartPage> {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) => Card(
-                child: ListTile(
-                  title: FxText(text: 'jkjkshhf'),
-                  subtitle: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FxText(
-                        text: "hhsjds",
-                        size: 12,
-                        color: ConstColor.grey,
+              itemCount: 2,
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Card(
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    horizontalTitleGap: 8,
+                    minVerticalPadding: 0,
+                    trailing: FxText(
+                      textOverflow: TextOverflow.clip,
+                      softWrap: false,
+                      maxLines: 1,
+                      text: '122214',
+                      size: 16,
+                      color: ConstColor.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    leading: Container(
+                      width: width(context: context) * 0.24,
+                      height: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: ConstColor.disable,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      FxText(
-                        text: "hhsjds",
-                        size: 12,
-                        color: ConstColor.grey,
-                      ),
-                      FxText(
-                        text: "hhsjds",
-                        size: 12,
-                        color: ConstColor.grey,
-                      ),
-                      FxText(
-                        text: "hhsjds",
-                        size: 12,
-                        color: ConstColor.grey,
-                      ),
-                    ],
+                    ),
+                    title: FxText(
+                      textOverflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      maxLines: 1,
+                      text: 'jkjkshhfsdsdsdsfsfsff',
+                      size: 16,
+                      color: ConstColor.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FxText(
+                          textOverflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          maxLines: 1,
+                          text: "hhsjds",
+                          size: 12,
+                          color: ConstColor.grey,
+                        ),
+                        FxText(
+                          textOverflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          maxLines: 1,
+                          text: "hhsjds",
+                          size: 12,
+                          color: ConstColor.grey,
+                        ),
+                        FxText(
+                          textOverflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          maxLines: 1,
+                          text: "hhsjds",
+                          size: 12,
+                          color: ConstColor.grey,
+                        ),
+                        FxText(
+                          textOverflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          maxLines: 1,
+                          text: "hhsjds",
+                          size: 12,
+                          color: ConstColor.grey,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

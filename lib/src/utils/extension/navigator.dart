@@ -6,12 +6,10 @@ extension NavigatorExtensions on BuildContext {
         this,
         PageRouteBuilder(
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return ScaleTransition(
-              alignment: Alignment.center,
-              scale: Tween<double>(begin: 0, end: 1).animate(
-                CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeInOut,
+            return SlideTransition(
+              position: animation.drive(
+                Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(
+                  CurveTween(curve: Curves.easeInOut),
                 ),
               ),
               child: child,
@@ -29,12 +27,10 @@ extension NavigatorExtensions on BuildContext {
         this,
         PageRouteBuilder(
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return ScaleTransition(
-              alignment: Alignment.center,
-              scale: Tween<double>(begin: 0, end: 1).animate(
-                CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeInOut,
+            return SlideTransition(
+              position: animation.drive(
+                Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(
+                  CurveTween(curve: Curves.easeInOut),
                 ),
               ),
               child: child,

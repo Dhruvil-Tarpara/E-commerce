@@ -73,8 +73,9 @@ class _IntroPageState extends State<IntroPage> {
               onPressed: () {
                 if (initPage.value < Global.page.length - 1) {
                   _controller.nextPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeIn);
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn,
+                  );
                 } else {
                   Navigator.of(context).pushReplacement(
                     UDF.pageTransition(page: const SignUpPage()),

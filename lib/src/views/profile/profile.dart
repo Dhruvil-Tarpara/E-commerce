@@ -28,9 +28,6 @@ class _ProfilePageState extends State<ProfilePage> {
             child: IconButton(
               onPressed: () {
                 Global.selectedIndex.value = 0;
-                Global.pageController.jumpToPage(
-                  0,
-                );
               },
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
@@ -87,13 +84,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   title: FxText(
-                    text: Global.users.userName ?? "Demo",
+                    text: Global.users?.userName ?? "Demo",
                     size: 18,
                     color: ConstColor.black,
                     fontWeight: FontWeight.w700,
                   ),
                   subtitle: FxText(
-                    text: Global.users.email ?? "",
+                    text: Global.users?.email ?? "",
                     size: 12,
                     color: ConstColor.grey,
                     fontWeight: FontWeight.w400,

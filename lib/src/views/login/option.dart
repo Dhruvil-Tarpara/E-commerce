@@ -22,7 +22,7 @@ class OptionPage extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(Global.splashImage),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
         child: Column(
