@@ -9,4 +9,5 @@ class ConstColor {
   static Color red = Colors.red;
   static Color green = Colors.green;
   static Color star = const Color(0xffFFAB07);
+  static Color transparent =  Colors.transparent;
 }

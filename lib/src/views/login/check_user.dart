@@ -5,7 +5,7 @@ import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
-import 'package:ecommerce/src/views/home.dart';
+import 'package:ecommerce/src/views/landing.dart';
 import 'package:flutter/material.dart';
 
 class CheckUserPage extends StatelessWidget {
@@ -55,7 +55,7 @@ class CheckUserPage extends StatelessWidget {
                   backgroundColor: ConstColor.black,
                   sideColor: ConstColor.black,
                   onPressed: () {
-                    context.pushAndRemoveUntil(const HomePage(), false);
+                    context.pushAndRemoveUntil(const LandingPage(), false);
                   },
                   child: FxText(
                     text: ConstString.shopping,

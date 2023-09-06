@@ -57,6 +57,7 @@ class ConstString {
   static const String withCode = "With code:";
   static const String newArrivals = "New Arrivals";
   static const String viewAll = "View All";
+  static const String categories = "Categories";
 
   /// Details screen
   static const String addtocart = "Add to cart";
@@ -67,4 +68,20 @@ class ConstString {
   static const String instok = "Avaliable in stok";
   static const String producttitle = "Product titlehjhjshdhsadjhagsdjgashg";
   static const String productstitle = "Product stitledsdasdasdsadasdadsdsdsd";
+
+  /// Profile screen
+  static const String personal = "Personal Details";
+  static const String myOrder = "My Order";
+  static const String myFavourites = "My Favourites";
+  static const String myAddress = "Shipping Address";
+  static const String myCard = "My Card";
+  static const String settings = "Settings";
+  static const String faqs = "FAQs";
+  static const String privacy = "Privacy Policy";
+  static const String helpCenter = "Help Center";
+  static const String logout = "LogOut";
+
+  /// Order screen
+  static const String ongoing = "Ongoing";
+  static const String complated = "Complated";
 }

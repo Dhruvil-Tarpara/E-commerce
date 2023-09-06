@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                 UDF.showLoadingDialog(context);
               },
               success: () async {
-               await HiveHelper.hiveHelper.set(HiveKeys.login, true);
+                await HiveHelper.hiveHelper.set(HiveKeys.login, true);
                 Navigator.pop(context);
                 Navigator.pushAndRemoveUntil(
                     context,
@@ -305,7 +305,7 @@ class _LoginPageState extends State<LoginPage> {
                           sideColor: ConstColor.grey,
                           onPressed: () {
                             context.read<LoginBloc>().add(
-                                  LoginEvent.googleLogin(),
+                                  const LoginEvent.googleLogin(),
                                 );
                           },
                           child: Row(

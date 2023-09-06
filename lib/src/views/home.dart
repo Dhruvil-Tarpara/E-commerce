@@ -1,9 +1,8 @@
 import 'package:ecommerce/src/constant/colors.dart';
-import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
-import 'package:ecommerce/src/utils/bottom_bar.dart';
+import 'package:ecommerce/src/provider/authentication/auth.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/views/details.dart';
@@ -17,9 +16,12 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
-  final ValueNotifier<int> _selectedIndex = ValueNotifier<int>(0);
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuthHelper.firebaseAuthHelper.getCurrentUser();
+  }
 
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
 
@@ -29,7 +31,7 @@ class _HomePageState extends State<HomePage>
       key: _key,
       backgroundColor: ConstColor.white,
       appBar: AppBar(
-        backgroundColor: ConstColor.white,
+        backgroundColor: ConstColor.transparent,
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.only(left: 16),
@@ -185,6 +187,34 @@ class _HomePageState extends State<HomePage>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FxText(
+                  text: ConstString.categories,
+                  size: 20,
+                  fontWeight: FontWeight.w700,
+                  color: ConstColor.black,
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.zero,
+                  ),
+                  onPressed: () {},
+                  child: FxText(
+                    text: ConstString.viewAll,
+                    color: ConstColor.grey,
+                    size: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: height(context: context) * 0.02,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FxText(
                   text: ConstString.newArrivals,
                   size: 20,
                   fontWeight: FontWeight.w700,
@@ -279,58 +309,6 @@ class _HomePageState extends State<HomePage>
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: ValueListenableBuilder<int>(
-        valueListenable: _selectedIndex,
-        builder: (context, index, _) {
-          return Container(
-            decoration: BoxDecoration(
-              color: ConstColor.white,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(20),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: ConstColor.grey.withOpacity(0.3),
-                  blurRadius: 3,
-                  offset: const Offset(0, -0.1), // Shadow position
-                ),
-              ],
-            ),
-            child: SalomonBottomBar(
-              currentIndex: _selectedIndex.value,
-              onTap: (value) {
-                _selectedIndex.value = value;
-              },
-              items: Global.bottomIcon
-                  .map(
-                    (e) => SalomonBottomBarItem(
-                      activeIcon: CircleAvatar(
-                        backgroundColor: ConstColor.black,
-                        child: Icon(
-                          e[ConstString.bottomIcon],
-                          color: ConstColor.white,
-                        ),
-                      ),
-                      icon: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8.0),
-                        child: Icon(
-                          e[ConstString.bottomIcon],
-                          color: ConstColor.black,
-                        ),
-                      ),
-                      title: FxText(
-                        text: e[ConstString.bottomLable],
-                        color: ConstColor.grey,
-                      ),
-                      selectedColor: ConstColor.grey,
-                    ),
-                  )
-                  .toList(),
-            ),
-          );
-        },
       ),
     );
   }
