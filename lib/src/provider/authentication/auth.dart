@@ -64,9 +64,7 @@ class FirebaseAuthHelper {
   }
 
   Future logout() async {
-    try {
-      await firebaseAuth.signOut();
-      await googleSignIn.signOut();
-    } catch (_) {}
+    await firebaseAuth.signOut();
+    await googleSignIn.signOut();
   }
 }

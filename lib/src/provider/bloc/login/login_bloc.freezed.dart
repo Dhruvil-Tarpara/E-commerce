@@ -22,6 +22,7 @@ mixin _$LoginEvent {
     required TResult Function(String email, String password, String userName)
         signUp,
     required TResult Function() googleLogin,
+    required TResult Function() logOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,6 +30,7 @@ mixin _$LoginEvent {
     TResult? Function(String email, String password)? login,
     TResult? Function(String email, String password, String userName)? signUp,
     TResult? Function()? googleLogin,
+    TResult? Function()? logOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36,6 +38,7 @@ mixin _$LoginEvent {
     TResult Function(String email, String password)? login,
     TResult Function(String email, String password, String userName)? signUp,
     TResult Function()? googleLogin,
+    TResult Function()? logOut,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -44,6 +47,7 @@ mixin _$LoginEvent {
     required TResult Function(_Login value) login,
     required TResult Function(_SignUp value) signUp,
     required TResult Function(_GoogleLogin value) googleLogin,
+    required TResult Function(_LogOut value) logOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,6 +55,7 @@ mixin _$LoginEvent {
     TResult? Function(_Login value)? login,
     TResult? Function(_SignUp value)? signUp,
     TResult? Function(_GoogleLogin value)? googleLogin,
+    TResult? Function(_LogOut value)? logOut,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,6 +63,7 @@ mixin _$LoginEvent {
     TResult Function(_Login value)? login,
     TResult Function(_SignUp value)? signUp,
     TResult Function(_GoogleLogin value)? googleLogin,
+    TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -156,6 +162,7 @@ class _$_Login implements _Login {
     required TResult Function(String email, String password, String userName)
         signUp,
     required TResult Function() googleLogin,
+    required TResult Function() logOut,
   }) {
     return login(email, password);
   }
@@ -166,6 +173,7 @@ class _$_Login implements _Login {
     TResult? Function(String email, String password)? login,
     TResult? Function(String email, String password, String userName)? signUp,
     TResult? Function()? googleLogin,
+    TResult? Function()? logOut,
   }) {
     return login?.call(email, password);
   }
@@ -176,6 +184,7 @@ class _$_Login implements _Login {
     TResult Function(String email, String password)? login,
     TResult Function(String email, String password, String userName)? signUp,
     TResult Function()? googleLogin,
+    TResult Function()? logOut,
     required TResult orElse(),
   }) {
     if (login != null) {
@@ -190,6 +199,7 @@ class _$_Login implements _Login {
     required TResult Function(_Login value) login,
     required TResult Function(_SignUp value) signUp,
     required TResult Function(_GoogleLogin value) googleLogin,
+    required TResult Function(_LogOut value) logOut,
   }) {
     return login(this);
   }
@@ -200,6 +210,7 @@ class _$_Login implements _Login {
     TResult? Function(_Login value)? login,
     TResult? Function(_SignUp value)? signUp,
     TResult? Function(_GoogleLogin value)? googleLogin,
+    TResult? Function(_LogOut value)? logOut,
   }) {
     return login?.call(this);
   }
@@ -210,6 +221,7 @@ class _$_Login implements _Login {
     TResult Function(_Login value)? login,
     TResult Function(_SignUp value)? signUp,
     TResult Function(_GoogleLogin value)? googleLogin,
+    TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
     if (login != null) {
@@ -315,6 +327,7 @@ class _$_SignUp implements _SignUp {
     required TResult Function(String email, String password, String userName)
         signUp,
     required TResult Function() googleLogin,
+    required TResult Function() logOut,
   }) {
     return signUp(email, password, userName);
   }
@@ -325,6 +338,7 @@ class _$_SignUp implements _SignUp {
     TResult? Function(String email, String password)? login,
     TResult? Function(String email, String password, String userName)? signUp,
     TResult? Function()? googleLogin,
+    TResult? Function()? logOut,
   }) {
     return signUp?.call(email, password, userName);
   }
@@ -335,6 +349,7 @@ class _$_SignUp implements _SignUp {
     TResult Function(String email, String password)? login,
     TResult Function(String email, String password, String userName)? signUp,
     TResult Function()? googleLogin,
+    TResult Function()? logOut,
     required TResult orElse(),
   }) {
     if (signUp != null) {
@@ -349,6 +364,7 @@ class _$_SignUp implements _SignUp {
     required TResult Function(_Login value) login,
     required TResult Function(_SignUp value) signUp,
     required TResult Function(_GoogleLogin value) googleLogin,
+    required TResult Function(_LogOut value) logOut,
   }) {
     return signUp(this);
   }
@@ -359,6 +375,7 @@ class _$_SignUp implements _SignUp {
     TResult? Function(_Login value)? login,
     TResult? Function(_SignUp value)? signUp,
     TResult? Function(_GoogleLogin value)? googleLogin,
+    TResult? Function(_LogOut value)? logOut,
   }) {
     return signUp?.call(this);
   }
@@ -369,6 +386,7 @@ class _$_SignUp implements _SignUp {
     TResult Function(_Login value)? login,
     TResult Function(_SignUp value)? signUp,
     TResult Function(_GoogleLogin value)? googleLogin,
+    TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
     if (signUp != null) {
@@ -434,6 +452,7 @@ class _$_GoogleLogin implements _GoogleLogin {
     required TResult Function(String email, String password, String userName)
         signUp,
     required TResult Function() googleLogin,
+    required TResult Function() logOut,
   }) {
     return googleLogin();
   }
@@ -444,6 +463,7 @@ class _$_GoogleLogin implements _GoogleLogin {
     TResult? Function(String email, String password)? login,
     TResult? Function(String email, String password, String userName)? signUp,
     TResult? Function()? googleLogin,
+    TResult? Function()? logOut,
   }) {
     return googleLogin?.call();
   }
@@ -454,6 +474,7 @@ class _$_GoogleLogin implements _GoogleLogin {
     TResult Function(String email, String password)? login,
     TResult Function(String email, String password, String userName)? signUp,
     TResult Function()? googleLogin,
+    TResult Function()? logOut,
     required TResult orElse(),
   }) {
     if (googleLogin != null) {
@@ -468,6 +489,7 @@ class _$_GoogleLogin implements _GoogleLogin {
     required TResult Function(_Login value) login,
     required TResult Function(_SignUp value) signUp,
     required TResult Function(_GoogleLogin value) googleLogin,
+    required TResult Function(_LogOut value) logOut,
   }) {
     return googleLogin(this);
   }
@@ -478,6 +500,7 @@ class _$_GoogleLogin implements _GoogleLogin {
     TResult? Function(_Login value)? login,
     TResult? Function(_SignUp value)? signUp,
     TResult? Function(_GoogleLogin value)? googleLogin,
+    TResult? Function(_LogOut value)? logOut,
   }) {
     return googleLogin?.call(this);
   }
@@ -488,6 +511,7 @@ class _$_GoogleLogin implements _GoogleLogin {
     TResult Function(_Login value)? login,
     TResult Function(_SignUp value)? signUp,
     TResult Function(_GoogleLogin value)? googleLogin,
+    TResult Function(_LogOut value)? logOut,
     required TResult orElse(),
   }) {
     if (googleLogin != null) {
@@ -499,6 +523,119 @@ class _$_GoogleLogin implements _GoogleLogin {
 
 abstract class _GoogleLogin implements LoginEvent {
   const factory _GoogleLogin() = _$_GoogleLogin;
+}
+
+/// @nodoc
+abstract class _$$_LogOutCopyWith<$Res> {
+  factory _$$_LogOutCopyWith(_$_LogOut value, $Res Function(_$_LogOut) then) =
+      __$$_LogOutCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_LogOutCopyWithImpl<$Res>
+    extends _$LoginEventCopyWithImpl<$Res, _$_LogOut>
+    implements _$$_LogOutCopyWith<$Res> {
+  __$$_LogOutCopyWithImpl(_$_LogOut _value, $Res Function(_$_LogOut) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_LogOut implements _LogOut {
+  const _$_LogOut();
+
+  @override
+  String toString() {
+    return 'LoginEvent.logOut()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_LogOut);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String email, String password) login,
+    required TResult Function(String email, String password, String userName)
+        signUp,
+    required TResult Function() googleLogin,
+    required TResult Function() logOut,
+  }) {
+    return logOut();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String email, String password)? login,
+    TResult? Function(String email, String password, String userName)? signUp,
+    TResult? Function()? googleLogin,
+    TResult? Function()? logOut,
+  }) {
+    return logOut?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String email, String password)? login,
+    TResult Function(String email, String password, String userName)? signUp,
+    TResult Function()? googleLogin,
+    TResult Function()? logOut,
+    required TResult orElse(),
+  }) {
+    if (logOut != null) {
+      return logOut();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Login value) login,
+    required TResult Function(_SignUp value) signUp,
+    required TResult Function(_GoogleLogin value) googleLogin,
+    required TResult Function(_LogOut value) logOut,
+  }) {
+    return logOut(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Login value)? login,
+    TResult? Function(_SignUp value)? signUp,
+    TResult? Function(_GoogleLogin value)? googleLogin,
+    TResult? Function(_LogOut value)? logOut,
+  }) {
+    return logOut?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Login value)? login,
+    TResult Function(_SignUp value)? signUp,
+    TResult Function(_GoogleLogin value)? googleLogin,
+    TResult Function(_LogOut value)? logOut,
+    required TResult orElse(),
+  }) {
+    if (logOut != null) {
+      return logOut(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LogOut implements LoginEvent {
+  const factory _LogOut() = _$_LogOut;
 }
 
 /// @nodoc

@@ -9,3 +9,9 @@ extension DubouleExtension on String {
     return double.tryParse(this) ?? 0.0;
   }
 }
+
+
+String idGenerator() {
+  final now = DateTime.now();
+  return now.microsecondsSinceEpoch.toString();
+}

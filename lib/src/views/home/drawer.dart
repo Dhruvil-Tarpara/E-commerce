@@ -2,9 +2,18 @@ import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
+import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
+import 'package:ecommerce/src/utils/extension/navigator.dart';
+import 'package:ecommerce/src/utils/hive/hive.dart';
+import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
+import 'package:ecommerce/src/views/home/logout_dialog.dart';
+import 'package:ecommerce/src/views/login/option.dart';
+import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class FxDrawer extends StatelessWidget {
   final GlobalKey<ScaffoldState> drawerKey;
@@ -48,7 +57,7 @@ class FxDrawer extends StatelessWidget {
                       ),
                     ),
                     title: FxText(
-                      text: Global.users?.userName ?? "Demo",
+                      text: Global.users.profileName ?? "Demo",
                       size: 18,
                       color: ConstColor.black,
                       fontWeight: FontWeight.w700,
@@ -93,7 +102,9 @@ class FxDrawer extends StatelessWidget {
                       icon: Icons.credit_card_rounded,
                     ),
                     ProfileOption(
-                      onTap: () {},
+                      onTap: () async {
+                        await openAppSettings();
+                      },
                       text: ConstString.settings,
                       icon: Icons.settings,
                     ),
@@ -117,7 +128,9 @@ class FxDrawer extends StatelessWidget {
                       icon: Icons.error,
                     ),
                     ProfileOption(
-                      onTap: () {},
+                      onTap: () {
+                        context.push(const PrivacyPolicyScreen());
+                      },
                       text: ConstString.privacy,
                       icon: Icons.privacy_tip_rounded,
                     ),
@@ -127,7 +140,26 @@ class FxDrawer extends StatelessWidget {
                       icon: Icons.help_rounded,
                     ),
                     ProfileOption(
-                      onTap: () {},
+                      onTap: () {
+                        Global.scaffoldkey.currentState!.closeDrawer();
+                        showDialog(
+                          context: context,
+                          builder: (context) => const LogoutDialog(),
+                        ).then(
+                          (confirmed) async {
+                            if (confirmed == true) {
+                              BlocProvider.of<LoginBloc>(context)
+                                  .add(const LoginEvent.logOut());
+                              await HiveHelper.hiveHelper
+                                  .set(HiveKeys.login, false)
+                                  .then(
+                                    (value) => (context).pushAndRemoveUntil(
+                                        const OptionPage(), false),
+                                  );
+                            }
+                          },
+                        );
+                      },
                       text: ConstString.logout,
                       icon: Icons.login_rounded,
                     ),

@@ -3,7 +3,10 @@ import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
+import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:ecommerce/src/utils/bottom_bar.dart';
+import 'package:ecommerce/src/utils/hive/hive.dart';
+import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/views/cart.dart';
 import 'package:ecommerce/src/views/home/drawer.dart';
 import 'package:ecommerce/src/views/home/home.dart';
@@ -41,7 +44,7 @@ class _LandingPageState extends State<LandingPage>
   @override
   void initState() {
     super.initState();
-    // Global.users = Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
+    Global.users = Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
   }
 
   @override
@@ -117,6 +120,39 @@ class _LandingPageState extends State<LandingPage>
             );
           },
         ),
+//         floatingActionButton: FloatingActionButton(
+//           onPressed: () {
+//             FirebaseCloudHelper.firebaseCloudHelper.createCollection();
+//             FirebaseCloudHelper.firebaseCloudHelper.insertData(
+//               product: Product(
+//                 id: idGenerator(),
+//                 name: "Puma Men",
+//                 subtitle: "Puma Men Willow IDP Sneakers",
+//                 price: 899,
+//                 description: '''Forever Faster from day one PUMA timeline
+// PUMA has relentlessly pushed sport and culture forward by creating fast products for the athletes. For more than 70 years, we draw strength and credibility from our heritage in sports. A first step in a long history driven by speed and performance: The brothers Rudolf and Adolf Dassler founded the company “Gebrüder Dassler Schuhfabrik” (Dassler Brothers Shoe Factory) in their hometown Herzogenaurach, Germany. Unbeknownst to them, they place the founding stone of the world capital of sports shoes.
+
+// Within the town, they're not the only shoe factory. More, smaller factories are scattered throughout the town, though many did not manage to survive past the 1950s and 60s. The brothers started their factory in their parents' home in 1919, moving into its proper facility in 1924.
+
+// Within the first few years, both gain notoriety. A majority of German athletes wear Dassler spikes at the Olympic Summer Games in Amsterdam, 1928.''',
+//                 colors: ["black", "white"],
+//                 sizes: ["s", "m", "l"],
+//                 stock: 22,
+//                 category: Global.shoese,
+//                 newArrivals: true,
+//                 images: [""],
+//                 rating: {
+//                   Global.users.userId.toString(): Review(
+//                     email: Global.users.email,
+//                     name: Global.users.profileName,
+//                     rating: 4.0,
+//                     review: "Good..",
+//                   ).toJson(),
+//                 },
+//               ),
+//             );
+//           },
+//         ),
       ),
     );
   }

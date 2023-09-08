@@ -7,7 +7,7 @@ class Global {
   static final GlobalKey<ScaffoldState> scaffoldkey =
       GlobalKey<ScaffoldState>();
 
-  static Users? users;
+  static late Users users;
   static const String splashImage = "assets/images/splash.png";
   static const String logoImage = "assets/images/logo/logo.jpg";
   static const String facebookIcon = "assets/images/icon/facebook.png";
@@ -15,6 +15,16 @@ class Global {
   static const String appleIcon = "assets/images/icon/apple-logo.png";
   static const String checkLogin = "assets/images/icon/check.png";
   static const String demo = "assets/images/demo.jpg";
+
+  /// Product Catagory..
+  static const String bags = "bags";
+  static const String clothes = "clothes";
+  static const String electronics = "electronics";
+  static const String jewelry = "jewelry";
+  static const String newArrivals = "new arrivals";
+  static const String shoese = "shoese";
+
+  static List categories = [bags, clothes, newArrivals, shoese, electronics, jewelry];
 
   static List<Map> page = [
     {

@@ -30,8 +30,11 @@ class _IntroPageState extends State<IntroPage> {
         controller: _controller,
         itemCount: Global.page.length,
         itemBuilder: (context, index) => SafeArea(
-          child: Intro(
-            index: index,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Intro(
+              index: index,
+            ),
           ),
         ),
       ),
@@ -103,48 +106,45 @@ class Intro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipPath(
-            clipper: MyCustomClipper(),
-            child: Container(
-              height: height(context: context) * 0.48,
-              width: width(context: context),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                image: DecorationImage(
-                  image: AssetImage(Global.page[index][ConstString.introimage]),
-                  fit: BoxFit.cover,
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipPath(
+          clipper: MyCustomClipper(),
+          child: Container(
+            height: height(context: context) * 0.48,
+            width: width(context: context),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              image: DecorationImage(
+                image: AssetImage(Global.page[index][ConstString.introimage]),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          SizedBox(
-            height: height(context: context) * 0.04,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              FxText(
-                text: Global.page[index][ConstString.introTitle],
-                size: 24,
-                fontWeight: FontWeight.w700,
-              ),
-              SizedBox(
-                height: height(context: context) * 0.02,
-              ),
-              FxText(
-                text: Global.page[index][ConstString.introSubTitle],
-                size: 14,
-                color: ConstColor.black,
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: height(context: context) * 0.04,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            FxText(
+              text: Global.page[index][ConstString.introTitle],
+              size: 24,
+              fontWeight: FontWeight.w700,
+            ),
+            SizedBox(
+              height: height(context: context) * 0.02,
+            ),
+            FxText(
+              text: Global.page[index][ConstString.introSubTitle],
+              size: 14,
+              color: ConstColor.black,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

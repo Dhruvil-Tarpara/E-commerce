@@ -79,9 +79,14 @@ class ConstString {
   static const String faqs = "FAQs";
   static const String privacy = "Privacy Policy";
   static const String helpCenter = "Help Center";
-  static const String logout = "LogOut";
+  static const String logout = "Logout";
 
   /// Order screen
   static const String ongoing = "Ongoing";
   static const String complated = "Complated";
+
+  /// logout screen
+  static const String logoutTitle = 'Logout Confirmation';
+  static const String logoutMassage = 'Are you sure you want to log out?';
+  static const String cancel = 'Cancel';
 }

@@ -25,19 +25,20 @@ class Users {
 
   factory Users.fromDocument(User doc) {
     return Users(
-        userId: doc.uid,
-        email: doc.email ?? "",
-        userName: doc.displayName ?? "",
-        url: doc.photoURL ?? "",
-        profileName: '',
-        emailVerified: doc.emailVerified);
+      userId: doc.uid,
+      email: doc.email,
+      userName: doc.displayName,
+      url: doc.photoURL,
+      profileName: '',
+      emailVerified: doc.emailVerified,
+    );
   }
   factory Users.fromJson(Map<String, dynamic> json) => Users(
-        userId: json["UserId"] ?? "",
-        profileName: json["profileName"] ?? "",
-        userName: json["userName"] ?? "",
-        url: json["url"] ?? "",
-        email: json["email"] ?? "",
+        userId: json["UserId"],
+        profileName: json["profileName"],
+        userName: json["userName"],
+        url: json["url"],
+        email: json["email"],
         emailVerified: json["emailVerified"] ?? false,
       );
 

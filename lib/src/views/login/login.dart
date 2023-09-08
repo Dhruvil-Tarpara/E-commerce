@@ -81,8 +81,9 @@ class _LoginPageState extends State<LoginPage> {
             );
           },
           child: SafeArea(
-            child: Padding(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: ValueListenableBuilder(
                 valueListenable: _valueNotifier,
                 builder: (context, value, _) => Form(
@@ -262,6 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: FxButton(
                           backgroundColor: ConstColor.blue,
                           sideColor: ConstColor.blue,
+                          elevation: 1,
                           onPressed: () {
                             UDF.fxShowSnackBar(
                               context,
@@ -302,7 +304,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: height(context: context) * 0.06,
                         child: FxButton(
                           backgroundColor: ConstColor.white,
-                          sideColor: ConstColor.grey,
+                          sideColor: ConstColor.disable,
+                          elevation: 1,
                           onPressed: () {
                             context.read<LoginBloc>().add(
                                   const LoginEvent.googleLogin(),
@@ -336,7 +339,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: height(context: context) * 0.06,
                         child: FxButton(
                           backgroundColor: ConstColor.white,
-                          sideColor: ConstColor.grey,
+                          sideColor: ConstColor.disable,
+                          elevation: 1,
                           onPressed: () {
                             UDF.fxShowSnackBar(
                               context,

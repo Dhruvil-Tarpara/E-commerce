@@ -1,3 +1,4 @@
+import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/provider/authentication/auth.dart';
 import 'package:ecommerce/src/provider/authentication/exaption_handle.dart';
@@ -28,13 +29,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                       HiveKeys.user,
                       Users(
                         userId: user.uid,
-                        userName: user.displayName,
+                        userName: event.userName,
                         profileName: user.displayName,
                         email: user.email,
                         emailVerified: user.emailVerified,
                         url: user.photoURL,
                       ).toJson())
                   .then((value) => emit(const _Success()));
+              Global.users =
+                  Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
             } else {
               emit(const _Error(ConstString.errorMassage));
             }
@@ -48,8 +51,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             User? user = await FirebaseAuthHelper.firebaseAuthHelper
                 .signInwithEmailPassword(
                     email: event.email, password: event.password);
+
             if (user != null) {
-              emit(const _Success());
+              await HiveHelper.hiveHelper
+                  .set(
+                      HiveKeys.user,
+                      Users(
+                        userId: user.uid,
+                        userName: user.displayName,
+                        profileName: user.displayName,
+                        email: user.email,
+                        emailVerified: user.emailVerified,
+                        url: user.photoURL,
+                      ).toJson())
+                  .then((value) => emit(const _Success()));
+              Global.users =
+                  Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
             } else {
               emit(const _Error(ConstString.errorMassage));
             }
@@ -72,6 +89,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                     emailVerified: user.emailVerified,
                     url: user.photoURL,
                   ).toJson());
+              Global.users =
+                  Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
               emit(const _Success());
             } else {
               emit(const _Error(ConstString.errorMassage));
@@ -79,6 +98,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           } on FirebaseAuthException catch (e) {
             final status = AuthExceptionHandler.handleException(e);
             emit(_Error(AuthExceptionHandler.generateExceptionMessage(status)));
+          }
+        } else if (event is _LogOut) {
+          try {
+            await FirebaseAuthHelper.firebaseAuthHelper.logout();
+            emit(const _Success());
+          } catch (_) {
+            emit(const _Error(ConstString.errorMassage));
           }
         }
       },
