@@ -32,11 +32,23 @@ class _LandingPageState extends State<LandingPage>
   ];
   page() {
     if (Global.selectedIndex.value != 0 ||
-        Global.scaffoldkey.currentState!.isDrawerOpen) {
+        Global.scaffoldkey.currentState!.isDrawerOpen ||
+        Global.scrollController.position.pixels != 0) {
       Global.selectedIndex.value = 0;
       Global.scaffoldkey.currentState!.closeDrawer();
+      Global.scrollController.animateTo(
+        0,
+        duration:
+            const Duration(milliseconds: 500), // Adjust the duration as needed
+        curve: Curves.easeInOut, // Adjust the curve as needed
+      );
       return;
     } else {
+      Global.scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
       return exit(0);
     }
   }

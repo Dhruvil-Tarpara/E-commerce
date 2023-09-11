@@ -1,6 +1,7 @@
 import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
-import 'package:ecommerce/src/provider/bloc/get/bloc/product_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/new_arrivals/arrivals_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,6 @@ class Search extends SearchDelegate {
       IconButton(
         onPressed: () {
           close(context, null);
-          context.read<ProductBloc>().add(const ProductEvent.newArrivals());
         },
         icon: Icon(
           Icons.close,
@@ -26,7 +26,6 @@ class Search extends SearchDelegate {
     return IconButton(
       onPressed: () {
         close(context, null);
-        context.read<ProductBloc>().add(const ProductEvent.newArrivals());
       },
       icon: Icon(
         Icons.arrow_back_rounded,
@@ -37,8 +36,7 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    
-    (context).read<ProductBloc>().add(ProductEvent.search(query));
+    (context).read<ArrivalsBloc>().add(ArrivalsEvent.search(query));
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) => state.when(
         initial: () => const Center(

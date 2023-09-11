@@ -89,4 +89,9 @@ class ConstString {
   static const String logoutTitle = 'Logout Confirmation';
   static const String logoutMassage = 'Are you sure you want to log out?';
   static const String cancel = 'Cancel';
+
+  /// delete item
+  static const String delete = 'Delete';
+  static const String deleteConfirmation = 'Delete Confirmation';
+  static const String deleteTitle = 'Are you sure you want to delete this item?';
 }

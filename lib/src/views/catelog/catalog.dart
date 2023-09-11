@@ -10,8 +10,6 @@ class CatalogPage extends StatefulWidget {
 class _CatalogPageState extends State<CatalogPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      
-    );
+    return const Scaffold();
   }
 }

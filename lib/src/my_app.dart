@@ -1,4 +1,6 @@
-import 'package:ecommerce/src/provider/bloc/get/bloc/product_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/new_arrivals/arrivals_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
 import 'package:ecommerce/src/provider/database/cloud_storage.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
@@ -30,6 +32,10 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (context) =>
                 ProductBloc()..add(const ProductEvent.getProduct())),
+        BlocProvider(
+            create: (context) =>
+                ArrivalsBloc()..add(const ArrivalsEvent.getData())),
+        BlocProvider(create: (context) => FavouriteBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

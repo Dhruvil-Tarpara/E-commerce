@@ -2,14 +2,12 @@ import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
-import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc.dart';
 import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
-import 'package:ecommerce/src/utils/hive/hive.dart';
-import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
+import 'package:ecommerce/src/views/catelog/favourite.dart';
 import 'package:ecommerce/src/views/home/logout_dialog.dart';
-import 'package:ecommerce/src/views/login/option.dart';
 import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
 import 'package:flutter/material.dart';
@@ -93,19 +91,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  title: (Global.users.userName != "")
-                      ? FxText(
-                          text: Global.users.userName!.capitalize(),
-                          size: 18,
-                          color: ConstColor.black,
-                          fontWeight: FontWeight.w700,
-                        )
-                      : FxText(
-                          text: Global.users.email!.split("@")[0].capitalize(),
-                          size: 18,
-                          color: ConstColor.black,
-                          fontWeight: FontWeight.w700,
-                        ),
+                  title: FxText(
+                    text: Global.users.userName!.capitalize(),
+                    size: 18,
+                    color: ConstColor.black,
+                    fontWeight: FontWeight.w700,
+                  ),
                   subtitle: FxText(
                     text: Global.users.email ?? "",
                     size: 12,
@@ -132,12 +123,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     icon: Icons.person_rounded,
                   ),
                   ProfileOption(
-                    onTap: () {},
+                    onTap: () {
+                      Global.selectedIndex.value = 1;
+                    },
                     text: ConstString.myOrder,
                     icon: Icons.shopping_bag_rounded,
                   ),
                   ProfileOption(
-                    onTap: () {},
+                    onTap: () {
+                      context.read<FavouriteBloc>().add(
+                            const FavouriteEvent.getData(),
+                          );
+                      context.push(const FavouritePage());
+                    },
                     text: ConstString.myFavourites,
                     icon: Icons.favorite_rounded,
                   ),
@@ -194,17 +192,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       showDialog(
                         context: context,
                         builder: (context) => const LogoutDialog(),
-                      ).then(
-                        (confirmed) async {
-                          if (confirmed == true) {
-                            BlocProvider.of<LoginBloc>(context)
-                                .add(const LoginEvent.logOut());
-                            await HiveHelper.hiveHelper
-                                .set(HiveKeys.login, false)
-                                .then((value) => (context).pushAndRemoveUntil(
-                                    const OptionPage(), false));
-                          }
-                        },
                       );
                     },
                     text: ConstString.logout,

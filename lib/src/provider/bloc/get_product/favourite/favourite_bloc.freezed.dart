@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'product_bloc.dart';
+part of 'favourite_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,76 +15,70 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$ProductEvent {
+mixin _$FavouriteEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getProduct,
-    required TResult Function(String query) search,
+    required TResult Function() getData,
+    required TResult Function(String productDocId) remove,
+    required TResult Function(Product product) add,
     required TResult Function() refresh,
-    required TResult Function(String category) category,
-    required TResult Function() newArrivals,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getProduct,
-    TResult? Function(String query)? search,
+    TResult? Function()? getData,
+    TResult? Function(String productDocId)? remove,
+    TResult? Function(Product product)? add,
     TResult? Function()? refresh,
-    TResult? Function(String category)? category,
-    TResult? Function()? newArrivals,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getProduct,
-    TResult Function(String query)? search,
+    TResult Function()? getData,
+    TResult Function(String productDocId)? remove,
+    TResult Function(Product product)? add,
     TResult Function()? refresh,
-    TResult Function(String category)? category,
-    TResult Function()? newArrivals,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GetProduct value) getProduct,
-    required TResult Function(_Search value) search,
+    required TResult Function(_Started value) getData,
+    required TResult Function(_Remove value) remove,
+    required TResult Function(_Add value) add,
     required TResult Function(_Refresh value) refresh,
-    required TResult Function(_Category value) category,
-    required TResult Function(_NewArrivals value) newArrivals,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetProduct value)? getProduct,
-    TResult? Function(_Search value)? search,
+    TResult? Function(_Started value)? getData,
+    TResult? Function(_Remove value)? remove,
+    TResult? Function(_Add value)? add,
     TResult? Function(_Refresh value)? refresh,
-    TResult? Function(_Category value)? category,
-    TResult? Function(_NewArrivals value)? newArrivals,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetProduct value)? getProduct,
-    TResult Function(_Search value)? search,
+    TResult Function(_Started value)? getData,
+    TResult Function(_Remove value)? remove,
+    TResult Function(_Add value)? add,
     TResult Function(_Refresh value)? refresh,
-    TResult Function(_Category value)? category,
-    TResult Function(_NewArrivals value)? newArrivals,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ProductEventCopyWith<$Res> {
-  factory $ProductEventCopyWith(
-          ProductEvent value, $Res Function(ProductEvent) then) =
-      _$ProductEventCopyWithImpl<$Res, ProductEvent>;
+abstract class $FavouriteEventCopyWith<$Res> {
+  factory $FavouriteEventCopyWith(
+          FavouriteEvent value, $Res Function(FavouriteEvent) then) =
+      _$FavouriteEventCopyWithImpl<$Res, FavouriteEvent>;
 }
 
 /// @nodoc
-class _$ProductEventCopyWithImpl<$Res, $Val extends ProductEvent>
-    implements $ProductEventCopyWith<$Res> {
-  _$ProductEventCopyWithImpl(this._value, this._then);
+class _$FavouriteEventCopyWithImpl<$Res, $Val extends FavouriteEvent>
+    implements $FavouriteEventCopyWith<$Res> {
+  _$FavouriteEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -93,35 +87,34 @@ class _$ProductEventCopyWithImpl<$Res, $Val extends ProductEvent>
 }
 
 /// @nodoc
-abstract class _$$_GetProductCopyWith<$Res> {
-  factory _$$_GetProductCopyWith(
-          _$_GetProduct value, $Res Function(_$_GetProduct) then) =
-      __$$_GetProductCopyWithImpl<$Res>;
+abstract class _$$_StartedCopyWith<$Res> {
+  factory _$$_StartedCopyWith(
+          _$_Started value, $Res Function(_$_Started) then) =
+      __$$_StartedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_GetProductCopyWithImpl<$Res>
-    extends _$ProductEventCopyWithImpl<$Res, _$_GetProduct>
-    implements _$$_GetProductCopyWith<$Res> {
-  __$$_GetProductCopyWithImpl(
-      _$_GetProduct _value, $Res Function(_$_GetProduct) _then)
+class __$$_StartedCopyWithImpl<$Res>
+    extends _$FavouriteEventCopyWithImpl<$Res, _$_Started>
+    implements _$$_StartedCopyWith<$Res> {
+  __$$_StartedCopyWithImpl(_$_Started _value, $Res Function(_$_Started) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_GetProduct implements _GetProduct {
-  const _$_GetProduct();
+class _$_Started implements _Started {
+  const _$_Started();
 
   @override
   String toString() {
-    return 'ProductEvent.getProduct()';
+    return 'FavouriteEvent.getData()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_GetProduct);
+        (other.runtimeType == runtimeType && other is _$_Started);
   }
 
   @override
@@ -130,39 +123,36 @@ class _$_GetProduct implements _GetProduct {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getProduct,
-    required TResult Function(String query) search,
+    required TResult Function() getData,
+    required TResult Function(String productDocId) remove,
+    required TResult Function(Product product) add,
     required TResult Function() refresh,
-    required TResult Function(String category) category,
-    required TResult Function() newArrivals,
   }) {
-    return getProduct();
+    return getData();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getProduct,
-    TResult? Function(String query)? search,
+    TResult? Function()? getData,
+    TResult? Function(String productDocId)? remove,
+    TResult? Function(Product product)? add,
     TResult? Function()? refresh,
-    TResult? Function(String category)? category,
-    TResult? Function()? newArrivals,
   }) {
-    return getProduct?.call();
+    return getData?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getProduct,
-    TResult Function(String query)? search,
+    TResult Function()? getData,
+    TResult Function(String productDocId)? remove,
+    TResult Function(Product product)? add,
     TResult Function()? refresh,
-    TResult Function(String category)? category,
-    TResult Function()? newArrivals,
     required TResult orElse(),
   }) {
-    if (getProduct != null) {
-      return getProduct();
+    if (getData != null) {
+      return getData();
     }
     return orElse();
   }
@@ -170,72 +160,69 @@ class _$_GetProduct implements _GetProduct {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GetProduct value) getProduct,
-    required TResult Function(_Search value) search,
+    required TResult Function(_Started value) getData,
+    required TResult Function(_Remove value) remove,
+    required TResult Function(_Add value) add,
     required TResult Function(_Refresh value) refresh,
-    required TResult Function(_Category value) category,
-    required TResult Function(_NewArrivals value) newArrivals,
   }) {
-    return getProduct(this);
+    return getData(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetProduct value)? getProduct,
-    TResult? Function(_Search value)? search,
+    TResult? Function(_Started value)? getData,
+    TResult? Function(_Remove value)? remove,
+    TResult? Function(_Add value)? add,
     TResult? Function(_Refresh value)? refresh,
-    TResult? Function(_Category value)? category,
-    TResult? Function(_NewArrivals value)? newArrivals,
   }) {
-    return getProduct?.call(this);
+    return getData?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetProduct value)? getProduct,
-    TResult Function(_Search value)? search,
+    TResult Function(_Started value)? getData,
+    TResult Function(_Remove value)? remove,
+    TResult Function(_Add value)? add,
     TResult Function(_Refresh value)? refresh,
-    TResult Function(_Category value)? category,
-    TResult Function(_NewArrivals value)? newArrivals,
     required TResult orElse(),
   }) {
-    if (getProduct != null) {
-      return getProduct(this);
+    if (getData != null) {
+      return getData(this);
     }
     return orElse();
   }
 }
 
-abstract class _GetProduct implements ProductEvent {
-  const factory _GetProduct() = _$_GetProduct;
+abstract class _Started implements FavouriteEvent {
+  const factory _Started() = _$_Started;
 }
 
 /// @nodoc
-abstract class _$$_SearchCopyWith<$Res> {
-  factory _$$_SearchCopyWith(_$_Search value, $Res Function(_$_Search) then) =
-      __$$_SearchCopyWithImpl<$Res>;
+abstract class _$$_RemoveCopyWith<$Res> {
+  factory _$$_RemoveCopyWith(_$_Remove value, $Res Function(_$_Remove) then) =
+      __$$_RemoveCopyWithImpl<$Res>;
   @useResult
-  $Res call({String query});
+  $Res call({String productDocId});
 }
 
 /// @nodoc
-class __$$_SearchCopyWithImpl<$Res>
-    extends _$ProductEventCopyWithImpl<$Res, _$_Search>
-    implements _$$_SearchCopyWith<$Res> {
-  __$$_SearchCopyWithImpl(_$_Search _value, $Res Function(_$_Search) _then)
+class __$$_RemoveCopyWithImpl<$Res>
+    extends _$FavouriteEventCopyWithImpl<$Res, _$_Remove>
+    implements _$$_RemoveCopyWith<$Res> {
+  __$$_RemoveCopyWithImpl(_$_Remove _value, $Res Function(_$_Remove) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? query = null,
+    Object? productDocId = null,
   }) {
-    return _then(_$_Search(
-      null == query
-          ? _value.query
-          : query // ignore: cast_nullable_to_non_nullable
+    return _then(_$_Remove(
+      productDocId: null == productDocId
+          ? _value.productDocId
+          : productDocId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -243,70 +230,68 @@ class __$$_SearchCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Search implements _Search {
-  const _$_Search(this.query);
+class _$_Remove implements _Remove {
+  const _$_Remove({required this.productDocId});
 
   @override
-  final String query;
+  final String productDocId;
 
   @override
   String toString() {
-    return 'ProductEvent.search(query: $query)';
+    return 'FavouriteEvent.remove(productDocId: $productDocId)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Search &&
-            (identical(other.query, query) || other.query == query));
+            other is _$_Remove &&
+            (identical(other.productDocId, productDocId) ||
+                other.productDocId == productDocId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, query);
+  int get hashCode => Object.hash(runtimeType, productDocId);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SearchCopyWith<_$_Search> get copyWith =>
-      __$$_SearchCopyWithImpl<_$_Search>(this, _$identity);
+  _$$_RemoveCopyWith<_$_Remove> get copyWith =>
+      __$$_RemoveCopyWithImpl<_$_Remove>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getProduct,
-    required TResult Function(String query) search,
+    required TResult Function() getData,
+    required TResult Function(String productDocId) remove,
+    required TResult Function(Product product) add,
     required TResult Function() refresh,
-    required TResult Function(String category) category,
-    required TResult Function() newArrivals,
   }) {
-    return search(query);
+    return remove(productDocId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getProduct,
-    TResult? Function(String query)? search,
+    TResult? Function()? getData,
+    TResult? Function(String productDocId)? remove,
+    TResult? Function(Product product)? add,
     TResult? Function()? refresh,
-    TResult? Function(String category)? category,
-    TResult? Function()? newArrivals,
   }) {
-    return search?.call(query);
+    return remove?.call(productDocId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getProduct,
-    TResult Function(String query)? search,
+    TResult Function()? getData,
+    TResult Function(String productDocId)? remove,
+    TResult Function(Product product)? add,
     TResult Function()? refresh,
-    TResult Function(String category)? category,
-    TResult Function()? newArrivals,
     required TResult orElse(),
   }) {
-    if (search != null) {
-      return search(query);
+    if (remove != null) {
+      return remove(productDocId);
     }
     return orElse();
   }
@@ -314,51 +299,190 @@ class _$_Search implements _Search {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GetProduct value) getProduct,
-    required TResult Function(_Search value) search,
+    required TResult Function(_Started value) getData,
+    required TResult Function(_Remove value) remove,
+    required TResult Function(_Add value) add,
     required TResult Function(_Refresh value) refresh,
-    required TResult Function(_Category value) category,
-    required TResult Function(_NewArrivals value) newArrivals,
   }) {
-    return search(this);
+    return remove(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetProduct value)? getProduct,
-    TResult? Function(_Search value)? search,
+    TResult? Function(_Started value)? getData,
+    TResult? Function(_Remove value)? remove,
+    TResult? Function(_Add value)? add,
     TResult? Function(_Refresh value)? refresh,
-    TResult? Function(_Category value)? category,
-    TResult? Function(_NewArrivals value)? newArrivals,
   }) {
-    return search?.call(this);
+    return remove?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetProduct value)? getProduct,
-    TResult Function(_Search value)? search,
+    TResult Function(_Started value)? getData,
+    TResult Function(_Remove value)? remove,
+    TResult Function(_Add value)? add,
     TResult Function(_Refresh value)? refresh,
-    TResult Function(_Category value)? category,
-    TResult Function(_NewArrivals value)? newArrivals,
     required TResult orElse(),
   }) {
-    if (search != null) {
-      return search(this);
+    if (remove != null) {
+      return remove(this);
     }
     return orElse();
   }
 }
 
-abstract class _Search implements ProductEvent {
-  const factory _Search(final String query) = _$_Search;
+abstract class _Remove implements FavouriteEvent {
+  const factory _Remove({required final String productDocId}) = _$_Remove;
 
-  String get query;
+  String get productDocId;
   @JsonKey(ignore: true)
-  _$$_SearchCopyWith<_$_Search> get copyWith =>
+  _$$_RemoveCopyWith<_$_Remove> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_AddCopyWith<$Res> {
+  factory _$$_AddCopyWith(_$_Add value, $Res Function(_$_Add) then) =
+      __$$_AddCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Product product});
+}
+
+/// @nodoc
+class __$$_AddCopyWithImpl<$Res>
+    extends _$FavouriteEventCopyWithImpl<$Res, _$_Add>
+    implements _$$_AddCopyWith<$Res> {
+  __$$_AddCopyWithImpl(_$_Add _value, $Res Function(_$_Add) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? product = null,
+  }) {
+    return _then(_$_Add(
+      product: null == product
+          ? _value.product
+          : product // ignore: cast_nullable_to_non_nullable
+              as Product,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_Add implements _Add {
+  const _$_Add({required this.product});
+
+  @override
+  final Product product;
+
+  @override
+  String toString() {
+    return 'FavouriteEvent.add(product: $product)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Add &&
+            (identical(other.product, product) || other.product == product));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, product);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AddCopyWith<_$_Add> get copyWith =>
+      __$$_AddCopyWithImpl<_$_Add>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getData,
+    required TResult Function(String productDocId) remove,
+    required TResult Function(Product product) add,
+    required TResult Function() refresh,
+  }) {
+    return add(product);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getData,
+    TResult? Function(String productDocId)? remove,
+    TResult? Function(Product product)? add,
+    TResult? Function()? refresh,
+  }) {
+    return add?.call(product);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getData,
+    TResult Function(String productDocId)? remove,
+    TResult Function(Product product)? add,
+    TResult Function()? refresh,
+    required TResult orElse(),
+  }) {
+    if (add != null) {
+      return add(product);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) getData,
+    required TResult Function(_Remove value) remove,
+    required TResult Function(_Add value) add,
+    required TResult Function(_Refresh value) refresh,
+  }) {
+    return add(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? getData,
+    TResult? Function(_Remove value)? remove,
+    TResult? Function(_Add value)? add,
+    TResult? Function(_Refresh value)? refresh,
+  }) {
+    return add?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? getData,
+    TResult Function(_Remove value)? remove,
+    TResult Function(_Add value)? add,
+    TResult Function(_Refresh value)? refresh,
+    required TResult orElse(),
+  }) {
+    if (add != null) {
+      return add(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Add implements FavouriteEvent {
+  const factory _Add({required final Product product}) = _$_Add;
+
+  Product get product;
+  @JsonKey(ignore: true)
+  _$$_AddCopyWith<_$_Add> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -370,7 +494,7 @@ abstract class _$$_RefreshCopyWith<$Res> {
 
 /// @nodoc
 class __$$_RefreshCopyWithImpl<$Res>
-    extends _$ProductEventCopyWithImpl<$Res, _$_Refresh>
+    extends _$FavouriteEventCopyWithImpl<$Res, _$_Refresh>
     implements _$$_RefreshCopyWith<$Res> {
   __$$_RefreshCopyWithImpl(_$_Refresh _value, $Res Function(_$_Refresh) _then)
       : super(_value, _then);
@@ -383,7 +507,7 @@ class _$_Refresh implements _Refresh {
 
   @override
   String toString() {
-    return 'ProductEvent.refresh()';
+    return 'FavouriteEvent.refresh()';
   }
 
   @override
@@ -398,11 +522,10 @@ class _$_Refresh implements _Refresh {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getProduct,
-    required TResult Function(String query) search,
+    required TResult Function() getData,
+    required TResult Function(String productDocId) remove,
+    required TResult Function(Product product) add,
     required TResult Function() refresh,
-    required TResult Function(String category) category,
-    required TResult Function() newArrivals,
   }) {
     return refresh();
   }
@@ -410,11 +533,10 @@ class _$_Refresh implements _Refresh {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getProduct,
-    TResult? Function(String query)? search,
+    TResult? Function()? getData,
+    TResult? Function(String productDocId)? remove,
+    TResult? Function(Product product)? add,
     TResult? Function()? refresh,
-    TResult? Function(String category)? category,
-    TResult? Function()? newArrivals,
   }) {
     return refresh?.call();
   }
@@ -422,11 +544,10 @@ class _$_Refresh implements _Refresh {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getProduct,
-    TResult Function(String query)? search,
+    TResult Function()? getData,
+    TResult Function(String productDocId)? remove,
+    TResult Function(Product product)? add,
     TResult Function()? refresh,
-    TResult Function(String category)? category,
-    TResult Function()? newArrivals,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -438,11 +559,10 @@ class _$_Refresh implements _Refresh {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GetProduct value) getProduct,
-    required TResult Function(_Search value) search,
+    required TResult Function(_Started value) getData,
+    required TResult Function(_Remove value) remove,
+    required TResult Function(_Add value) add,
     required TResult Function(_Refresh value) refresh,
-    required TResult Function(_Category value) category,
-    required TResult Function(_NewArrivals value) newArrivals,
   }) {
     return refresh(this);
   }
@@ -450,11 +570,10 @@ class _$_Refresh implements _Refresh {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetProduct value)? getProduct,
-    TResult? Function(_Search value)? search,
+    TResult? Function(_Started value)? getData,
+    TResult? Function(_Remove value)? remove,
+    TResult? Function(_Add value)? add,
     TResult? Function(_Refresh value)? refresh,
-    TResult? Function(_Category value)? category,
-    TResult? Function(_NewArrivals value)? newArrivals,
   }) {
     return refresh?.call(this);
   }
@@ -462,11 +581,10 @@ class _$_Refresh implements _Refresh {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetProduct value)? getProduct,
-    TResult Function(_Search value)? search,
+    TResult Function(_Started value)? getData,
+    TResult Function(_Remove value)? remove,
+    TResult Function(_Add value)? add,
     TResult Function(_Refresh value)? refresh,
-    TResult Function(_Category value)? category,
-    TResult Function(_NewArrivals value)? newArrivals,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -476,284 +594,12 @@ class _$_Refresh implements _Refresh {
   }
 }
 
-abstract class _Refresh implements ProductEvent {
+abstract class _Refresh implements FavouriteEvent {
   const factory _Refresh() = _$_Refresh;
 }
 
 /// @nodoc
-abstract class _$$_CategoryCopyWith<$Res> {
-  factory _$$_CategoryCopyWith(
-          _$_Category value, $Res Function(_$_Category) then) =
-      __$$_CategoryCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String category});
-}
-
-/// @nodoc
-class __$$_CategoryCopyWithImpl<$Res>
-    extends _$ProductEventCopyWithImpl<$Res, _$_Category>
-    implements _$$_CategoryCopyWith<$Res> {
-  __$$_CategoryCopyWithImpl(
-      _$_Category _value, $Res Function(_$_Category) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? category = null,
-  }) {
-    return _then(_$_Category(
-      null == category
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_Category implements _Category {
-  const _$_Category(this.category);
-
-  @override
-  final String category;
-
-  @override
-  String toString() {
-    return 'ProductEvent.category(category: $category)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Category &&
-            (identical(other.category, category) ||
-                other.category == category));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, category);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_CategoryCopyWith<_$_Category> get copyWith =>
-      __$$_CategoryCopyWithImpl<_$_Category>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() getProduct,
-    required TResult Function(String query) search,
-    required TResult Function() refresh,
-    required TResult Function(String category) category,
-    required TResult Function() newArrivals,
-  }) {
-    return category(this.category);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getProduct,
-    TResult? Function(String query)? search,
-    TResult? Function()? refresh,
-    TResult? Function(String category)? category,
-    TResult? Function()? newArrivals,
-  }) {
-    return category?.call(this.category);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getProduct,
-    TResult Function(String query)? search,
-    TResult Function()? refresh,
-    TResult Function(String category)? category,
-    TResult Function()? newArrivals,
-    required TResult orElse(),
-  }) {
-    if (category != null) {
-      return category(this.category);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GetProduct value) getProduct,
-    required TResult Function(_Search value) search,
-    required TResult Function(_Refresh value) refresh,
-    required TResult Function(_Category value) category,
-    required TResult Function(_NewArrivals value) newArrivals,
-  }) {
-    return category(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetProduct value)? getProduct,
-    TResult? Function(_Search value)? search,
-    TResult? Function(_Refresh value)? refresh,
-    TResult? Function(_Category value)? category,
-    TResult? Function(_NewArrivals value)? newArrivals,
-  }) {
-    return category?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetProduct value)? getProduct,
-    TResult Function(_Search value)? search,
-    TResult Function(_Refresh value)? refresh,
-    TResult Function(_Category value)? category,
-    TResult Function(_NewArrivals value)? newArrivals,
-    required TResult orElse(),
-  }) {
-    if (category != null) {
-      return category(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Category implements ProductEvent {
-  const factory _Category(final String category) = _$_Category;
-
-  String get category;
-  @JsonKey(ignore: true)
-  _$$_CategoryCopyWith<_$_Category> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$_NewArrivalsCopyWith<$Res> {
-  factory _$$_NewArrivalsCopyWith(
-          _$_NewArrivals value, $Res Function(_$_NewArrivals) then) =
-      __$$_NewArrivalsCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$_NewArrivalsCopyWithImpl<$Res>
-    extends _$ProductEventCopyWithImpl<$Res, _$_NewArrivals>
-    implements _$$_NewArrivalsCopyWith<$Res> {
-  __$$_NewArrivalsCopyWithImpl(
-      _$_NewArrivals _value, $Res Function(_$_NewArrivals) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$_NewArrivals implements _NewArrivals {
-  const _$_NewArrivals();
-
-  @override
-  String toString() {
-    return 'ProductEvent.newArrivals()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_NewArrivals);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() getProduct,
-    required TResult Function(String query) search,
-    required TResult Function() refresh,
-    required TResult Function(String category) category,
-    required TResult Function() newArrivals,
-  }) {
-    return newArrivals();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getProduct,
-    TResult? Function(String query)? search,
-    TResult? Function()? refresh,
-    TResult? Function(String category)? category,
-    TResult? Function()? newArrivals,
-  }) {
-    return newArrivals?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getProduct,
-    TResult Function(String query)? search,
-    TResult Function()? refresh,
-    TResult Function(String category)? category,
-    TResult Function()? newArrivals,
-    required TResult orElse(),
-  }) {
-    if (newArrivals != null) {
-      return newArrivals();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GetProduct value) getProduct,
-    required TResult Function(_Search value) search,
-    required TResult Function(_Refresh value) refresh,
-    required TResult Function(_Category value) category,
-    required TResult Function(_NewArrivals value) newArrivals,
-  }) {
-    return newArrivals(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetProduct value)? getProduct,
-    TResult? Function(_Search value)? search,
-    TResult? Function(_Refresh value)? refresh,
-    TResult? Function(_Category value)? category,
-    TResult? Function(_NewArrivals value)? newArrivals,
-  }) {
-    return newArrivals?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetProduct value)? getProduct,
-    TResult Function(_Search value)? search,
-    TResult Function(_Refresh value)? refresh,
-    TResult Function(_Category value)? category,
-    TResult Function(_NewArrivals value)? newArrivals,
-    required TResult orElse(),
-  }) {
-    if (newArrivals != null) {
-      return newArrivals(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _NewArrivals implements ProductEvent {
-  const factory _NewArrivals() = _$_NewArrivals;
-}
-
-/// @nodoc
-mixin _$ProductState {
+mixin _$FavouriteState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -807,16 +653,16 @@ mixin _$ProductState {
 }
 
 /// @nodoc
-abstract class $ProductStateCopyWith<$Res> {
-  factory $ProductStateCopyWith(
-          ProductState value, $Res Function(ProductState) then) =
-      _$ProductStateCopyWithImpl<$Res, ProductState>;
+abstract class $FavouriteStateCopyWith<$Res> {
+  factory $FavouriteStateCopyWith(
+          FavouriteState value, $Res Function(FavouriteState) then) =
+      _$FavouriteStateCopyWithImpl<$Res, FavouriteState>;
 }
 
 /// @nodoc
-class _$ProductStateCopyWithImpl<$Res, $Val extends ProductState>
-    implements $ProductStateCopyWith<$Res> {
-  _$ProductStateCopyWithImpl(this._value, this._then);
+class _$FavouriteStateCopyWithImpl<$Res, $Val extends FavouriteState>
+    implements $FavouriteStateCopyWith<$Res> {
+  _$FavouriteStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -833,7 +679,7 @@ abstract class _$$_InitialCopyWith<$Res> {
 
 /// @nodoc
 class __$$_InitialCopyWithImpl<$Res>
-    extends _$ProductStateCopyWithImpl<$Res, _$_Initial>
+    extends _$FavouriteStateCopyWithImpl<$Res, _$_Initial>
     implements _$$_InitialCopyWith<$Res> {
   __$$_InitialCopyWithImpl(_$_Initial _value, $Res Function(_$_Initial) _then)
       : super(_value, _then);
@@ -846,7 +692,7 @@ class _$_Initial implements _Initial {
 
   @override
   String toString() {
-    return 'ProductState.initial()';
+    return 'FavouriteState.initial()';
   }
 
   @override
@@ -933,7 +779,7 @@ class _$_Initial implements _Initial {
   }
 }
 
-abstract class _Initial implements ProductState {
+abstract class _Initial implements FavouriteState {
   const factory _Initial() = _$_Initial;
 }
 
@@ -945,7 +791,7 @@ abstract class _$$_LodingCopyWith<$Res> {
 
 /// @nodoc
 class __$$_LodingCopyWithImpl<$Res>
-    extends _$ProductStateCopyWithImpl<$Res, _$_Loding>
+    extends _$FavouriteStateCopyWithImpl<$Res, _$_Loding>
     implements _$$_LodingCopyWith<$Res> {
   __$$_LodingCopyWithImpl(_$_Loding _value, $Res Function(_$_Loding) _then)
       : super(_value, _then);
@@ -958,7 +804,7 @@ class _$_Loding implements _Loding {
 
   @override
   String toString() {
-    return 'ProductState.loding()';
+    return 'FavouriteState.loding()';
   }
 
   @override
@@ -1045,7 +891,7 @@ class _$_Loding implements _Loding {
   }
 }
 
-abstract class _Loding implements ProductState {
+abstract class _Loding implements FavouriteState {
   const factory _Loding() = _$_Loding;
 }
 
@@ -1060,7 +906,7 @@ abstract class _$$_SuccessCopyWith<$Res> {
 
 /// @nodoc
 class __$$_SuccessCopyWithImpl<$Res>
-    extends _$ProductStateCopyWithImpl<$Res, _$_Success>
+    extends _$FavouriteStateCopyWithImpl<$Res, _$_Success>
     implements _$$_SuccessCopyWith<$Res> {
   __$$_SuccessCopyWithImpl(_$_Success _value, $Res Function(_$_Success) _then)
       : super(_value, _then);
@@ -1094,7 +940,7 @@ class _$_Success implements _Success {
 
   @override
   String toString() {
-    return 'ProductState.success(data: $data)';
+    return 'FavouriteState.success(data: $data)';
   }
 
   @override
@@ -1190,7 +1036,7 @@ class _$_Success implements _Success {
   }
 }
 
-abstract class _Success implements ProductState {
+abstract class _Success implements FavouriteState {
   const factory _Success(final List<Product> data) = _$_Success;
 
   List<Product> get data;
@@ -1209,7 +1055,7 @@ abstract class _$$_ErrorCopyWith<$Res> {
 
 /// @nodoc
 class __$$_ErrorCopyWithImpl<$Res>
-    extends _$ProductStateCopyWithImpl<$Res, _$_Error>
+    extends _$FavouriteStateCopyWithImpl<$Res, _$_Error>
     implements _$$_ErrorCopyWith<$Res> {
   __$$_ErrorCopyWithImpl(_$_Error _value, $Res Function(_$_Error) _then)
       : super(_value, _then);
@@ -1238,7 +1084,7 @@ class _$_Error implements _Error {
 
   @override
   String toString() {
-    return 'ProductState.error(massage: $massage)';
+    return 'FavouriteState.error(massage: $massage)';
   }
 
   @override
@@ -1333,7 +1179,7 @@ class _$_Error implements _Error {
   }
 }
 
-abstract class _Error implements ProductState {
+abstract class _Error implements FavouriteState {
   const factory _Error(final String massage) = _$_Error;
 
   String get massage;

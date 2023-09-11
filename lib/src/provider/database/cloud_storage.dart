@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/src/provider/model/product.dart';
+import 'package:ecommerce/src/provider/model/user.dart';
 
 class FirebaseCloudHelper {
   FirebaseCloudHelper._();
@@ -8,17 +9,64 @@ class FirebaseCloudHelper {
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   // final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   late CollectionReference collectionReference;
-  final String _collectionName = "All_Product";
+  final String _productCollection = "All_Product";
+  final String _userCollection = "All_Users";
+  final String _whishlistCollection = "whishlist_product";
+  //final String _offerCollection = "All_Offers";
 
   /// creaet collection
   createCollection() {
-    collectionReference = firebaseFirestore.collection(_collectionName);
+    collectionReference = firebaseFirestore.collection(_productCollection);
   }
 
-  /// Get all movies data and convert in model
+  /// Get all product data and convert in model
   Future<List<Product>> getData() async {
     QuerySnapshot<Object?> snapshot = await collectionReference.get();
     return snapshot.docs.map((e) => Product.stream(e)).toList();
+  }
+
+  Future<void> addUser({
+    required String userUid,
+    required Users user,
+  }) async {
+    await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .set(user.toJson());
+  }
+
+  Future<List<Product>> getWishlist({required String userUid}) async {
+    QuerySnapshot<Object?> snapshot = await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_whishlistCollection)
+        .get();
+    return snapshot.docs.map((e) => Product.stream(e)).toList();
+  }
+
+  Future<void> addWishlist({
+    required String userUid,
+    required String productId,
+    required Product product,
+  }) async {
+    await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_whishlistCollection)
+        .doc(productId)
+        .set(product.toJson());
+  }
+
+  Future<void> removeWishlist({
+    required String userUid,
+    required String productDocId,
+  }) async {
+    await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_whishlistCollection)
+        .doc(productDocId)
+        .delete();
   }
 
   // /// Get one movie and convert in model

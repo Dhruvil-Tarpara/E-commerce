@@ -2,6 +2,7 @@ import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/provider/authentication/auth.dart';
 import 'package:ecommerce/src/provider/authentication/exaption_handle.dart';
+import 'package:ecommerce/src/provider/database/cloud_storage.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
 import 'package:ecommerce/src/utils/hive/hive_key.dart';
@@ -24,13 +25,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 .signUpWithEmailPassword(
                     email: event.email, password: event.password);
             if (user != null) {
+              FirebaseCloudHelper.firebaseCloudHelper.addUser(
+                  userUid: user.uid,
+                  user: Users(
+                    userId: user.uid,
+                    userName: event.userName,
+                    profileName: user.email!.split("@")[0],
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    url: user.photoURL,
+                  ));
               await HiveHelper.hiveHelper
                   .set(
                       HiveKeys.user,
                       Users(
                         userId: user.uid,
                         userName: event.userName,
-                        profileName: user.displayName,
+                        profileName: user.email!.split("@")[0],
                         email: user.email,
                         emailVerified: user.emailVerified,
                         url: user.photoURL,
@@ -51,15 +62,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             User? user = await FirebaseAuthHelper.firebaseAuthHelper
                 .signInwithEmailPassword(
                     email: event.email, password: event.password);
-
             if (user != null) {
               await HiveHelper.hiveHelper
                   .set(
                       HiveKeys.user,
                       Users(
                         userId: user.uid,
-                        userName: user.displayName,
-                        profileName: user.displayName,
+                        userName: user.email!.split("@")[0],
+                        profileName: user.email!.split("@")[0],
                         email: user.email,
                         emailVerified: user.emailVerified,
                         url: user.photoURL,
@@ -79,6 +89,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             User? user =
                 await FirebaseAuthHelper.firebaseAuthHelper.signInWithGoogle();
             if (user != null) {
+              FirebaseCloudHelper.firebaseCloudHelper.addUser(
+                  userUid: user.uid,
+                  user: Users(
+                    userId: user.uid,
+                    userName: user.displayName,
+                    profileName: user.email!.split("@")[0],
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    url: user.photoURL,
+                  ));
               await HiveHelper.hiveHelper.set(
                   HiveKeys.user,
                   Users(

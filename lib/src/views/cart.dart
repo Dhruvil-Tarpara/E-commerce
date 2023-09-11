@@ -99,9 +99,8 @@ class _CartPageState extends State<CartPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Card(
                   child: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    horizontalTitleGap: 8,
                     minVerticalPadding: 0,
+                    contentPadding: EdgeInsets.zero,
                     trailing: FxText(
                       textOverflow: TextOverflow.clip,
                       softWrap: false,
@@ -113,7 +112,6 @@ class _CartPageState extends State<CartPage> {
                     ),
                     leading: Container(
                       width: width(context: context) * 0.24,
-                      height: double.maxFinite,
                       decoration: BoxDecoration(
                         color: ConstColor.disable,
                         borderRadius: BorderRadius.circular(10),

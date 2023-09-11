@@ -1,6 +1,8 @@
 import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
-import 'package:ecommerce/src/provider/bloc/get/bloc/product_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
+import 'package:ecommerce/src/utils/extension/capitalize.dart';
+
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/views/catelog/details.dart';
@@ -9,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+  final String category;
+  const CategoryPage({super.key, required this.category});
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
@@ -29,6 +32,7 @@ class _CategoryPageState extends State<CategoryPage> {
       appBar: AppBar(
         backgroundColor: ConstColor.transparent,
         elevation: 0,
+        centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
@@ -53,13 +57,23 @@ class _CategoryPageState extends State<CategoryPage> {
           valueListenable: _isSearch,
           builder: (context, value, _) => value
               ? CupertinoSearchTextField(
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    context
+                        .read<ProductBloc>()
+                        .add(ProductEvent.search(value, widget.category));
+                  },
                   decoration: BoxDecoration(
                     color: ConstColor.disable,
                     borderRadius: BorderRadius.circular(40),
                   ),
                 )
-              : const SizedBox.square(),
+              : FxText(
+                  textAlign: TextAlign.center,
+                  text: widget.category.capitalize(),
+                  color: ConstColor.black,
+                  size: 18,
+                  fontWeight: FontWeight.w600,
+                ),
         ),
         actions: [
           ValueListenableBuilder(
@@ -68,6 +82,9 @@ class _CategoryPageState extends State<CategoryPage> {
               onPressed: () {
                 _isSearch.value = !_isSearch.value;
                 _removekeypad();
+                context
+                    .read<ProductBloc>()
+                    .add(ProductEvent.category(widget.category));
               },
               highlightColor: ConstColor.transparent,
               splashColor: ConstColor.transparent,
@@ -93,7 +110,8 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           success: (data) => GridView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -104,7 +122,7 @@ class _CategoryPageState extends State<CategoryPage> {
             itemCount: data.length,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
-                context.push(const DetailsPage()).then(
+                context.push( DetailsPage(product: data[index],)).then(
                       (value) => _removekeypad(),
                     );
               },
@@ -163,7 +181,9 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
             ),
           ),
-          error: (massage) => Center(child: FxText(text: massage)),
+          error: (massage) => Center(
+            child: FxText(text: massage),
+          ),
         ),
       ),
     );
