@@ -109,13 +109,11 @@ class _FavouritePageState extends State<FavouritePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  visualDensity:
-                      const VisualDensity(horizontal: 0, vertical: 3),
                   contentPadding: EdgeInsets.zero,
                   leading: Container(
                     color: ConstColor.disable,
                     width: width(context: context) * 0.2,
-                    height: height(context: context),
+                    height: double.infinity,
                   ),
                   title: FxText(
                     text: data[index].name,

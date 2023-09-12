@@ -3,10 +3,12 @@ import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc.dart';
+import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/views/catelog/favourite.dart';
 import 'package:ecommerce/src/views/home/logout_dialog.dart';
+import 'package:ecommerce/src/views/profile/help.dart';
 import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
 import 'package:flutter/material.dart';
@@ -49,20 +51,22 @@ class FxDrawer extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.person_rounded,
-                          color: ConstColor.black,
-                          size: 40,
-                        ),
-                      ),
+                      child: Image.asset(Global.userImage),
                     ),
                     title: FxText(
-                      text: Global.users.profileName ?? "Demo",
+                      textOverflow: TextOverflow.ellipsis,
+                      text:
+                          Global.users.profileName!.toLowerCase().capitalize(),
                       size: 18,
                       color: ConstColor.black,
                       fontWeight: FontWeight.w700,
+                    ),
+                    subtitle: FxText(
+                      textOverflow: TextOverflow.ellipsis,
+                      text: Global.users.email ?? "",
+                      size: 12,
+                      color: ConstColor.black,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -147,7 +151,10 @@ class FxDrawer extends StatelessWidget {
                       icon: Icons.privacy_tip_rounded,
                     ),
                     ProfileOption(
-                      onTap: () {},
+                      onTap: () {
+                        context.push(const HelpCenterPage());
+                        _closeDrawer();
+                      },
                       text: ConstString.helpCenter,
                       icon: Icons.help_rounded,
                     ),

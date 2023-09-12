@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
@@ -9,12 +10,14 @@ import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dar
 import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
+import 'package:ecommerce/src/views/catelog/catalog.dart';
 import 'package:ecommerce/src/views/catelog/category.dart';
 import 'package:ecommerce/src/views/catelog/details.dart';
 import 'package:ecommerce/src/views/home/search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,7 +30,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Global.addWishlist();
   }
 
   @override
@@ -59,6 +61,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () {},
             child: CircleAvatar(
               backgroundColor: ConstColor.disable,
+              backgroundImage: const AssetImage(Global.userImage),
             ),
           ),
           const SizedBox(
@@ -232,7 +235,9 @@ class _HomePageState extends State<HomePage> {
                         minimumSize: Size.zero,
                         padding: EdgeInsets.zero,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.push(const CatalogPage());
+                      },
                       child: FxText(
                         text: ConstString.viewAll,
                         color: ConstColor.grey,
@@ -264,26 +269,27 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         onPressed: () {
-                          if (index != 2) {
-                            context.read<ProductBloc>().add(
-                                  ProductEvent.category(
-                                    Global.categories[index].toString(),
-                                  ),
-                                );
-                          } else {
-                            context.read<ProductBloc>().add(
-                                  const ProductEvent.newArrivals(),
-                                );
-                          }
+                          context.read<ProductBloc>().add(
+                                ProductEvent.category(
+                                  Global.categories[index]
+                                          [ConstString.bottomLable]
+                                      .toString(),
+                                ),
+                              );
+
                           context.push(
                             CategoryPage(
-                              category: Global.categories[index].toString(),
+                              category: Global.categories[index]
+                                      [ConstString.bottomLable]
+                                  .toString(),
                             ),
                           );
                         },
                         child: FxText(
-                          text:
-                              Global.categories[index].toString().capitalize(),
+                          text: Global.categories[index]
+                                  [ConstString.bottomLable]
+                              .toString()
+                              .capitalize(),
                           color: ConstColor.white,
                           size: 12,
                           fontWeight: FontWeight.w500,
@@ -365,68 +371,87 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 child: Stack(
                                   children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: CachedNetworkImage(
+                                        height: height(context: context),
+                                        imageUrl: data[index].images[0],
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Shimmer.fromColors(
+                                          baseColor: ConstColor.black,
+                                          highlightColor: ConstColor.grey,
+                                          child: Container(
+                                            height:
+                                                height(context: context) * 0.52,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      ),
+                                    ),
                                     ValueListenableBuilder(
-                                        valueListenable:
-                                            Global.wishlistController,
-                                        builder: (context, value, child) {
-                                          bool isCheck = value.any((element) =>
-                                              element == data[index].id);
-                                          return Positioned(
-                                            top: 12,
-                                            right: 12,
-                                            child: InkWell(
-                                              onTap: () async {
-                                                if (isCheck) {
-                                                  context
-                                                      .read<FavouriteBloc>()
-                                                      .add(
-                                                        FavouriteEvent.remove(
-                                                          productDocId:
-                                                              data[index].id,
-                                                        ),
-                                                      );
-                                                  Global
-                                                      .wishlistController.value
-                                                      .add(data[index].id);
-                                                  Global.addWishlist();
-                                                } else {
-                                                  context
-                                                      .read<FavouriteBloc>()
-                                                      .add(
-                                                        FavouriteEvent.add(
-                                                            product:
-                                                                data[index]),
-                                                      );
-                                                  Global
-                                                      .wishlistController.value
-                                                      .remove(data[index].id);
-                                                  Global.addWishlist();
-                                                }
-                                              },
-                                              child: CircleAvatar(
-                                                backgroundColor: (isCheck)
-                                                    ? ConstColor.white
-                                                    : ConstColor.black,
-                                                maxRadius: 14,
-                                                child: Icon(
-                                                  (isCheck)
-                                                      ? Icons.favorite_rounded
-                                                      : Icons.favorite_border,
-                                                  size: 18,
-                                                  color: (isCheck)
-                                                      ? ConstColor.red
-                                                      : ConstColor.white,
-                                                ),
+                                      valueListenable:
+                                          Global.wishlistController,
+                                      builder: (context, value, child) {
+                                        bool isCheck = value.any((element) =>
+                                            element == data[index].id);
+                                        return Positioned(
+                                          top: 12,
+                                          right: 12,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              if (isCheck) {
+                                                context
+                                                    .read<FavouriteBloc>()
+                                                    .add(
+                                                      FavouriteEvent.remove(
+                                                        productDocId:
+                                                            data[index].id,
+                                                      ),
+                                                    );
+                                                Global.wishlistController.value
+                                                    .add(data[index].id);
+                                                Global.addWishlist();
+                                              } else {
+                                                context
+                                                    .read<FavouriteBloc>()
+                                                    .add(
+                                                      FavouriteEvent.add(
+                                                          product: data[index]),
+                                                    );
+                                                Global.wishlistController.value
+                                                    .remove(data[index].id);
+                                                Global.addWishlist();
+                                              }
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundColor: (isCheck)
+                                                  ? ConstColor.white
+                                                  : ConstColor.black,
+                                              maxRadius: 14,
+                                              child: Icon(
+                                                (isCheck)
+                                                    ? Icons.favorite_rounded
+                                                    : Icons.favorite_border,
+                                                size: 18,
+                                                color: (isCheck)
+                                                    ? ConstColor.red
+                                                    : ConstColor.white,
                                               ),
                                             ),
-                                          );
-                                        }),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                             FxText(
                               textAlign: TextAlign.center,
+                              textOverflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                               text: data[index].name.toLowerCase().capitalize(),
                               color: ConstColor.black,
                               size: 16,
@@ -434,6 +459,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             FxText(
                               textAlign: TextAlign.center,
+                              textOverflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                               text: data[index]
                                   .subtitle
                                   .toLowerCase()

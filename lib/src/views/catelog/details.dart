@@ -1,12 +1,17 @@
 import 'package:ecommerce/src/constant/colors.dart';
+import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc.dart';
 import 'package:ecommerce/src/provider/model/product.dart';
 import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
+import 'package:ecommerce/src/utils/extension/average_rating.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
+import 'package:ecommerce/src/views/catelog/image_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -19,6 +24,16 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   final ScrollController _scrollController = ScrollController();
+  final ValueNotifier<String> _selectedSize = ValueNotifier<String>("");
+  final ValueNotifier<int> _selectedStok = ValueNotifier<int>(1);
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedSize.value = widget.product.sizes[0].toString();
+    _selectedStok.value = 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Review> data = widget.product.rating!.values
@@ -27,13 +42,17 @@ class _DetailsPageState extends State<DetailsPage> {
         .toList();
     return WillPopScope(
       onWillPop: () async {
-        _scrollController.animateTo(
-          0,
-          duration: const Duration(
-              milliseconds: 400), // Adjust the duration as needed
-          curve: Curves.easeInOut, // Adjust the curve as needed
-        );
-        return true;
+        if (_scrollController.position.pixels != 0) {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(
+                milliseconds: 400), // Adjust the duration as needed
+            curve: Curves.easeInOut, // Adjust the curve as needed
+          );
+          return false;
+        } else {
+          return true;
+        }
       },
       child: Scaffold(
         backgroundColor: ConstColor.white,
@@ -49,7 +68,63 @@ class _DetailsPageState extends State<DetailsPage> {
                     children: [
                       Container(
                         height: height(context: context) * 0.52,
-                        color: ConstColor.disable,
+                        decoration: BoxDecoration(
+                          color: ConstColor.disable,
+                        ),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            ImageSlider(image: widget.product.images),
+                            ValueListenableBuilder(
+                              valueListenable: Global.wishlistController,
+                              builder: (context, value, child) {
+                                bool isCheck = value.any(
+                                    (element) => element == widget.product.id);
+                                return Positioned(
+                                  top: height(context: context) * 0.44,
+                                  right: 16,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if (isCheck) {
+                                        context.read<FavouriteBloc>().add(
+                                              FavouriteEvent.remove(
+                                                productDocId: widget.product.id,
+                                              ),
+                                            );
+                                        Global.wishlistController.value
+                                            .add(widget.product.id);
+                                        Global.addWishlist();
+                                      } else {
+                                        context.read<FavouriteBloc>().add(
+                                              FavouriteEvent.add(
+                                                  product: widget.product),
+                                            );
+                                        Global.wishlistController.value
+                                            .remove(widget.product.id);
+                                        Global.addWishlist();
+                                      }
+                                    },
+                                    child: CircleAvatar(
+                                      backgroundColor: (isCheck)
+                                          ? ConstColor.white
+                                          : ConstColor.black,
+                                      maxRadius: 14,
+                                      child: Icon(
+                                        (isCheck)
+                                            ? Icons.favorite_rounded
+                                            : Icons.favorite_border,
+                                        size: 18,
+                                        color: (isCheck)
+                                            ? ConstColor.red
+                                            : ConstColor.white,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.all(16.0),
@@ -64,6 +139,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           children: [
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Column(
@@ -71,9 +147,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedBox(
-                                      width: width(context: context) * 0.6,
+                                      width: width(context: context) * 0.5,
                                       child: FxText(
                                         textOverflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                         text: widget.product.name
                                             .toLowerCase()
                                             .capitalize(),
@@ -83,9 +160,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: width(context: context) * 0.6,
+                                      width: width(context: context) * 0.5,
                                       child: FxText(
                                         textOverflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                         text: widget.product.subtitle
                                             .toLowerCase()
                                             .capitalize(),
@@ -102,7 +180,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         RatingBar.builder(
-                                          initialRating: 5,
+                                          initialRating:
+                                              data.averagerating(data: data),
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
                                           tapOnlyMode: true,
@@ -122,7 +201,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                           width: 8,
                                         ),
                                         FxText(
-                                          text: ConstString.review,
+                                          text:
+                                              "(${data.length}${ConstString.review})",
                                           size: 12,
                                           color: ConstColor.black,
                                           fontWeight: FontWeight.w500,
@@ -131,48 +211,59 @@ class _DetailsPageState extends State<DetailsPage> {
                                     ),
                                   ],
                                 ),
+                                const Spacer(),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Container(
-                                      height: height(context: context) * 0.04,
                                       decoration: BoxDecoration(
                                         color: ConstColor.disable,
                                         borderRadius: BorderRadius.circular(20),
                                       ),
-                                      child: Row(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.remove,
-                                              size: 18,
+                                      child: ValueListenableBuilder(
+                                        valueListenable: _selectedStok,
+                                        builder: (context, value, _) => Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                if (value != 1) {
+                                                  _selectedStok.value--;
+                                                }
+                                              },
+                                              icon: const Icon(
+                                                Icons.remove,
+                                                size: 18,
+                                              ),
+                                              style: IconButton.styleFrom(
+                                                minimumSize: Size.zero,
+                                                padding: EdgeInsets.zero,
+                                              ),
                                             ),
-                                            style: IconButton.styleFrom(
-                                              minimumSize: Size.zero,
-                                              padding: EdgeInsets.zero,
+                                            FxText(
+                                              text: value.toString(),
+                                              size: 14,
+                                              color: ConstColor.black,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                          ),
-                                          FxText(
-                                            text: "1",
-                                            size: 14,
-                                            color: ConstColor.black,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.add,
-                                              size: 18,
+                                            IconButton(
+                                              onPressed: () {
+                                                _selectedStok.value++;
+                                              },
+                                              icon: const Icon(
+                                                Icons.add,
+                                                size: 18,
+                                              ),
+                                              style: IconButton.styleFrom(
+                                                minimumSize: Size.zero,
+                                                padding: EdgeInsets.zero,
+                                              ),
                                             ),
-                                            style: IconButton.styleFrom(
-                                              minimumSize: Size.zero,
-                                              padding: EdgeInsets.zero,
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
@@ -200,24 +291,45 @@ class _DetailsPageState extends State<DetailsPage> {
                             SizedBox(
                               height: height(context: context) * 0.01,
                             ),
-                            Row(
-                              children: [
-                                Row(
-                                  children: List.generate(
-                                    5,
-                                    (index) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4.0),
-                                      child: GestureDetector(
-                                        onTap: () {},
-                                        child: CircleAvatar(
-                                          backgroundColor: ConstColor.disable,
+                            ValueListenableBuilder(
+                              valueListenable: _selectedSize,
+                              builder: (context, value, child) => Row(
+                                children: List.generate(
+                                  widget.product.sizes.length,
+                                  (index) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        _selectedSize.value = widget
+                                            .product.sizes[index]
+                                            .toString();
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: (_selectedSize.value !=
+                                                widget.product.sizes[index]
+                                                    .toString())
+                                            ? ConstColor.disable
+                                            : ConstColor.black,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(1.4),
+                                          child: CircleAvatar(
+                                            backgroundColor: ConstColor.disable,
+                                            child: FxText(
+                                              text: widget.product.sizes[index]
+                                                  .toString()
+                                                  .capitalize(),
+                                              size: 14,
+                                              color: ConstColor.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
                             SizedBox(
                               height: height(context: context) * 0.02,
@@ -260,7 +372,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                             FxText(
                                               textOverflow:
                                                   TextOverflow.ellipsis,
-                                              text: "${data[index].email}",
+                                              text: data[index].name ?? "",
                                               size: 14,
                                               color: ConstColor.black,
                                               fontWeight: FontWeight.w600,
@@ -379,7 +491,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     color: ConstColor.grey,
                   ),
                   FxText(
-                    text: "\$1999",
+                    text: "\$ ${widget.product.price}",
                     size: 18,
                     color: ConstColor.black,
                     fontWeight: FontWeight.w600,

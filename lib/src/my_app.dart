@@ -7,6 +7,7 @@ import 'package:ecommerce/src/utils/hive/hive.dart';
 import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/views/landing.dart';
 import 'package:ecommerce/src/views/login/option.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,10 +19,39 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  getPemission() async {
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     FirebaseCloudHelper.firebaseCloudHelper.createCollection();
+    getPemission();
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+      print("tokan --- ${fcmToken}");
+    }).onError((err) {
+      // Error getting token.
+    });
   }
 
   @override

@@ -35,6 +35,7 @@
 // }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce/src/utils/extension/capitalize.dart';
 
 class Product {
   final String id;
@@ -133,7 +134,7 @@ class Review {
   factory Review.fromJson(Map<String, dynamic> json) => Review(
         email: json["email"],
         name: json["name"],
-        rating: json["rating"],
+        rating: json["rating"].toString().todouble(),
         review: json["review"],
       );
 

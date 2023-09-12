@@ -37,11 +37,9 @@ class ArrivalsBloc extends Bloc<ArrivalsEvent, ArrivalsState> {
                   .contains(event.query.toLowerCase()))
               .toList();
           if (data.isNotEmpty) {
-            emit(const _Loding());
             emit(_Success(data));
           } else {
-            emit(const _Loding());
-            emit(const _Error(ConstString.errorMassage));
+            emit(const _Success([]));
           }
         } else if (event is _Refresh) {
           allProduct = await FirebaseCloudHelper.firebaseCloudHelper.getData();

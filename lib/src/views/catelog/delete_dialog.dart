@@ -33,8 +33,7 @@ class DeletePermissionDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
-            Navigator.of(context).pop(true);
-            // Confirm and close the dialog
+            Navigator.of(context).pop(true); // Confirm and close the dialog
           },
           child: FxText(
             text: ConstString.delete,

@@ -8,6 +8,7 @@ import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/views/catelog/favourite.dart';
 import 'package:ecommerce/src/views/home/logout_dialog.dart';
+import 'package:ecommerce/src/views/profile/help.dart';
 import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
 import 'package:flutter/material.dart';
@@ -82,22 +83,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.person_rounded,
-                        color: ConstColor.black,
-                        size: 40,
-                      ),
-                    ),
+                    child: Image.asset(Global.userImage),
                   ),
                   title: FxText(
+                    textOverflow: TextOverflow.ellipsis,
                     text: Global.users.userName!.capitalize(),
                     size: 18,
                     color: ConstColor.black,
                     fontWeight: FontWeight.w700,
                   ),
                   subtitle: FxText(
+                    textOverflow: TextOverflow.ellipsis,
                     text: Global.users.email ?? "",
                     size: 12,
                     color: ConstColor.black,
@@ -183,7 +179,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     icon: Icons.privacy_tip_rounded,
                   ),
                   ProfileOption(
-                    onTap: () {},
+                    onTap: () {
+                      context.push(const HelpCenterPage());
+                    },
                     text: ConstString.helpCenter,
                     icon: Icons.help_rounded,
                   ),

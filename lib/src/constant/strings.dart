@@ -64,7 +64,7 @@ class ConstString {
   static const String totalPrice = "Total Price";
   static const String description = "Description";
   static const String size = "Size";
-  static const String review = "(320 Review)";
+  static const String review = " Review";
   static const String instok = "Avaliable in stok";
   static const String producttitle = "Product titlehjhjshdhsadjhagsdjgashg";
   static const String productstitle = "Product stitledsdasdasdsadasdadsdsdsd";
@@ -81,6 +81,10 @@ class ConstString {
   static const String helpCenter = "Help Center";
   static const String logout = "Logout";
 
+  /// Notification screen
+  static const String notification = "Notification";
+  
+
   /// Order screen
   static const String ongoing = "Ongoing";
   static const String complated = "Complated";
@@ -93,5 +97,14 @@ class ConstString {
   /// delete item
   static const String delete = 'Delete';
   static const String deleteConfirmation = 'Delete Confirmation';
-  static const String deleteTitle = 'Are you sure you want to delete this item?';
+  static const String deleteTitle =
+      'Are you sure you want to delete this item?';
+
+  /// Help center screen
+  static const String title = 'title';
+  static const String details = 'details';
+
+  /// Privacy Policy
+  static const String privacyTitle = "Privacy Policy for E-Commerce App";
+  static const String privacySubTitle = "Effective Date: September 1, 2023";
 }

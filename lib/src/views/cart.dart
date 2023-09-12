@@ -13,6 +13,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  final ValueNotifier<bool> _selectedOrder = ValueNotifier<bool>(false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,59 +44,69 @@ class _CartPageState extends State<CartPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FxText(
-                  text: ConstString.myOrder,
-                  size: 22,
-                  fontWeight: FontWeight.w700,
-                  color: ConstColor.black,
-                ),
-                const Spacer(),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: const EdgeInsets.all(8.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+            ValueListenableBuilder(
+              valueListenable: _selectedOrder,
+              builder: (context, value, _) => Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FxText(
+                    text: ConstString.myOrder,
+                    size: 22,
+                    fontWeight: FontWeight.w700,
+                    color: ConstColor.black,
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: const EdgeInsets.all(8.0),
+                      backgroundColor:
+                          value ? ConstColor.black : ConstColor.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      _selectedOrder.value = true;
+                    },
+                    child: FxText(
+                      text: ConstString.ongoing,
+                      color: value ? ConstColor.white : ConstColor.grey,
+                      size: 12,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  onPressed: () {},
-                  child: FxText(
-                    text: ConstString.ongoing,
-                    color: ConstColor.grey,
-                    size: 12,
-                    fontWeight: FontWeight.w600,
+                  SizedBox(
+                    width: width(context: context) * 0.02,
                   ),
-                ),
-                SizedBox(
-                  width: width(context: context) * 0.02,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: const EdgeInsets.all(8.0),
-                    backgroundColor: ConstColor.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: const EdgeInsets.all(8.0),
+                      backgroundColor:
+                          value ? ConstColor.white : ConstColor.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      _selectedOrder.value = false;
+                    },
+                    child: FxText(
+                      text: ConstString.complated,
+                      color: value ? ConstColor.grey : ConstColor.white,
+                      size: 12,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  onPressed: () {},
-                  child: FxText(
-                    text: ConstString.complated,
-                    color: ConstColor.white,
-                    size: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 2,
+              itemCount: 1,
               itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Card(

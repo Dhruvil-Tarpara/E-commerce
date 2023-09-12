@@ -17,6 +17,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         if (event is _GetProduct) {
           allProduct = await FirebaseCloudHelper.firebaseCloudHelper.getData();
         } else if (event is _Category) {
+          emit(const _Loding());
           category = allProduct
               .where((element) => element.category == event.category)
               .toList();

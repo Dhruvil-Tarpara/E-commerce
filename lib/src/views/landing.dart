@@ -3,6 +3,8 @@ import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/new_arrivals/arrivals_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:ecommerce/src/utils/bottom_bar.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
@@ -10,8 +12,10 @@ import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/views/cart.dart';
 import 'package:ecommerce/src/views/home/drawer.dart';
 import 'package:ecommerce/src/views/home/home.dart';
+import 'package:ecommerce/src/views/notification/notifi.dart';
 import 'package:ecommerce/src/views/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -27,7 +31,7 @@ class _LandingPageState extends State<LandingPage>
   List<Widget> body = [
     const HomePage(),
     const CartPage(),
-    const HomePage(),
+    const NotifiPage(),
     const ProfilePage(),
   ];
   page() {
@@ -57,6 +61,9 @@ class _LandingPageState extends State<LandingPage>
   void initState() {
     super.initState();
     Global.users = Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
+    context.read<ProductBloc>().add(const ProductEvent.getProduct());
+    context.read<ArrivalsBloc>().add(const ArrivalsEvent.getData());
+    Global.addWishlist();
   }
 
   @override

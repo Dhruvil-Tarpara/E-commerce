@@ -5,8 +5,8 @@ import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:flutter/material.dart';
 
-class PrivacyPolicyScreen extends StatelessWidget {
-  const PrivacyPolicyScreen({super.key});
+class HelpCenterPage extends StatelessWidget {
+  const HelpCenterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,53 +36,28 @@ class PrivacyPolicyScreen extends StatelessWidget {
           color: ConstColor.black,
           size: 22,
           fontWeight: FontWeight.w600,
-          text: ConstString.privacy,
+          text: ConstString.helpCenter,
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        itemCount: Global.helpTopics.length,
+        itemBuilder: (context, index) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FxText(
+              text: Global.helpTopics[index][ConstString.title] ?? "",
               color: ConstColor.black,
-              size: 18,
+              size: 16,
               fontWeight: FontWeight.w600,
-              text: ConstString.privacyTitle,
             ),
-            const SizedBox(height: 16.0),
             FxText(
-              color: ConstColor.black,
+              text: Global.helpTopics[index][ConstString.details] ?? "",
+              color: ConstColor.grey,
               size: 14,
               fontWeight: FontWeight.w400,
-              text: ConstString.privacySubTitle,
             ),
-            const SizedBox(height: 16.0),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: Global.privacyTopics.length,
-              itemBuilder: (context, index) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FxText(
-                    text: Global.privacyTopics[index][ConstString.title] ?? "",
-                    color: ConstColor.black,
-                    size: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  FxText(
-                    text:
-                        Global.privacyTopics[index][ConstString.details] ?? "",
-                    color: ConstColor.grey,
-                    size: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16.0),
           ],
         ),
       ),
