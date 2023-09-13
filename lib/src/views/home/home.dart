@@ -412,7 +412,6 @@ class _HomePageState extends State<HomePage> {
                                                     );
                                                 Global.wishlistController.value
                                                     .add(data[index].id);
-                                                Global.addWishlist();
                                               } else {
                                                 context
                                                     .read<FavouriteBloc>()
@@ -422,7 +421,6 @@ class _HomePageState extends State<HomePage> {
                                                     );
                                                 Global.wishlistController.value
                                                     .remove(data[index].id);
-                                                Global.addWishlist();
                                               }
                                             },
                                             child: CircleAvatar(

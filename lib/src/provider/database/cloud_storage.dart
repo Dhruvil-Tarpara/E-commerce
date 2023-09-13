@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce/src/provider/model/order.dart';
 import 'package:ecommerce/src/provider/model/product.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 
@@ -12,6 +13,7 @@ class FirebaseCloudHelper {
   final String _productCollection = "All_Product";
   final String _userCollection = "All_Users";
   final String _whishlistCollection = "whishlist_product";
+  final String _orderCollection = "All_order";
   //final String _offerCollection = "All_Offers";
 
   /// creaet collection
@@ -25,6 +27,7 @@ class FirebaseCloudHelper {
     return snapshot.docs.map((e) => Product.stream(e)).toList();
   }
 
+  /// Add user details in firebase
   Future<void> addUser({
     required String userUid,
     required Users user,
@@ -35,6 +38,7 @@ class FirebaseCloudHelper {
         .set(user.toJson());
   }
 
+  /// Create wishlist on user account in firebase
   Future<List<Product>> getWishlist({required String userUid}) async {
     QuerySnapshot<Object?> snapshot = await firebaseFirestore
         .collection(_userCollection)
@@ -44,6 +48,7 @@ class FirebaseCloudHelper {
     return snapshot.docs.map((e) => Product.stream(e)).toList();
   }
 
+  /// Add product in wishlist
   Future<void> addWishlist({
     required String userUid,
     required String productId,
@@ -57,6 +62,7 @@ class FirebaseCloudHelper {
         .set(product.toJson());
   }
 
+  /// Remove product in wishlist
   Future<void> removeWishlist({
     required String userUid,
     required String productDocId,
@@ -69,37 +75,57 @@ class FirebaseCloudHelper {
         .delete();
   }
 
-  // /// Get one movie and convert in model
-  // Future getMovie({required String docId}) async {
-  //   DocumentSnapshot<Object?> snapshot =
-  //       await collectionReference.doc(docId).get();
-  //   return Movie.fromFirestore(snapshot);
-  // }
-
-  /// Insert data in firebase firestor using model
-
-  // void addProductsToFirestore(List<Product> products) async {
-  //   final CollectionReference productsCollection =
-  //       FirebaseFirestore.instance.collection('products');
-
-  //   for (final product in products) {
-  //     await productsCollection.add(product.toJson());
-  //   }
-  // }
-
-  Future<void> insertData({required Product product}) async {
-    await collectionReference.add(product.toJson());
+  /// Create orderlist on user account in firebase
+  Future<List<OrderProduct>> getOrderList({required String userUid}) async {
+    QuerySnapshot<Object?> snapshot = await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_orderCollection)
+        .get();
+    return snapshot.docs.map((e) => OrderProduct.stream(e)).toList();
   }
 
-  // /// Update data using model
-  // Future<void> upDateData({required String docId, required Movie data}) async {
-  //   await collectionReference.doc(docId).update(data.toJson());
-  // }
+  /// Add product in orderlist
+  Future<void> addOrderProduct({
+    required String userUid,
+    required String orderId,
+    required OrderProduct order,
+  }) async {
+    await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_orderCollection)
+        .doc(orderId)
+        .set(order.toJson());
+  }
 
-  // /// Delete data
-  // Future<void> deleteData({required String doc}) async {
-  //   await collectionReference.doc(doc).delete();
-  // }
+  /// Remove product in orderlist
+  Future<void> removeOrderProduct({
+    required String userUid,
+    required String orderId,
+  }) async {
+    await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_orderCollection)
+        .doc(orderId)
+        .delete();
+  }
+
+  /// Update quantitu
+  Future<void> update({
+    required String userUid,
+    required String orderId,
+    required String filed,
+    required dynamic value,
+  }) async {
+    await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_orderCollection)
+        .doc(orderId)
+        .update({filed: value});
+  }
 
   /// Upload movie image and create folder using userId
   // Future<String?> uplodeImage({required String key, required File file}) async {

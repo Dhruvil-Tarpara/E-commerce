@@ -3,13 +3,15 @@ import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/new_arrivals/arrivals_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/order/order_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:ecommerce/src/utils/bottom_bar.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
 import 'package:ecommerce/src/utils/hive/hive_key.dart';
-import 'package:ecommerce/src/views/cart.dart';
+import 'package:ecommerce/src/views/cart/order.dart';
 import 'package:ecommerce/src/views/home/drawer.dart';
 import 'package:ecommerce/src/views/home/home.dart';
 import 'package:ecommerce/src/views/notification/notifi.dart';
@@ -30,22 +32,24 @@ class _LandingPageState extends State<LandingPage>
 
   List<Widget> body = [
     const HomePage(),
-    const CartPage(),
+    const OrderPage(),
     const NotifiPage(),
     const ProfilePage(),
   ];
   page() {
     if (Global.selectedIndex.value != 0 ||
         Global.scaffoldkey.currentState!.isDrawerOpen ||
-        Global.scrollController.position.pixels != 0) {
+        Global.scrollController.positions.isNotEmpty) {
       Global.selectedIndex.value = 0;
       Global.scaffoldkey.currentState!.closeDrawer();
-      Global.scrollController.animateTo(
-        0,
-        duration:
-            const Duration(milliseconds: 500), // Adjust the duration as needed
-        curve: Curves.easeInOut, // Adjust the curve as needed
-      );
+      if (Global.scrollController.position.pixels != 0) {
+        Global.scrollController.animateTo(
+          0,
+          duration: const Duration(
+              milliseconds: 500), // Adjust the duration as needed
+          curve: Curves.easeInOut, // Adjust the curve as needed
+        );
+      }
       return;
     } else {
       Global.scrollController.animateTo(
@@ -63,7 +67,8 @@ class _LandingPageState extends State<LandingPage>
     Global.users = Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
     context.read<ProductBloc>().add(const ProductEvent.getProduct());
     context.read<ArrivalsBloc>().add(const ArrivalsEvent.getData());
-    Global.addWishlist();
+    context.read<FavouriteBloc>().add(const FavouriteEvent.getData());
+    context.read<OrderBloc>().add(const OrderEvent.getData());
   }
 
   @override

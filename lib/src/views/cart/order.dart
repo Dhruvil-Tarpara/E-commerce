@@ -2,17 +2,19 @@ import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
+import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
+import 'package:ecommerce/src/views/cart/cart.dart';
 import 'package:flutter/material.dart';
 
-class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+class OrderPage extends StatefulWidget {
+  const OrderPage({super.key});
 
   @override
-  State<CartPage> createState() => _CartPageState();
+  State<OrderPage> createState() => _OrderPageState();
 }
 
-class _CartPageState extends State<CartPage> {
+class _OrderPageState extends State<OrderPage> {
   final ValueNotifier<bool> _selectedOrder = ValueNotifier<bool>(false);
 
   @override
@@ -39,6 +41,41 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ValueListenableBuilder(
+              valueListenable: Global.totalQuantity,
+              builder: (context, value, _) => Badge(
+                backgroundColor: ConstColor.white,
+                alignment: Alignment.topRight,
+                label: FxText(
+                  text: value.toString(),
+                  color: ConstColor.black,
+                  fontWeight: FontWeight.w500,
+                  size: 10,
+                ),
+                child: CircleAvatar(
+                  backgroundColor: ConstColor.black,
+                  child: IconButton(
+                    onPressed: () {
+                      context.push(const MyCartPage());
+                    },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    icon: Icon(
+                      Icons.shopping_bag_rounded,
+                      color: ConstColor.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

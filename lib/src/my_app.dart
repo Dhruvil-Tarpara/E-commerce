@@ -1,5 +1,6 @@
 import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/new_arrivals/arrivals_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/get_product/order/order_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
 import 'package:ecommerce/src/provider/database/cloud_storage.dart';
@@ -22,7 +23,7 @@ class _MyAppState extends State<MyApp> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   getPemission() async {
-    NotificationSettings settings = await messaging.requestPermission(
+    await messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -31,15 +32,6 @@ class _MyAppState extends State<MyApp> {
       provisional: false,
       sound: true,
     );
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
-      print('User granted provisional permission');
-    } else {
-      print('User declined or has not accepted permission');
-    }
   }
 
   @override
@@ -47,11 +39,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     FirebaseCloudHelper.firebaseCloudHelper.createCollection();
     getPemission();
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-      print("tokan --- ${fcmToken}");
-    }).onError((err) {
-      // Error getting token.
-    });
   }
 
   @override
@@ -65,7 +52,11 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (context) =>
                 ArrivalsBloc()..add(const ArrivalsEvent.getData())),
-        BlocProvider(create: (context) => FavouriteBloc()),
+        BlocProvider(
+            create: (context) =>
+                FavouriteBloc()..add(const FavouriteEvent.getData())),
+        BlocProvider(
+            create: (context) => OrderBloc()..add(const OrderEvent.getData())),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

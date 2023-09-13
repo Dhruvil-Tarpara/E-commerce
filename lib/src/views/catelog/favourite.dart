@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/src/constant/colors.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
@@ -9,6 +10,7 @@ import 'package:ecommerce/src/views/catelog/delete_dialog.dart';
 import 'package:ecommerce/src/views/catelog/details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({super.key});
@@ -89,7 +91,6 @@ class _FavouritePageState extends State<FavouritePage> {
                     BlocProvider.of<FavouriteBloc>(context).add(
                       const FavouriteEvent.refresh(),
                     );
-                    Global.addWishlist();
                   }
                   return null;
                 },
@@ -109,11 +110,22 @@ class _FavouritePageState extends State<FavouritePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  contentPadding: EdgeInsets.zero,
-                  leading: Container(
-                    color: ConstColor.disable,
-                    width: width(context: context) * 0.2,
-                    height: double.infinity,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl: data[index].images[0],
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: ConstColor.black,
+                        highlightColor: ConstColor.grey,
+                        child: Container(
+                          height: height(context: context) * 0.52,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
                   ),
                   title: FxText(
                     text: data[index].name,

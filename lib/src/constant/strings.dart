@@ -83,11 +83,17 @@ class ConstString {
 
   /// Notification screen
   static const String notification = "Notification";
-  
 
   /// Order screen
   static const String ongoing = "Ongoing";
   static const String complated = "Complated";
+  static const String quantity = "Quantity";
+  static const String color = "Color";
+  static const String orderProceed = "Proceed to Checkout";
+  static const String total = "Total";
+  static const String item = "item";
+  static const String emptyTitle = "Your cart is empty";
+  static const String emptySubTitle = "Your have no items in your shopping cart. Let's go buy something!";
 
   /// logout screen
   static const String logoutTitle = 'Logout Confirmation';

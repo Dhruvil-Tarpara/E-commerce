@@ -17,7 +17,7 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
         if (event is _Started) {
           emit(const _Loding());
           allProduct = await FirebaseCloudHelper.firebaseCloudHelper
-              .getWishlist(userUid: Global.users.userId ?? "");
+              .getWishlist(userUid: Global.users.userId!);
           allProduct.sort((a, b) {
             if (a.newArrivals == true && b.newArrivals == false) {
               return -1;
@@ -28,22 +28,34 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
             }
           });
           if (allProduct.isNotEmpty) {
+            Global.wishlistController.value =
+                allProduct.map((e) => e.id).toList();
             emit(_Success(allProduct));
           } else {
             emit(const _Error(ConstString.errorMassage));
           }
         } else if (event is _Add) {
           await FirebaseCloudHelper.firebaseCloudHelper.addWishlist(
-              userUid: Global.users.userId ?? "",
-              product: event.product,
-              productId: event.product.id);
+            userUid: Global.users.userId!,
+            product: event.product,
+            productId: event.product.id,
+          );
+          allProduct = await FirebaseCloudHelper.firebaseCloudHelper
+              .getWishlist(userUid: Global.users.userId!);
+          Global.wishlistController.value =
+              allProduct.map((e) => e.id).toList();
         } else if (event is _Remove) {
           await FirebaseCloudHelper.firebaseCloudHelper.removeWishlist(
-              userUid: Global.users.userId ?? "",
-              productDocId: event.productDocId);
+            userUid: Global.users.userId!,
+            productDocId: event.productDocId,
+          );
+          allProduct = await FirebaseCloudHelper.firebaseCloudHelper
+              .getWishlist(userUid: Global.users.userId!);
+          Global.wishlistController.value =
+              allProduct.map((e) => e.id).toList();
         } else if (event is _Refresh) {
           allProduct = await FirebaseCloudHelper.firebaseCloudHelper
-              .getWishlist(userUid: Global.users.userId ?? "");
+              .getWishlist(userUid: Global.users.userId!);
           allProduct.sort((a, b) {
             if (a.newArrivals == true && b.newArrivals == false) {
               return -1;
@@ -54,6 +66,8 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
             }
           });
           if (allProduct.isNotEmpty) {
+            Global.wishlistController.value =
+                allProduct.map((e) => e.id).toList();
             emit(_Success(allProduct));
           } else {
             emit(const _Error(ConstString.errorMassage));

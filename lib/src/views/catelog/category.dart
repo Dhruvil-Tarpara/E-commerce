@@ -177,7 +177,6 @@ class _CategoryPageState extends State<CategoryPage> {
                                           );
                                       Global.wishlistController.value
                                           .add(data[index].id);
-                                      Global.addWishlist();
                                     } else {
                                       context.read<FavouriteBloc>().add(
                                             FavouriteEvent.add(
@@ -185,7 +184,6 @@ class _CategoryPageState extends State<CategoryPage> {
                                           );
                                       Global.wishlistController.value
                                           .remove(data[index].id);
-                                      Global.addWishlist();
                                     }
                                   },
                                   child: CircleAvatar(

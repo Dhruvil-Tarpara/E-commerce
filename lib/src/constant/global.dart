@@ -1,28 +1,25 @@
 import 'package:ecommerce/src/constant/strings.dart';
-import 'package:ecommerce/src/provider/database/cloud_storage.dart';
-import 'package:ecommerce/src/provider/model/product.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:flutter/material.dart';
 
 class Global {
+  /// landing screen
   static final ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);
   static final GlobalKey<ScaffoldState> scaffoldkey =
       GlobalKey<ScaffoldState>();
-
   static final ScrollController scrollController = ScrollController();
 
-  static addWishlist() async {
-    List<Product> data = await FirebaseCloudHelper.firebaseCloudHelper
-        .getWishlist(userUid: Global.users.userId ?? "");
-    wishlistController.value = data.map((e) => e.id).toList();
-  }
-
+  /// favourites screen
   static bool checkWishlist(String id) {
     return wishlistController.value.any((e) => e == id);
   }
 
   static final ValueNotifier<List<String>> wishlistController =
       ValueNotifier<List<String>>([]);
+
+  /// Mycart screen
+  static ValueNotifier<int> totalQuantity = ValueNotifier<int>(0);
+  static ValueNotifier<int> totalPrice = ValueNotifier<int>(0);
 
   static late Users users;
 
@@ -36,6 +33,7 @@ class Global {
   static const String noFavoritesData = "assets/images/no_favorites_data.jpg";
   static const String noData = "assets/images/no_data.jpg";
   static const String userImage = "assets/images/user.jpg";
+  static const String shoppingCart = "assets/images/shopping.jpg";
 
   /// Product Catagory..
   static const String bags = "bags";
