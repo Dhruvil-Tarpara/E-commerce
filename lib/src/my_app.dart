@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) =>
                 FavouriteBloc()..add(const FavouriteEvent.getData())),
         BlocProvider(
+            lazy: true,
             create: (context) => OrderBloc()..add(const OrderEvent.getData())),
       ],
       child: MaterialApp(

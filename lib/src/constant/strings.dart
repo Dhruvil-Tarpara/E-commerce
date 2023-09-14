@@ -79,7 +79,7 @@ class ConstString {
   static const String faqs = "FAQs";
   static const String privacy = "Privacy Policy";
   static const String helpCenter = "Help Center";
-  static const String logout = "Logout";
+  static const String logout = "Log Out";
 
   /// Notification screen
   static const String notification = "Notification";
@@ -93,7 +93,20 @@ class ConstString {
   static const String total = "Total";
   static const String item = "item";
   static const String emptyTitle = "Your cart is empty";
-  static const String emptySubTitle = "Your have no items in your shopping cart. Let's go buy something!";
+  static const String emptySubTitle =
+      "Your have no items in your shopping cart. Let's go buy something!";
+  static const String addedtobag = "Added to Bag";
+  static const String updateBag = "Bag has be updated";
+  static const String emptyBag = "Bag has be empty";
+
+  /// userprofile screen
+  static const String name = "Name";
+  static const String address = "Address";
+  static const String country = "Country";
+  static const String saveChanges = "Save Changes?";
+  static const String saveChangesTitle = "Do you want to save your changes?";
+  static const String discard = "Discard";
+  static const String save = "Save";
 
   /// logout screen
   static const String logoutTitle = 'Logout Confirmation';

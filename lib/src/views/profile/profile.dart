@@ -11,6 +11,7 @@ import 'package:ecommerce/src/views/home/logout_dialog.dart';
 import 'package:ecommerce/src/views/profile/help.dart';
 import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
+import 'package:ecommerce/src/views/profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -114,7 +115,9 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   ProfileOption(
-                    onTap: () {},
+                    onTap: () {
+                      context.push(const UserProfilePage());
+                    },
                     text: ConstString.personal,
                     icon: Icons.person_rounded,
                   ),

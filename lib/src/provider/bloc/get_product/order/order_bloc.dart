@@ -30,9 +30,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           emit(const _Error(ConstString.errorMassage));
         }
       } else if (event is _AddOrder) {
-        allOrder = await FirebaseCloudHelper.firebaseCloudHelper.getOrderList(
-          userUid: Global.users.userId!,
-        );
         if (allOrder
                 .any((element) => element.productId == event.order.productId) &&
             allOrder.any((element) => element.color == event.order.color) &&
@@ -62,6 +59,20 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             orderId: event.order.orderId,
           );
         }
+        allOrder = await FirebaseCloudHelper.firebaseCloudHelper.getOrderList(
+          userUid: Global.users.userId!,
+        );
+        Global.totalQuantity.value = 0;
+        Global.totalPrice.value = 0;
+        for (var element in allOrder) {
+          Global.totalQuantity.value += element.quantity;
+          Global.totalPrice.value += (element.price * element.quantity).toInt();
+        }
+        if (allOrder.isNotEmpty) {
+          emit(_Success(allOrder));
+        } else {
+          emit(const _Error(ConstString.errorMassage));
+        }
       } else if (event is _Remove) {
         await FirebaseCloudHelper.firebaseCloudHelper.removeOrderProduct(
           userUid: Global.users.userId!,
@@ -89,6 +100,20 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           filed: event.filed,
           value: event.value,
         );
+        allOrder = await FirebaseCloudHelper.firebaseCloudHelper.getOrderList(
+          userUid: Global.users.userId!,
+        );
+        Global.totalQuantity.value = 0;
+        Global.totalPrice.value = 0;
+        for (var element in allOrder) {
+          Global.totalQuantity.value += element.quantity;
+          Global.totalPrice.value += (element.price * element.quantity).toInt();
+        }
+        if (allOrder.isNotEmpty) {
+          emit(_Success(allOrder));
+        } else {
+          emit(const _Error(ConstString.errorMassage));
+        }
       }
     });
   }

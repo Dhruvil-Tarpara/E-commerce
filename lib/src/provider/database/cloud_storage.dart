@@ -38,6 +38,28 @@ class FirebaseCloudHelper {
         .set(user.toJson());
   }
 
+  /// Get user details in firebase
+  Future<Users> getUser({
+    required String userUid,
+  }) async {
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await firebaseFirestore.collection(_userCollection).doc(userUid).get();
+    Map<String, dynamic>? data = snapshot.data();
+    return Users.fromJson(data!);
+  }
+
+  /// Update userdata
+  Future<void> updateUser({
+    required String userUid,
+    required String filed,
+    required dynamic value,
+  }) async {
+    await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .update({filed: value});
+  }
+
   /// Create wishlist on user account in firebase
   Future<List<Product>> getWishlist({required String userUid}) async {
     QuerySnapshot<Object?> snapshot = await firebaseFirestore

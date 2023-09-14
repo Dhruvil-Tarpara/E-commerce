@@ -7,6 +7,7 @@ import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc
 import 'package:ecommerce/src/provider/bloc/get_product/new_arrivals/arrivals_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/order/order_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:ecommerce/src/utils/bottom_bar.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
@@ -69,6 +70,7 @@ class _LandingPageState extends State<LandingPage>
     context.read<ArrivalsBloc>().add(const ArrivalsEvent.getData());
     context.read<FavouriteBloc>().add(const FavouriteEvent.getData());
     context.read<OrderBloc>().add(const OrderEvent.getData());
+    context.read<LoginBloc>().add(const LoginEvent.getUser());
   }
 
   @override

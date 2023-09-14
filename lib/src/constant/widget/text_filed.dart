@@ -15,6 +15,11 @@ class FxTextFormField extends StatelessWidget {
   final void Function(String)? onChanged;
   final void Function()? onTap;
   final bool? readOnly;
+  final EdgeInsetsGeometry? contentPadding;
+  final bool? isDense;
+  final BoxConstraints? suffixIconConstraints;
+  final BoxConstraints? prefixIconConstraints;
+  final FocusNode? focusNode;
 
   const FxTextFormField({
     super.key,
@@ -30,12 +35,18 @@ class FxTextFormField extends StatelessWidget {
     this.onChanged,
     this.readOnly,
     this.prefix,
-    this.onTap, this.textInputAction,
+    this.onTap,
+    this.textInputAction,
+    this.contentPadding,
+    this.isDense,
+    this.suffixIconConstraints,
+    this.prefixIconConstraints, this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       readOnly: readOnly ?? false,
       onChanged: onChanged,
       onTap: onTap,
@@ -44,9 +55,13 @@ class FxTextFormField extends StatelessWidget {
       obscureText: obscureText ?? false,
       controller: controller,
       keyboardType: textInputType,
-   textInputAction: textInputAction,
+      textInputAction: textInputAction,
       validator: validator,
       decoration: InputDecoration(
+        isDense: isDense,
+        contentPadding: contentPadding,
+        prefixIconConstraints: prefixIconConstraints,
+        suffixIconConstraints: suffixIconConstraints,
         prefixIcon: prefix,
         hintText: hintText,
         label: labelText,

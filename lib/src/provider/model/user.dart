@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Users usersFromJson(String str) => Users.fromJson(json.decode(str));
@@ -13,8 +14,12 @@ class Users {
   final String? url;
   final String? email;
   final bool? emailVerified;
+  final String? address;
+  final Country? country;
 
   Users({
+    this.address,
+    this.country,
     this.userId,
     this.profileName,
     this.userName,
@@ -29,8 +34,10 @@ class Users {
       email: doc.email,
       userName: doc.displayName,
       url: doc.photoURL,
-      profileName: '',
+      profileName: doc.displayName,
       emailVerified: doc.emailVerified,
+      address: null,
+      country: null,
     );
   }
   factory Users.fromJson(Map<String, dynamic> json) => Users(
@@ -40,6 +47,8 @@ class Users {
         url: json["url"],
         email: json["email"],
         emailVerified: json["emailVerified"] ?? false,
+        address: json["address"],
+        country: json["country"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,5 +58,7 @@ class Users {
         "url": url,
         "email": email,
         "emailVerified": emailVerified,
+        "address": address,
+        "country": country,
       };
 }

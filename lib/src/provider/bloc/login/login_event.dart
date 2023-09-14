@@ -13,4 +13,5 @@ class LoginEvent with _$LoginEvent {
   }) = _SignUp;
   const factory LoginEvent.googleLogin() = _GoogleLogin;
   const factory LoginEvent.logOut() = _LogOut;
+  const factory LoginEvent.getUser() = _GetUser;
 }

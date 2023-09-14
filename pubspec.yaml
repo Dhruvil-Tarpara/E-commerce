@@ -47,6 +47,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_image_slideshow: ^0.1.6
   firebase_messaging: ^14.6.7
+  country_picker: ^2.0.21
 
 dev_dependencies:
   flutter_test:
