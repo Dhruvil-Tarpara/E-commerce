@@ -1,4 +1,5 @@
 import 'package:ecommerce/src/constant/strings.dart';
+import 'package:ecommerce/src/provider/model/offer.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +21,10 @@ class Global {
   /// Mycart screen
   static ValueNotifier<int> totalQuantity = ValueNotifier<int>(0);
   static ValueNotifier<int> totalPrice = ValueNotifier<int>(0);
+  static ValueNotifier<int> totalDiscountPrice = ValueNotifier<int>(0);
 
   static late Users users;
+  static Offers? offers;
 
   static const String splashImage = "assets/images/splash.png";
   static const String logoImage = "assets/images/logo/logo.jpg";

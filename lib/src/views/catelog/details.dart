@@ -62,30 +62,32 @@ class _DetailsPageState extends State<DetailsPage> {
       child: BlocListener<OrderBloc, OrderState>(
         listener: (context, state) {
           state.whenOrNull(
-            success: (data) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: FxText(
-                    textAlign: TextAlign.center,
-                    text: ConstString.addedtobag,
-                    size: 14,
-                    color: ConstColor.white,
-                    fontWeight: FontWeight.w500,
+            success: (data, isadd) {
+              if (isadd) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: FxText(
+                      textAlign: TextAlign.center,
+                      text: ConstString.addedtobag,
+                      size: 14,
+                      color: ConstColor.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    backgroundColor: ConstColor.black,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    width: 160,
                   ),
-                  backgroundColor: ConstColor.black,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  width: 160,
-                ),
-              );
-              Future.delayed(
-                const Duration(milliseconds: 1000),
-                () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                },
-              );
+                );
+                Future.delayed(
+                  const Duration(milliseconds: 1000),
+                  () {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  },
+                );
+              }
             },
           );
         },

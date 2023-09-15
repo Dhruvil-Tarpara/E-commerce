@@ -7,6 +7,7 @@ import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/new_arrivals/arrivals_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/offers/offers_bloc.dart';
 import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
@@ -14,6 +15,7 @@ import 'package:ecommerce/src/views/catelog/catalog.dart';
 import 'package:ecommerce/src/views/catelog/category.dart';
 import 'package:ecommerce/src/views/catelog/details.dart';
 import 'package:ecommerce/src/views/home/search.dart';
+import 'package:ecommerce/src/views/profile/offer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -152,65 +154,118 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: height(context: context) * 0.02,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FxText(
+                      text: ConstString.offer,
+                      size: 20,
+                      fontWeight: FontWeight.w700,
+                      color: ConstColor.black,
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {
+                        context.push(const OfferPage(isCart: false,));
+                      },
+                      child: FxText(
+                        text: ConstString.viewAll,
+                        color: ConstColor.grey,
+                        size: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
-                height: height(context: context) * 0.22,
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 2,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      height: height(context: context) * 0.22,
-                      width: width(context: context) * 0.72,
-                      decoration: BoxDecoration(
-                        color: ConstColor.disable,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          FxText(
-                            text: "50% Off",
-                            size: 22,
-                            fontWeight: FontWeight.w700,
-                            color: ConstColor.black,
+                height: height(context: context) * 0.01,
+              ),
+              BlocBuilder<OffersBloc, OffersState>(
+                builder: (context, state) => state.when(
+                  initial: () => const SizedBox.shrink(),
+                  loding: () => Center(
+                    child: CircularProgressIndicator.adaptive(
+                      backgroundColor: ConstColor.black,
+                    ),
+                  ),
+                  success: (data) => SizedBox(
+                    height: height(context: context) * 0.22,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 2,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          height: height(context: context) * 0.22,
+                          width: width(context: context) * 0.72,
+                          decoration: BoxDecoration(
+                            color: ConstColor.disable,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          FxText(
-                            text: "On everything today",
-                            size: 18,
-                            fontWeight: FontWeight.w400,
-                            color: ConstColor.black,
-                          ),
-                          FxText(
-                            text: ConstString.withCode,
-                            size: 14,
-                            color: ConstColor.grey,
-                          ),
-                          FxButton(
-                            onPressed: () {},
-                            backgroundColor: ConstColor.black,
-                            sideColor: ConstColor.black,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                                vertical: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              FxText(
+                                text: data[index].title!,
+                                size: 22,
+                                fontWeight: FontWeight.w700,
+                                color: ConstColor.black,
                               ),
-                              child: FxText(
-                                text: ConstString.banerButton,
-                                color: ConstColor.white,
+                              FxText(
+                                text: data[index].subtitle!,
+                                size: 18,
+                                fontWeight: FontWeight.w400,
+                                color: ConstColor.black,
+                              ),
+                              FxText(
+                                text:
+                                    "${ConstString.withCode} ${data[index].code}",
                                 size: 14,
-                                fontWeight: FontWeight.w500,
+                                color: ConstColor.grey,
                               ),
-                            ),
+                              FxButton(
+                                onPressed: () {
+                                  context.push(
+                                    const CatalogPage(),
+                                  );
+                                },
+                                backgroundColor: ConstColor.black,
+                                sideColor: ConstColor.black,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                    vertical: 2,
+                                  ),
+                                  child: FxText(
+                                    text: ConstString.banerButton,
+                                    color: ConstColor.white,
+                                    size: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
+                    ),
+                  ),
+                  error: (massage) => Center(
+                    child: Image.asset(
+                      Global.noFavoritesData,
                     ),
                   ),
                 ),

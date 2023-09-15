@@ -3,18 +3,19 @@ import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/favourite/favourite_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
 import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/views/catelog/favourite.dart';
 import 'package:ecommerce/src/views/home/logout_dialog.dart';
 import 'package:ecommerce/src/views/profile/help.dart';
+import 'package:ecommerce/src/views/profile/offer.dart';
 import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
 import 'package:ecommerce/src/views/profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -116,6 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   ProfileOption(
                     onTap: () {
+                      context.read<LoginBloc>().add(const LoginEvent.getUser());
                       context.push(const UserProfilePage());
                     },
                     text: ConstString.personal,
@@ -149,11 +151,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     icon: Icons.credit_card_rounded,
                   ),
                   ProfileOption(
-                    onTap: () async {
-                      await openAppSettings();
+                    onTap: () {
+                      context.push(const OfferPage(isCart: false,));
                     },
-                    text: ConstString.settings,
-                    icon: Icons.settings,
+                    text: ConstString.discounts,
+                    icon: Icons.local_offer_rounded,
                   ),
                 ],
               ),

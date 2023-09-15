@@ -4,7 +4,6 @@ import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/constant/widget/text_filed.dart';
-import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
 import 'package:ecommerce/src/provider/database/cloud_storage.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
@@ -15,7 +14,6 @@ import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
 import 'package:ecommerce/src/views/profile/save_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -32,57 +30,68 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   final ValueNotifier<bool> _editName = ValueNotifier<bool>(true);
   final ValueNotifier<bool> _editAddress = ValueNotifier<bool>(true);
-  final ValueNotifier<Country?> _initCountry = ValueNotifier<Country?>(null);
+  final ValueNotifier<Country> _initCountry =
+      ValueNotifier<Country>(Country.worldWide);
 
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _addressFocus = FocusNode();
-
+  Map<String, dynamic> country =
+      Global.users.country ?? Country.worldWide.toJson();
   @override
   void initState() {
+    super.initState();
     _userName.text = Global.users.userName!;
     _email.text = Global.users.email!;
     _address.text = Global.users.address ?? "Add your address";
-    _initCountry.value = Global.users.country;
-    super.initState();
+    _initCountry.value = Country.from(json: country);
   }
 
-  page() {
-    if (_address.text != Global.users.address! ||
-        _userName.text != Global.users.userName!) {
-      showDialog(
+  pageClose() {
+    if (_address.text != Global.users.address ||
+        _userName.text != Global.users.userName ||
+        _initCountry.value != Country.from(json: country)) {
+      return showDialog(
         context: context,
         builder: (context) => const SaveDialog(),
       ).then(
         (confirmed) async {
           if (confirmed == true) {
-            FirebaseCloudHelper.firebaseCloudHelper.addUser(
+            await FirebaseCloudHelper.firebaseCloudHelper.addUser(
               userUid: Global.users.userId!,
               user: Users(
                 userId: Global.users.userId!,
-                userName: Global.users.userName,
+                userName: _userName.text,
                 email: Global.users.email,
-                profileName: Global.users.profileName,
+                profileName: _userName.text,
                 emailVerified: Global.users.emailVerified,
                 url: Global.users.url,
-                address: Global.users.address,
-                country: Global.users.country,
+                address: _address.text,
+                country: _initCountry.value.toJson(),
               ),
             );
-            context.read<LoginBloc>().add(const LoginEvent.getUser());
           }
         },
-      );
-      return true;
+      ).then((value) => true);
     } else {
-      return context.pop();
+      return true;
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _address.dispose();
+    _editName.dispose();
+    _userName.dispose();
+    _addressFocus.dispose();
+    _emailFocus.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return page();
+        return pageClose();
       },
       child: Scaffold(
         backgroundColor: ConstColor.white,
@@ -308,27 +317,28 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               color: ConstColor.disable,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: (_initCountry.value != null)
-                                ? Row(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: ConstColor.white,
-                                        child: FxText(text: value!.flagEmoji),
-                                      ),
-                                      SizedBox(
-                                        width: width(context: context) * 0.04,
-                                      ),
-                                      FxText(
-                                        text: value.displayNameNoCountryCode,
-                                        size: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: ConstColor.black,
-                                      ),
-                                    ],
-                                  )
-                                : const FxText(
-                                    text: "Select your country",
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: ConstColor.white,
+                                  child: FxText(text: value.flagEmoji),
+                                ),
+                                SizedBox(
+                                  width: width(context: context) * 0.04,
+                                ),
+                                SizedBox(
+                                  width: width(context: context) * 0.3,
+                                  child: FxText(
+                                    maxLines: 1,
+                                    textOverflow: TextOverflow.ellipsis,
+                                    text: value.displayNameNoCountryCode,
+                                    size: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: ConstColor.black,
                                   ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

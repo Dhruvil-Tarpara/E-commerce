@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce/src/provider/model/offer.dart';
 import 'package:ecommerce/src/provider/model/order.dart';
 import 'package:ecommerce/src/provider/model/product.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
@@ -14,7 +15,7 @@ class FirebaseCloudHelper {
   final String _userCollection = "All_Users";
   final String _whishlistCollection = "whishlist_product";
   final String _orderCollection = "All_order";
-  //final String _offerCollection = "All_Offers";
+  final String _offerCollection = "All_Offers";
 
   /// creaet collection
   createCollection() {
@@ -147,6 +148,21 @@ class FirebaseCloudHelper {
         .collection(_orderCollection)
         .doc(orderId)
         .update({filed: value});
+  }
+
+  /// Add offer in firebase
+  Future<void> addOffer({
+    required Offers offers,
+ 
+  }) async {
+    await firebaseFirestore.collection(_offerCollection).doc(offers.id).set(offers.toJson());
+  }
+
+  /// Get offerList in firebase
+  Future<List<Offers>> getOfferList() async {
+    QuerySnapshot<Object?> snapshot =
+        await firebaseFirestore.collection(_offerCollection).get();
+    return snapshot.docs.map((e) => Offers.stream(e)).toList();
   }
 
   /// Upload movie image and create folder using userId

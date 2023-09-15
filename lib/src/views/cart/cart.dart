@@ -7,8 +7,11 @@ import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/order/order_bloc.dart';
 import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
+import 'package:ecommerce/src/utils/hive/hive.dart';
+import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
 import 'package:ecommerce/src/views/catelog/delete_dialog.dart';
+import 'package:ecommerce/src/views/profile/offer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -21,9 +24,14 @@ class MyCartPage extends StatefulWidget {
 }
 
 class _MyCartPageState extends State<MyCartPage> {
+  final TextEditingController _code = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    if (Global.offers != null) {
+      _code.text = Global.offers!.code ?? "";
+    }
   }
 
   @override
@@ -31,30 +39,32 @@ class _MyCartPageState extends State<MyCartPage> {
     return BlocListener<OrderBloc, OrderState>(
       listener: (context, state) {
         state.whenOrNull(
-          success: (data) {
-            Future.delayed(
-              const Duration(milliseconds: 0),
-              () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              },
-            );
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: FxText(
-                  textAlign: TextAlign.center,
-                  text: ConstString.updateBag,
-                  size: 14,
-                  color: ConstColor.white,
-                  fontWeight: FontWeight.w500,
+          success: (data, isadd) {
+            if (!isadd) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: FxText(
+                    textAlign: TextAlign.center,
+                    text: ConstString.updateBag,
+                    size: 14,
+                    color: ConstColor.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  backgroundColor: ConstColor.black,
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  width: 200,
                 ),
-                backgroundColor: ConstColor.black,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                width: 200,
-              ),
-            );
+              );
+              Future.delayed(
+                const Duration(milliseconds: 800),
+                () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                },
+              );
+            }
           },
           error: (massage) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -145,7 +155,7 @@ class _MyCartPageState extends State<MyCartPage> {
                         backgroundColor: ConstColor.black,
                       ),
                     ),
-                    success: (data) => ListView.builder(
+                    success: (data, isadd) => ListView.builder(
                       shrinkWrap: true,
                       itemCount: data.length,
                       physics: const NeverScrollableScrollPhysics(),
@@ -155,8 +165,9 @@ class _MyCartPageState extends State<MyCartPage> {
                         background: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                              color: ConstColor.black,
-                              borderRadius: BorderRadius.circular(10)),
+                            color: ConstColor.black,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           alignment: Alignment.centerRight,
                           child: const Icon(Icons.delete, color: Colors.white),
                         ),
@@ -210,7 +221,10 @@ class _MyCartPageState extends State<MyCartPage> {
                               ),
                             ),
                             title: FxText(
-                              text: data[index].title,
+                              maxLines: 1,
+                              textOverflow: TextOverflow.ellipsis,
+                              text:
+                                  data[index].title.toLowerCase().capitalize(),
                               color: ConstColor.black,
                               size: 14,
                               fontWeight: FontWeight.w500,
@@ -221,7 +235,10 @@ class _MyCartPageState extends State<MyCartPage> {
                               children: [
                                 FxText(
                                   textOverflow: TextOverflow.ellipsis,
-                                  text: data[index].subtitle,
+                                  text: data[index]
+                                      .subtitle
+                                      .toLowerCase()
+                                      .capitalize(),
                                   color: ConstColor.grey,
                                   size: 12,
                                   fontWeight: FontWeight.w400,
@@ -268,13 +285,15 @@ class _MyCartPageState extends State<MyCartPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  height: height(context: context) * 0.03,
+                                  height: 30,
                                   decoration: BoxDecoration(
                                     color: ConstColor.disable,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
                                         onPressed: () {
@@ -394,6 +413,95 @@ class _MyCartPageState extends State<MyCartPage> {
                     },
                   ),
                 ),
+                SizedBox(
+                  height: height(context: context) * 0.02,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () async {
+                        String? result = await context.push(
+                          const OfferPage(isCart: true),
+                        );
+                        if (result != null && result.isNotEmpty) {
+                          _code.text = result;
+                        }
+                      },
+                      child: FxText(
+                        text: ConstString.offer,
+                        color: ConstColor.black,
+                        size: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {
+                        _code.clear();
+                        HiveHelper.hiveHelper.remove(HiveKeys.offer);
+                        Global.totalDiscountPrice.value = 0;
+                      },
+                      child: FxText(
+                        text: ConstString.clearcode,
+                        color: ConstColor.blue,
+                        size: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: ConstColor.disable,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _code,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: ConstString.promoCode,
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_code.text.isNotEmpty) {
+                            context
+                                .read<OrderBloc>()
+                                .add(OrderEvent.applyOffers(_code.text));
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(4),
+                          backgroundColor: ConstColor.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: FxText(
+                          text: ConstString.apply,
+                          color: ConstColor.white,
+                          size: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -403,6 +511,35 @@ class _MyCartPageState extends State<MyCartPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              SizedBox(
+                height: height(context: context) * 0.01,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ValueListenableBuilder(
+                    valueListenable: Global.totalQuantity,
+                    builder: (context, value, child) => FxText(
+                      text: ConstString.offer,
+                      size: 16,
+                      color: ConstColor.grey,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: Global.totalDiscountPrice,
+                    builder: (context, value, _) => FxText(
+                      text: "\$ $value",
+                      size: 20,
+                      color: ConstColor.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: height(context: context) * 0.01,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

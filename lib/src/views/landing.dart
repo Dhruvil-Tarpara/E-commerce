@@ -8,6 +8,7 @@ import 'package:ecommerce/src/provider/bloc/get_product/new_arrivals/arrivals_bl
 import 'package:ecommerce/src/provider/bloc/get_product/order/order_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
+import 'package:ecommerce/src/provider/model/offer.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:ecommerce/src/utils/bottom_bar.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
@@ -66,6 +67,7 @@ class _LandingPageState extends State<LandingPage>
   void initState() {
     super.initState();
     Global.users = Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
+    Global.offers = Offers.fromJson(HiveHelper.hiveHelper.get(HiveKeys.offer) ?? {});
     context.read<ProductBloc>().add(const ProductEvent.getProduct());
     context.read<ArrivalsBloc>().add(const ArrivalsEvent.getData());
     context.read<FavouriteBloc>().add(const FavouriteEvent.getData());
@@ -146,8 +148,21 @@ class _LandingPageState extends State<LandingPage>
             );
           },
         ),
-//         floatingActionButton: FloatingActionButton(
-//           onPressed: () {
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     FirebaseCloudHelper.firebaseCloudHelper.addOffer(
+        //       offers: Offers(
+        //         id: idGenerator(),
+        //         title: "Electronics Bonanza",
+        //         subtitle: "Get 30% Off on Huge Discounts on Gadgets",
+        //         code: "GADGET20",
+        //         discountPercentage: 30,
+        //         backgroundImageUrl: "",
+        //         expirationDate: DateTime.now(),
+        //         stock: 10,
+        //         category: Global.shoese,
+        //       ),
+        //     );
 //             FirebaseCloudHelper.firebaseCloudHelper.createCollection();
 //             FirebaseCloudHelper.firebaseCloudHelper.insertData(
 //               product: Product(
@@ -176,7 +191,7 @@ class _LandingPageState extends State<LandingPage>
 //                   ).toJson(),
 //                 },
 //               ),
-//             );
+//              );
 //           },
 //         ),
       ),

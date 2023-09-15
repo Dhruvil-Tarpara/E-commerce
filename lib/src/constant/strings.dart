@@ -58,6 +58,7 @@ class ConstString {
   static const String newArrivals = "New Arrivals";
   static const String viewAll = "View All";
   static const String categories = "Categories";
+  static const String offer = "Discounts Offer";
 
   /// Details screen
   static const String addtocart = "Add to cart";
@@ -66,8 +67,6 @@ class ConstString {
   static const String size = "Size";
   static const String review = " Review";
   static const String instok = "Avaliable in stok";
-  static const String producttitle = "Product titlehjhjshdhsadjhagsdjgashg";
-  static const String productstitle = "Product stitledsdasdasdsadasdadsdsdsd";
 
   /// Profile screen
   static const String personal = "Personal Details";
@@ -75,6 +74,7 @@ class ConstString {
   static const String myFavourites = "My Favourites";
   static const String myAddress = "Shipping Address";
   static const String myCard = "My Card";
+  static const String discounts = "Discounts";
   static const String settings = "Settings";
   static const String faqs = "FAQs";
   static const String privacy = "Privacy Policy";
@@ -98,6 +98,9 @@ class ConstString {
   static const String addedtobag = "Added to Bag";
   static const String updateBag = "Bag has be updated";
   static const String emptyBag = "Bag has be empty";
+  static const String apply = "Apply";
+  static const String promoCode = "Promo Code";
+  static const String clearcode = "Clear promo code";
 
   /// userprofile screen
   static const String name = "Name";

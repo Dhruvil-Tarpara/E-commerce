@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Users usersFromJson(String str) => Users.fromJson(json.decode(str));
@@ -15,7 +13,7 @@ class Users {
   final String? email;
   final bool? emailVerified;
   final String? address;
-  final Country? country;
+  final Map<String, dynamic>? country;
 
   Users({
     this.address,
