@@ -48,6 +48,7 @@ dependencies:
   flutter_image_slideshow: ^0.1.6
   firebase_messaging: ^14.6.7
   country_picker: ^2.0.21
+  flutter_credit_card: ^3.0.7
 
 dev_dependencies:
   flutter_test:

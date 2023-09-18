@@ -21,6 +21,12 @@ class OfferPage extends StatefulWidget {
 
 class _OfferPageState extends State<OfferPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<OffersBloc>().add(const OffersEvent.getOffers());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ConstColor.white,

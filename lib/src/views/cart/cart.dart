@@ -5,11 +5,13 @@ import 'package:ecommerce/src/constant/strings.dart';
 import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/order/order_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/offers/offers_bloc.dart';
 import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
 import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
+import 'package:ecommerce/src/views/card_payment/custome_card_payment.dart';
 import 'package:ecommerce/src/views/catelog/delete_dialog.dart';
 import 'package:ecommerce/src/views/profile/offer.dart';
 import 'package:flutter/material.dart';
@@ -36,57 +38,61 @@ class _MyCartPageState extends State<MyCartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<OrderBloc, OrderState>(
-      listener: (context, state) {
-        state.whenOrNull(
-          success: (data, isadd) {
-            if (!isadd) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: FxText(
-                    textAlign: TextAlign.center,
-                    text: ConstString.updateBag,
-                    size: 14,
-                    color: ConstColor.white,
-                    fontWeight: FontWeight.w500,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<OrderBloc, OrderState>(
+          listener: (context, state) {
+            state.whenOrNull(
+              success: (data, isadd) {
+                if (!isadd) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: FxText(
+                        textAlign: TextAlign.center,
+                        text: ConstString.updateBag,
+                        size: 14,
+                        color: ConstColor.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      backgroundColor: ConstColor.black,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      width: 200,
+                    ),
+                  );
+                  Future.delayed(
+                    const Duration(milliseconds: 800),
+                    () {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    },
+                  );
+                }
+              },
+              error: (massage) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: FxText(
+                      textAlign: TextAlign.center,
+                      text: ConstString.emptyBag,
+                      size: 14,
+                      color: ConstColor.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    backgroundColor: ConstColor.black,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    width: 200,
                   ),
-                  backgroundColor: ConstColor.black,
-                  behavior: SnackBarBehavior.floating,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  width: 200,
-                ),
-              );
-              Future.delayed(
-                const Duration(milliseconds: 800),
-                () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                },
-              );
-            }
-          },
-          error: (massage) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: FxText(
-                  textAlign: TextAlign.center,
-                  text: ConstString.emptyBag,
-                  size: 14,
-                  color: ConstColor.white,
-                  fontWeight: FontWeight.w500,
-                ),
-                backgroundColor: ConstColor.black,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                width: 200,
-              ),
+                );
+              },
             );
           },
-        );
-      },
+        ),
+      ],
       child: Scaffold(
         backgroundColor: ConstColor.white,
         body: SafeArea(
@@ -374,6 +380,7 @@ class _MyCartPageState extends State<MyCartPage> {
                           children: [
                             Image.asset(
                               Global.shoppingCart,
+                              height: height(context: context) * 0.3,
                             ),
                             FxText(
                               text: ConstString.emptyTitle,
@@ -398,11 +405,11 @@ class _MyCartPageState extends State<MyCartPage> {
                               backgroundColor: ConstColor.black,
                               sideColor: ConstColor.grey,
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(12),
                                 child: FxText(
                                   text: ConstString.shopping,
                                   color: ConstColor.white,
-                                  size: 18,
+                                  size: 16,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -481,8 +488,8 @@ class _MyCartPageState extends State<MyCartPage> {
                         onPressed: () {
                           if (_code.text.isNotEmpty) {
                             context
-                                .read<OrderBloc>()
-                                .add(OrderEvent.applyOffers(_code.text));
+                                .read<OffersBloc>()
+                                .add(OffersEvent.applyOffers(_code.text));
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -575,7 +582,9 @@ class _MyCartPageState extends State<MyCartPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push(const CardPayment());
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0),
                     child: Row(

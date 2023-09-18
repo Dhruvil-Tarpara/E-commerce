@@ -1,6 +1,3 @@
-import 'package:ecommerce/src/provider/model/offer.dart';
-import 'package:ecommerce/src/utils/hive/hive.dart';
-import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecommerce/src/constant/global.dart';
 import 'package:ecommerce/src/constant/strings.dart';
@@ -52,16 +49,17 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             await FirebaseCloudHelper.firebaseCloudHelper.addOrderProduct(
               userUid: Global.users.userId!,
               order: OrderProduct(
-                  orderId: data.orderId,
-                  productId: data.productId,
-                  title: data.title,
-                  subtitle: data.subtitle,
-                  image: data.image,
-                  price: data.price,
-                  color: data.color,
-                  size: data.size,
-                  quantity: event.order.quantity + data.quantity,
-                  status: data.status),
+                orderId: data.orderId,
+                productId: data.productId,
+                title: data.title,
+                subtitle: data.subtitle,
+                image: data.image,
+                price: data.price,
+                color: data.color,
+                size: data.size,
+                quantity: event.order.quantity + data.quantity,
+                status: data.status,
+              ),
               orderId: data.orderId,
             );
           } else {
@@ -156,18 +154,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             emit(_Success(allOrder, false));
           } else {
             emit(const _Error(ConstString.errorMassage));
-          }
-        } else if (event is _ApplyOffers) {
-          List<Offers> allOffers =
-              await FirebaseCloudHelper.firebaseCloudHelper.getOfferList();
-          Offers data =
-              allOffers.firstWhere((element) => element.code == event.code);
-          await HiveHelper.hiveHelper.set(HiveKeys.offer, data.toJson());
-          Global.offers =
-              Offers.fromJson(HiveHelper.hiveHelper.get(HiveKeys.offer));
-          if (Global.offers != null) {
-            Global.totalDiscountPrice.value =
-                (Global.totalPrice.value * data.discountPercentage!) ~/ 100;
           }
         } else {
           Global.totalDiscountPrice.value = 0;

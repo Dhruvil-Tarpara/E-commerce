@@ -16,6 +16,7 @@ import 'package:ecommerce/src/views/catelog/category.dart';
 import 'package:ecommerce/src/views/catelog/details.dart';
 import 'package:ecommerce/src/views/home/search.dart';
 import 'package:ecommerce/src/views/profile/offer.dart';
+import 'package:ecommerce/src/views/profile/user_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +61,9 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              context.push(const UserProfilePage());
+            },
             child: CircleAvatar(
               backgroundColor: ConstColor.disable,
               backgroundImage: const AssetImage(Global.userImage),
@@ -172,7 +175,9 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.zero,
                       ),
                       onPressed: () {
-                        context.push(const OfferPage(isCart: false,));
+                        context.push(const OfferPage(
+                          isCart: false,
+                        ));
                       },
                       child: FxText(
                         text: ConstString.viewAll,

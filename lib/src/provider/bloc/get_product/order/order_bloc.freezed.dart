@@ -24,7 +24,6 @@ mixin _$OrderEvent {
     required TResult Function() refresh,
     required TResult Function(String filed, dynamic value, String orderId)
         update,
-    required TResult Function(String code) applyOffers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,7 +33,6 @@ mixin _$OrderEvent {
     TResult? Function(OrderProduct order)? addOrder,
     TResult? Function()? refresh,
     TResult? Function(String filed, dynamic value, String orderId)? update,
-    TResult? Function(String code)? applyOffers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,7 +42,6 @@ mixin _$OrderEvent {
     TResult Function(OrderProduct order)? addOrder,
     TResult Function()? refresh,
     TResult Function(String filed, dynamic value, String orderId)? update,
-    TResult Function(String code)? applyOffers,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,7 +52,6 @@ mixin _$OrderEvent {
     required TResult Function(_AddOrder value) addOrder,
     required TResult Function(_Refresh value) refresh,
     required TResult Function(_Update value) update,
-    required TResult Function(_ApplyOffers value) applyOffers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,7 +61,6 @@ mixin _$OrderEvent {
     TResult? Function(_AddOrder value)? addOrder,
     TResult? Function(_Refresh value)? refresh,
     TResult? Function(_Update value)? update,
-    TResult? Function(_ApplyOffers value)? applyOffers,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,7 +70,6 @@ mixin _$OrderEvent {
     TResult Function(_AddOrder value)? addOrder,
     TResult Function(_Refresh value)? refresh,
     TResult Function(_Update value)? update,
-    TResult Function(_ApplyOffers value)? applyOffers,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -142,7 +136,6 @@ class _$_Started implements _Started {
     required TResult Function() refresh,
     required TResult Function(String filed, dynamic value, String orderId)
         update,
-    required TResult Function(String code) applyOffers,
   }) {
     return getData();
   }
@@ -155,7 +148,6 @@ class _$_Started implements _Started {
     TResult? Function(OrderProduct order)? addOrder,
     TResult? Function()? refresh,
     TResult? Function(String filed, dynamic value, String orderId)? update,
-    TResult? Function(String code)? applyOffers,
   }) {
     return getData?.call();
   }
@@ -168,7 +160,6 @@ class _$_Started implements _Started {
     TResult Function(OrderProduct order)? addOrder,
     TResult Function()? refresh,
     TResult Function(String filed, dynamic value, String orderId)? update,
-    TResult Function(String code)? applyOffers,
     required TResult orElse(),
   }) {
     if (getData != null) {
@@ -185,7 +176,6 @@ class _$_Started implements _Started {
     required TResult Function(_AddOrder value) addOrder,
     required TResult Function(_Refresh value) refresh,
     required TResult Function(_Update value) update,
-    required TResult Function(_ApplyOffers value) applyOffers,
   }) {
     return getData(this);
   }
@@ -198,7 +188,6 @@ class _$_Started implements _Started {
     TResult? Function(_AddOrder value)? addOrder,
     TResult? Function(_Refresh value)? refresh,
     TResult? Function(_Update value)? update,
-    TResult? Function(_ApplyOffers value)? applyOffers,
   }) {
     return getData?.call(this);
   }
@@ -211,7 +200,6 @@ class _$_Started implements _Started {
     TResult Function(_AddOrder value)? addOrder,
     TResult Function(_Refresh value)? refresh,
     TResult Function(_Update value)? update,
-    TResult Function(_ApplyOffers value)? applyOffers,
     required TResult orElse(),
   }) {
     if (getData != null) {
@@ -293,7 +281,6 @@ class _$_Remove implements _Remove {
     required TResult Function() refresh,
     required TResult Function(String filed, dynamic value, String orderId)
         update,
-    required TResult Function(String code) applyOffers,
   }) {
     return remove(orderId);
   }
@@ -306,7 +293,6 @@ class _$_Remove implements _Remove {
     TResult? Function(OrderProduct order)? addOrder,
     TResult? Function()? refresh,
     TResult? Function(String filed, dynamic value, String orderId)? update,
-    TResult? Function(String code)? applyOffers,
   }) {
     return remove?.call(orderId);
   }
@@ -319,7 +305,6 @@ class _$_Remove implements _Remove {
     TResult Function(OrderProduct order)? addOrder,
     TResult Function()? refresh,
     TResult Function(String filed, dynamic value, String orderId)? update,
-    TResult Function(String code)? applyOffers,
     required TResult orElse(),
   }) {
     if (remove != null) {
@@ -336,7 +321,6 @@ class _$_Remove implements _Remove {
     required TResult Function(_AddOrder value) addOrder,
     required TResult Function(_Refresh value) refresh,
     required TResult Function(_Update value) update,
-    required TResult Function(_ApplyOffers value) applyOffers,
   }) {
     return remove(this);
   }
@@ -349,7 +333,6 @@ class _$_Remove implements _Remove {
     TResult? Function(_AddOrder value)? addOrder,
     TResult? Function(_Refresh value)? refresh,
     TResult? Function(_Update value)? update,
-    TResult? Function(_ApplyOffers value)? applyOffers,
   }) {
     return remove?.call(this);
   }
@@ -362,7 +345,6 @@ class _$_Remove implements _Remove {
     TResult Function(_AddOrder value)? addOrder,
     TResult Function(_Refresh value)? refresh,
     TResult Function(_Update value)? update,
-    TResult Function(_ApplyOffers value)? applyOffers,
     required TResult orElse(),
   }) {
     if (remove != null) {
@@ -451,7 +433,6 @@ class _$_AddOrder implements _AddOrder {
     required TResult Function() refresh,
     required TResult Function(String filed, dynamic value, String orderId)
         update,
-    required TResult Function(String code) applyOffers,
   }) {
     return addOrder(order);
   }
@@ -464,7 +445,6 @@ class _$_AddOrder implements _AddOrder {
     TResult? Function(OrderProduct order)? addOrder,
     TResult? Function()? refresh,
     TResult? Function(String filed, dynamic value, String orderId)? update,
-    TResult? Function(String code)? applyOffers,
   }) {
     return addOrder?.call(order);
   }
@@ -477,7 +457,6 @@ class _$_AddOrder implements _AddOrder {
     TResult Function(OrderProduct order)? addOrder,
     TResult Function()? refresh,
     TResult Function(String filed, dynamic value, String orderId)? update,
-    TResult Function(String code)? applyOffers,
     required TResult orElse(),
   }) {
     if (addOrder != null) {
@@ -494,7 +473,6 @@ class _$_AddOrder implements _AddOrder {
     required TResult Function(_AddOrder value) addOrder,
     required TResult Function(_Refresh value) refresh,
     required TResult Function(_Update value) update,
-    required TResult Function(_ApplyOffers value) applyOffers,
   }) {
     return addOrder(this);
   }
@@ -507,7 +485,6 @@ class _$_AddOrder implements _AddOrder {
     TResult? Function(_AddOrder value)? addOrder,
     TResult? Function(_Refresh value)? refresh,
     TResult? Function(_Update value)? update,
-    TResult? Function(_ApplyOffers value)? applyOffers,
   }) {
     return addOrder?.call(this);
   }
@@ -520,7 +497,6 @@ class _$_AddOrder implements _AddOrder {
     TResult Function(_AddOrder value)? addOrder,
     TResult Function(_Refresh value)? refresh,
     TResult Function(_Update value)? update,
-    TResult Function(_ApplyOffers value)? applyOffers,
     required TResult orElse(),
   }) {
     if (addOrder != null) {
@@ -582,7 +558,6 @@ class _$_Refresh implements _Refresh {
     required TResult Function() refresh,
     required TResult Function(String filed, dynamic value, String orderId)
         update,
-    required TResult Function(String code) applyOffers,
   }) {
     return refresh();
   }
@@ -595,7 +570,6 @@ class _$_Refresh implements _Refresh {
     TResult? Function(OrderProduct order)? addOrder,
     TResult? Function()? refresh,
     TResult? Function(String filed, dynamic value, String orderId)? update,
-    TResult? Function(String code)? applyOffers,
   }) {
     return refresh?.call();
   }
@@ -608,7 +582,6 @@ class _$_Refresh implements _Refresh {
     TResult Function(OrderProduct order)? addOrder,
     TResult Function()? refresh,
     TResult Function(String filed, dynamic value, String orderId)? update,
-    TResult Function(String code)? applyOffers,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -625,7 +598,6 @@ class _$_Refresh implements _Refresh {
     required TResult Function(_AddOrder value) addOrder,
     required TResult Function(_Refresh value) refresh,
     required TResult Function(_Update value) update,
-    required TResult Function(_ApplyOffers value) applyOffers,
   }) {
     return refresh(this);
   }
@@ -638,7 +610,6 @@ class _$_Refresh implements _Refresh {
     TResult? Function(_AddOrder value)? addOrder,
     TResult? Function(_Refresh value)? refresh,
     TResult? Function(_Update value)? update,
-    TResult? Function(_ApplyOffers value)? applyOffers,
   }) {
     return refresh?.call(this);
   }
@@ -651,7 +622,6 @@ class _$_Refresh implements _Refresh {
     TResult Function(_AddOrder value)? addOrder,
     TResult Function(_Refresh value)? refresh,
     TResult Function(_Update value)? update,
-    TResult Function(_ApplyOffers value)? applyOffers,
     required TResult orElse(),
   }) {
     if (refresh != null) {
@@ -751,7 +721,6 @@ class _$_Update implements _Update {
     required TResult Function() refresh,
     required TResult Function(String filed, dynamic value, String orderId)
         update,
-    required TResult Function(String code) applyOffers,
   }) {
     return update(filed, value, orderId);
   }
@@ -764,7 +733,6 @@ class _$_Update implements _Update {
     TResult? Function(OrderProduct order)? addOrder,
     TResult? Function()? refresh,
     TResult? Function(String filed, dynamic value, String orderId)? update,
-    TResult? Function(String code)? applyOffers,
   }) {
     return update?.call(filed, value, orderId);
   }
@@ -777,7 +745,6 @@ class _$_Update implements _Update {
     TResult Function(OrderProduct order)? addOrder,
     TResult Function()? refresh,
     TResult Function(String filed, dynamic value, String orderId)? update,
-    TResult Function(String code)? applyOffers,
     required TResult orElse(),
   }) {
     if (update != null) {
@@ -794,7 +761,6 @@ class _$_Update implements _Update {
     required TResult Function(_AddOrder value) addOrder,
     required TResult Function(_Refresh value) refresh,
     required TResult Function(_Update value) update,
-    required TResult Function(_ApplyOffers value) applyOffers,
   }) {
     return update(this);
   }
@@ -807,7 +773,6 @@ class _$_Update implements _Update {
     TResult? Function(_AddOrder value)? addOrder,
     TResult? Function(_Refresh value)? refresh,
     TResult? Function(_Update value)? update,
-    TResult? Function(_ApplyOffers value)? applyOffers,
   }) {
     return update?.call(this);
   }
@@ -820,7 +785,6 @@ class _$_Update implements _Update {
     TResult Function(_AddOrder value)? addOrder,
     TResult Function(_Refresh value)? refresh,
     TResult Function(_Update value)? update,
-    TResult Function(_ApplyOffers value)? applyOffers,
     required TResult orElse(),
   }) {
     if (update != null) {
@@ -841,164 +805,6 @@ abstract class _Update implements OrderEvent {
   String get orderId;
   @JsonKey(ignore: true)
   _$$_UpdateCopyWith<_$_Update> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$_ApplyOffersCopyWith<$Res> {
-  factory _$$_ApplyOffersCopyWith(
-          _$_ApplyOffers value, $Res Function(_$_ApplyOffers) then) =
-      __$$_ApplyOffersCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String code});
-}
-
-/// @nodoc
-class __$$_ApplyOffersCopyWithImpl<$Res>
-    extends _$OrderEventCopyWithImpl<$Res, _$_ApplyOffers>
-    implements _$$_ApplyOffersCopyWith<$Res> {
-  __$$_ApplyOffersCopyWithImpl(
-      _$_ApplyOffers _value, $Res Function(_$_ApplyOffers) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? code = null,
-  }) {
-    return _then(_$_ApplyOffers(
-      null == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_ApplyOffers implements _ApplyOffers {
-  const _$_ApplyOffers(this.code);
-
-  @override
-  final String code;
-
-  @override
-  String toString() {
-    return 'OrderEvent.applyOffers(code: $code)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_ApplyOffers &&
-            (identical(other.code, code) || other.code == code));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, code);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_ApplyOffersCopyWith<_$_ApplyOffers> get copyWith =>
-      __$$_ApplyOffersCopyWithImpl<_$_ApplyOffers>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() getData,
-    required TResult Function(String orderId) remove,
-    required TResult Function(OrderProduct order) addOrder,
-    required TResult Function() refresh,
-    required TResult Function(String filed, dynamic value, String orderId)
-        update,
-    required TResult Function(String code) applyOffers,
-  }) {
-    return applyOffers(code);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getData,
-    TResult? Function(String orderId)? remove,
-    TResult? Function(OrderProduct order)? addOrder,
-    TResult? Function()? refresh,
-    TResult? Function(String filed, dynamic value, String orderId)? update,
-    TResult? Function(String code)? applyOffers,
-  }) {
-    return applyOffers?.call(code);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getData,
-    TResult Function(String orderId)? remove,
-    TResult Function(OrderProduct order)? addOrder,
-    TResult Function()? refresh,
-    TResult Function(String filed, dynamic value, String orderId)? update,
-    TResult Function(String code)? applyOffers,
-    required TResult orElse(),
-  }) {
-    if (applyOffers != null) {
-      return applyOffers(code);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) getData,
-    required TResult Function(_Remove value) remove,
-    required TResult Function(_AddOrder value) addOrder,
-    required TResult Function(_Refresh value) refresh,
-    required TResult Function(_Update value) update,
-    required TResult Function(_ApplyOffers value) applyOffers,
-  }) {
-    return applyOffers(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? getData,
-    TResult? Function(_Remove value)? remove,
-    TResult? Function(_AddOrder value)? addOrder,
-    TResult? Function(_Refresh value)? refresh,
-    TResult? Function(_Update value)? update,
-    TResult? Function(_ApplyOffers value)? applyOffers,
-  }) {
-    return applyOffers?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? getData,
-    TResult Function(_Remove value)? remove,
-    TResult Function(_AddOrder value)? addOrder,
-    TResult Function(_Refresh value)? refresh,
-    TResult Function(_Update value)? update,
-    TResult Function(_ApplyOffers value)? applyOffers,
-    required TResult orElse(),
-  }) {
-    if (applyOffers != null) {
-      return applyOffers(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _ApplyOffers implements OrderEvent {
-  const factory _ApplyOffers(final String code) = _$_ApplyOffers;
-
-  String get code;
-  @JsonKey(ignore: true)
-  _$$_ApplyOffersCopyWith<_$_ApplyOffers> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

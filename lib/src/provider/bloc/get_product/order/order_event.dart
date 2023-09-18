@@ -10,6 +10,9 @@ class OrderEvent with _$OrderEvent {
     required OrderProduct order,
   }) = _AddOrder;
   const factory OrderEvent.refresh() = _Refresh;
-  const factory OrderEvent.update({required String filed, required dynamic value,required String orderId,}) = _Update;
-  const factory OrderEvent.applyOffers(String code) = _ApplyOffers;
+  const factory OrderEvent.update({
+    required String filed,
+    required dynamic value,
+    required String orderId,
+  }) = _Update;
 }

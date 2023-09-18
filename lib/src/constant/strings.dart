@@ -101,6 +101,7 @@ class ConstString {
   static const String apply = "Apply";
   static const String promoCode = "Promo Code";
   static const String clearcode = "Clear promo code";
+  static const String offerMassage = "Offer apply successfully..";
 
   /// userprofile screen
   static const String name = "Name";
@@ -129,4 +130,18 @@ class ConstString {
   /// Privacy Policy
   static const String privacyTitle = "Privacy Policy for E-Commerce App";
   static const String privacySubTitle = "Effective Date: September 1, 2023";
+
+  /// payment screen
+  static const String payment = "Payment";
+  static const String carddetails = "Card Details";
+  static const String confirm = "Confirm";
+  static const String cardHolder = "Card holder name";
+  static const String expiryDate = "Exp date";
+  static const String cvv = "CVV";
+  static const String cardNumber = "Card number";
+  static const String saveCard = "Save card during payment";
+  static const String clear = "Clear";
+  static const String cardnumbererror = "please enter a card number";
+  static const String cvverror = "please enter a cvv number";
+  static const String cardHolderError = "please enter name";
 }
