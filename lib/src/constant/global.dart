@@ -1,4 +1,5 @@
 import 'package:ecommerce/src/constant/strings.dart';
+import 'package:ecommerce/src/provider/model/card/card.dart';
 import 'package:ecommerce/src/provider/model/offer.dart';
 import 'package:ecommerce/src/provider/model/user.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ class Global {
   static final GlobalKey<ScaffoldState> scaffoldkey =
       GlobalKey<ScaffoldState>();
   static final ScrollController scrollController = ScrollController();
+
+  static List<Data> allCard = [];
 
   /// favourites screen
   static bool checkWishlist(String id) {

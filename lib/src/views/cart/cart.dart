@@ -6,14 +6,17 @@ import 'package:ecommerce/src/constant/widget/button.dart';
 import 'package:ecommerce/src/constant/widget/text.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/order/order_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/offers/offers_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/payment/payment_bloc.dart';
+import 'package:ecommerce/src/provider/model/order.dart';
 import 'package:ecommerce/src/utils/extension/capitalize.dart';
 import 'package:ecommerce/src/utils/extension/navigator.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
 import 'package:ecommerce/src/utils/hive/hive_key.dart';
 import 'package:ecommerce/src/utils/media_query.dart';
-import 'package:ecommerce/src/views/card_payment/custome_card_payment.dart';
+import 'package:ecommerce/src/views/card_payment/card_list.dart';
 import 'package:ecommerce/src/views/catelog/delete_dialog.dart';
 import 'package:ecommerce/src/views/profile/offer.dart';
+import 'package:ecommerce/src/views/profile/shipping.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -27,6 +30,7 @@ class MyCartPage extends StatefulWidget {
 
 class _MyCartPageState extends State<MyCartPage> {
   final TextEditingController _code = TextEditingController();
+  List<OrderProduct> order = [];
 
   @override
   void initState() {
@@ -119,7 +123,7 @@ class _MyCartPageState extends State<MyCartPage> {
                         ),
                       ),
                     ),
-                    ValueListenableBuilder(
+                    ValueListenableBuilder<int>(
                       valueListenable: Global.totalQuantity,
                       builder: (context, value, _) => Badge(
                         backgroundColor: ConstColor.black,
@@ -161,219 +165,333 @@ class _MyCartPageState extends State<MyCartPage> {
                         backgroundColor: ConstColor.black,
                       ),
                     ),
-                    success: (data, isadd) => ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: data.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => Dismissible(
-                        key: Key(index.toString()),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: ConstColor.black,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          alignment: Alignment.centerRight,
-                          child: const Icon(Icons.delete, color: Colors.white),
-                        ),
-                        confirmDismiss: (direction) => showDialog(
-                          context: context,
-                          builder: (context) => const DeletePermissionDialog(),
-                        ).then(
-                          (confirmed) async {
-                            if (confirmed == true) {
-                              context.read<OrderBloc>().add(
-                                    OrderEvent.remove(
-                                      orderId: data[index].orderId,
-                                    ),
-                                  );
-                              context
-                                  .read<OrderBloc>()
-                                  .add(const OrderEvent.refresh());
-                            }
-                            return null;
-                          },
-                        ),
-                        child: Card(
-                          color: ConstColor.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 8,
-                          child: ListTile(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 4, vertical: 0),
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: SizedBox(
-                                child: CachedNetworkImage(
-                                  imageUrl: data[index].image,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      Shimmer.fromColors(
-                                    baseColor: ConstColor.black,
-                                    highlightColor: ConstColor.grey,
-                                    child: Container(
-                                      height: height(context: context) * 0.52,
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
+                    success: (data, isadd) {
+                      order = data;
+                      return Column(
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: data.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => Dismissible(
+                              key: Key(index.toString()),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: ConstColor.black,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
+                                alignment: Alignment.centerRight,
+                                child: const Icon(Icons.delete,
+                                    color: Colors.white),
                               ),
-                            ),
-                            title: FxText(
-                              maxLines: 1,
-                              textOverflow: TextOverflow.ellipsis,
-                              text:
-                                  data[index].title.toLowerCase().capitalize(),
-                              color: ConstColor.black,
-                              size: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            subtitle: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FxText(
-                                  textOverflow: TextOverflow.ellipsis,
-                                  text: data[index]
-                                      .subtitle
-                                      .toLowerCase()
-                                      .capitalize(),
-                                  color: ConstColor.grey,
-                                  size: 12,
-                                  fontWeight: FontWeight.w400,
+                              confirmDismiss: (direction) => showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    const DeletePermissionDialog(),
+                              ).then(
+                                (confirmed) async {
+                                  if (confirmed == true) {
+                                    context.read<OrderBloc>().add(
+                                          OrderEvent.remove(
+                                            orderId: data[index].orderId,
+                                          ),
+                                        );
+                                    context
+                                        .read<OrderBloc>()
+                                        .add(const OrderEvent.refresh());
+                                  }
+                                  return null;
+                                },
+                              ),
+                              child: Card(
+                                color: ConstColor.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    FxText(
-                                      textOverflow: TextOverflow.ellipsis,
-                                      text: "${ConstString.color} : ",
-                                      color: ConstColor.grey,
-                                      size: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    CircleAvatar(
-                                      radius: 6,
-                                      backgroundColor: Color(
-                                        int.parse(
-                                            "0xff${data[index].color.toString()}"),
+                                elevation: 8,
+                                child: ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 4, vertical: 0),
+                                  leading: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: SizedBox(
+                                      child: CachedNetworkImage(
+                                        imageUrl: data[index].image,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Shimmer.fromColors(
+                                          baseColor: ConstColor.black,
+                                          highlightColor: ConstColor.grey,
+                                          child: Container(
+                                            height:
+                                                height(context: context) * 0.52,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
                                       ),
                                     ),
-                                  ],
-                                ),
-                                FxText(
-                                  textOverflow: TextOverflow.ellipsis,
-                                  text:
-                                      "${ConstString.size} : ${data[index].size.capitalize()}",
-                                  color: ConstColor.grey,
-                                  size: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                FxText(
-                                  textOverflow: TextOverflow.ellipsis,
-                                  text:
-                                      "${ConstString.quantity} : ${data[index].quantity}",
-                                  color: ConstColor.grey,
-                                  size: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ],
-                            ),
-                            trailing: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: ConstColor.disable,
-                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: Row(
+                                  title: FxText(
+                                    maxLines: 1,
+                                    textOverflow: TextOverflow.ellipsis,
+                                    text: data[index]
+                                        .title
+                                        .toLowerCase()
+                                        .capitalize(),
+                                    color: ConstColor.black,
+                                    size: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  subtitle: Column(
                                     mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      FxText(
+                                        textOverflow: TextOverflow.ellipsis,
+                                        text: data[index]
+                                            .subtitle
+                                            .toLowerCase()
+                                            .capitalize(),
+                                        color: ConstColor.grey,
+                                        size: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          FxText(
+                                            textOverflow: TextOverflow.ellipsis,
+                                            text: "${ConstString.color} : ",
+                                            color: ConstColor.grey,
+                                            size: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          CircleAvatar(
+                                            radius: 6,
+                                            backgroundColor: Color(
+                                              int.parse(
+                                                  "0xff${data[index].color.toString()}"),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      FxText(
+                                        textOverflow: TextOverflow.ellipsis,
+                                        text:
+                                            "${ConstString.size} : ${data[index].size.capitalize()}",
+                                        color: ConstColor.grey,
+                                        size: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      FxText(
+                                        textOverflow: TextOverflow.ellipsis,
+                                        text:
+                                            "${ConstString.quantity} : ${data[index].quantity}",
+                                        color: ConstColor.grey,
+                                        size: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          if (data[index].quantity != 1) {
-                                            int demo = data[index].quantity;
-                                            demo--;
-                                            context.read<OrderBloc>().add(
-                                                  OrderEvent.update(
-                                                    filed: ConstString.quantity
-                                                        .toLowerCase(),
-                                                    value: demo,
-                                                    orderId:
-                                                        data[index].orderId,
-                                                  ),
-                                                );
-                                          }
-                                        },
-                                        highlightColor: ConstColor.transparent,
-                                        splashColor: ConstColor.transparent,
-                                        icon: const Icon(
-                                          Icons.remove,
-                                          size: 18,
+                                      Container(
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          color: ConstColor.disable,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
-                                        style: IconButton.styleFrom(
-                                          minimumSize: Size.zero,
-                                          padding: EdgeInsets.zero,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                if (data[index].quantity != 1) {
+                                                  int demo =
+                                                      data[index].quantity;
+                                                  demo--;
+                                                  context.read<OrderBloc>().add(
+                                                        OrderEvent.update(
+                                                          filed: ConstString
+                                                              .quantity
+                                                              .toLowerCase(),
+                                                          value: demo,
+                                                          orderId: data[index]
+                                                              .orderId,
+                                                        ),
+                                                      );
+                                                }
+                                              },
+                                              highlightColor:
+                                                  ConstColor.transparent,
+                                              splashColor:
+                                                  ConstColor.transparent,
+                                              icon: const Icon(
+                                                Icons.remove,
+                                                size: 18,
+                                              ),
+                                              style: IconButton.styleFrom(
+                                                minimumSize: Size.zero,
+                                                padding: EdgeInsets.zero,
+                                              ),
+                                            ),
+                                            FxText(
+                                              text: data[index]
+                                                  .quantity
+                                                  .toString(),
+                                              size: 14,
+                                              color: ConstColor.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                int demo = data[index].quantity;
+                                                demo++;
+                                                context.read<OrderBloc>().add(
+                                                      OrderEvent.update(
+                                                        filed: ConstString
+                                                            .quantity
+                                                            .toLowerCase(),
+                                                        value: demo,
+                                                        orderId:
+                                                            data[index].orderId,
+                                                      ),
+                                                    );
+                                              },
+                                              highlightColor:
+                                                  ConstColor.transparent,
+                                              splashColor:
+                                                  ConstColor.transparent,
+                                              icon: const Icon(
+                                                Icons.add,
+                                                size: 18,
+                                              ),
+                                              style: IconButton.styleFrom(
+                                                minimumSize: Size.zero,
+                                                padding: EdgeInsets.zero,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      const Spacer(),
                                       FxText(
-                                        text: data[index].quantity.toString(),
+                                        text: "\$ ${data[index].price}",
                                         size: 14,
                                         color: ConstColor.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          int demo = data[index].quantity;
-                                          demo++;
-                                          context.read<OrderBloc>().add(
-                                                OrderEvent.update(
-                                                  filed: ConstString.quantity
-                                                      .toLowerCase(),
-                                                  value: demo,
-                                                  orderId: data[index].orderId,
-                                                ),
-                                              );
-                                        },
-                                        highlightColor: ConstColor.transparent,
-                                        splashColor: ConstColor.transparent,
-                                        icon: const Icon(
-                                          Icons.add,
-                                          size: 18,
-                                        ),
-                                        style: IconButton.styleFrom(
-                                          minimumSize: Size.zero,
-                                          padding: EdgeInsets.zero,
-                                        ),
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ],
                                   ),
                                 ),
-                                const Spacer(),
-                                FxText(
-                                  text: "\$ ${data[index].price}",
-                                  size: 14,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: height(context: context) * 0.02,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  minimumSize: Size.zero,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                onPressed: () async {
+                                  String? result = await context.push(
+                                    const OfferPage(isCart: true),
+                                  );
+                                  if (result != null && result.isNotEmpty) {
+                                    _code.text = result;
+                                  }
+                                },
+                                child: FxText(
+                                  text: ConstString.offer,
                                   color: ConstColor.black,
-                                  fontWeight: FontWeight.w600,
+                                  size: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  minimumSize: Size.zero,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                onPressed: () {
+                                  _code.clear();
+                                  HiveHelper.hiveHelper.remove(HiveKeys.offer);
+                                  Global.totalDiscountPrice.value = 0;
+                                },
+                                child: FxText(
+                                  text: ConstString.clearcode,
+                                  color: ConstColor.blue,
+                                  size: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: ConstColor.disable,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: _code,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: ConstString.promoCode,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    if (_code.text.isNotEmpty) {
+                                      context.read<OffersBloc>().add(
+                                          OffersEvent.applyOffers(_code.text));
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.all(4),
+                                    backgroundColor: ConstColor.black,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: FxText(
+                                    text: ConstString.apply,
+                                    color: ConstColor.white,
+                                    size: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ),
-                    ),
+                        ],
+                      );
+                    },
                     error: (massage) {
                       return Center(
                         child: Column(
@@ -420,95 +538,6 @@ class _MyCartPageState extends State<MyCartPage> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: height(context: context) * 0.02,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
-                      ),
-                      onPressed: () async {
-                        String? result = await context.push(
-                          const OfferPage(isCart: true),
-                        );
-                        if (result != null && result.isNotEmpty) {
-                          _code.text = result;
-                        }
-                      },
-                      child: FxText(
-                        text: ConstString.offer,
-                        color: ConstColor.black,
-                        size: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
-                      ),
-                      onPressed: () {
-                        _code.clear();
-                        HiveHelper.hiveHelper.remove(HiveKeys.offer);
-                        Global.totalDiscountPrice.value = 0;
-                      },
-                      child: FxText(
-                        text: ConstString.clearcode,
-                        color: ConstColor.blue,
-                        size: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: ConstColor.disable,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: _code,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: ConstString.promoCode,
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_code.text.isNotEmpty) {
-                            context
-                                .read<OffersBloc>()
-                                .add(OffersEvent.applyOffers(_code.text));
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(4),
-                          backgroundColor: ConstColor.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: FxText(
-                          text: ConstString.apply,
-                          color: ConstColor.white,
-                          size: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
@@ -528,7 +557,7 @@ class _MyCartPageState extends State<MyCartPage> {
                     valueListenable: Global.totalQuantity,
                     builder: (context, value, child) => FxText(
                       text: ConstString.offer,
-                      size: 16,
+                      size: 14,
                       color: ConstColor.grey,
                       fontWeight: FontWeight.w400,
                     ),
@@ -537,15 +566,12 @@ class _MyCartPageState extends State<MyCartPage> {
                     valueListenable: Global.totalDiscountPrice,
                     builder: (context, value, _) => FxText(
                       text: "\$ $value",
-                      size: 20,
-                      color: ConstColor.black,
+                      size: 16,
+                      color: ConstColor.green,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
-              ),
-              SizedBox(
-                height: height(context: context) * 0.01,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -560,12 +586,16 @@ class _MyCartPageState extends State<MyCartPage> {
                     ),
                   ),
                   ValueListenableBuilder(
-                    valueListenable: Global.totalPrice,
-                    builder: (context, value, _) => FxText(
-                      text: "\$ $value",
-                      size: 20,
-                      color: ConstColor.black,
-                      fontWeight: FontWeight.w600,
+                    valueListenable: Global.totalDiscountPrice,
+                    builder: (context, totalDiscountPrice, _) =>
+                        ValueListenableBuilder(
+                      valueListenable: Global.totalPrice,
+                      builder: (context, value, _) => FxText(
+                        text: "\$ ${value - totalDiscountPrice}",
+                        size: 20,
+                        color: ConstColor.black,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -583,7 +613,19 @@ class _MyCartPageState extends State<MyCartPage> {
                     ),
                   ),
                   onPressed: () {
-                    context.push(const CardPayment());
+                    if (Global.totalPrice.value != 0) {
+                      if (Global.users.address != null ||
+                          Global.users.stripeId != null) {
+                        context
+                            .read<PaymentBloc>()
+                            .add(const PaymentEvent.getCard());
+                        context.push(CardListPage(
+                          order: order,
+                        ));
+                      } else {
+                        context.push(const ShippingAddress());
+                      }
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18.0),

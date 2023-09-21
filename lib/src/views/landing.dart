@@ -66,8 +66,10 @@ class _LandingPageState extends State<LandingPage>
   @override
   void initState() {
     super.initState();
+    // print(HiveHelper.hiveHelper.get(HiveKeys.user));
     Global.users = Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));
-    Global.offers = Offers.fromJson(HiveHelper.hiveHelper.get(HiveKeys.offer) ?? {});
+    Global.offers =
+        Offers.fromJson(HiveHelper.hiveHelper.get(HiveKeys.offer) ?? {});
     context.read<ProductBloc>().add(const ProductEvent.getProduct());
     context.read<ArrivalsBloc>().add(const ArrivalsEvent.getData());
     context.read<FavouriteBloc>().add(const FavouriteEvent.getData());

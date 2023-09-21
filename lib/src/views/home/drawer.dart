@@ -13,6 +13,7 @@ import 'package:ecommerce/src/views/profile/help.dart';
 import 'package:ecommerce/src/views/profile/offer.dart';
 import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
+import 'package:ecommerce/src/views/profile/shipping.dart';
 import 'package:ecommerce/src/views/profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,7 +116,9 @@ class FxDrawer extends StatelessWidget {
                       icon: Icons.favorite_rounded,
                     ),
                     ProfileOption(
-                      onTap: () {},
+                      onTap: () {
+                        context.push(const ShippingAddress());
+                      },
                       text: ConstString.myAddress,
                       icon: Icons.local_shipping_rounded,
                     ),
@@ -127,7 +130,9 @@ class FxDrawer extends StatelessWidget {
                     ProfileOption(
                       onTap: () {
                         _closeDrawer();
-                        context.push(const OfferPage(isCart: false,));
+                        context.push(const OfferPage(
+                          isCart: false,
+                        ));
                       },
                       text: ConstString.discounts,
                       icon: Icons.local_offer_rounded,

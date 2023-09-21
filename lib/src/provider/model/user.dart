@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:country_picker/country_picker.dart';
+import 'package:ecommerce/src/provider/model/payment/customer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Users usersFromJson(String str) => Users.fromJson(json.decode(str));
@@ -12,8 +14,9 @@ class Users {
   final String? url;
   final String? email;
   final bool? emailVerified;
-  final String? address;
-  final Map<String, dynamic>? country;
+  final Address? address;
+  final Country? country;
+  final String? stripeId;
 
   Users({
     this.address,
@@ -24,6 +27,7 @@ class Users {
     this.url,
     this.email,
     this.emailVerified,
+    this.stripeId,
   });
 
   factory Users.fromDocument(User doc) {
@@ -34,20 +38,21 @@ class Users {
       url: doc.photoURL,
       profileName: doc.displayName,
       emailVerified: doc.emailVerified,
-      address: null,
-      country: null,
     );
   }
   factory Users.fromJson(Map<String, dynamic> json) => Users(
-        userId: json["UserId"],
-        profileName: json["profileName"],
-        userName: json["userName"],
-        url: json["url"],
-        email: json["email"],
-        emailVerified: json["emailVerified"] ?? false,
-        address: json["address"],
-        country: json["country"],
-      );
+      userId: json["UserId"],
+      profileName: json["profileName"],
+      userName: json["userName"],
+      url: json["url"],
+      email: json["email"],
+      emailVerified: json["emailVerified"] ?? false,
+      address:
+          (json["address"] != null) ? Address.fromJson(json["address"]) : null,
+      country: (json["country"] != null)
+          ? Country.from(json: json["country"])
+          : null,
+      stripeId: json["stripeId"]);
 
   Map<String, dynamic> toJson() => {
         "UserId": userId,
@@ -58,5 +63,6 @@ class Users {
         "emailVerified": emailVerified,
         "address": address,
         "country": country,
+        "stripeId": stripeId,
       };
 }

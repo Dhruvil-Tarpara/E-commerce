@@ -142,6 +142,19 @@ class ConstString {
   static const String saveCard = "Save card during payment";
   static const String clear = "Clear";
   static const String cardnumbererror = "please enter a card number";
+  static const String cardnumbererror1 =
+      "Invalid input length, please enter 16 digits";
   static const String cvverror = "please enter a cvv number";
   static const String cardHolderError = "please enter name";
+  static const String stripeId = "stripeId";
+  static const String pay = "pay";
+
+  /// address screen
+  static const String street = "Street";
+  static const String city = "City";
+  static const String state = "State";
+  static const String phone = "Phone number";
+  static const String pincode = "Pin code";
+  static const String code = "Country calling code";
+  static const String error = "please enter";
 }

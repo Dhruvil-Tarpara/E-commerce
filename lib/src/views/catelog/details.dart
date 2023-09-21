@@ -190,14 +190,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                       backgroundColor: ConstColor.white,
                                       child: IconButton(
                                         onPressed: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //     maintainState: false,
-                                          //     builder: (context) =>
-                                          //         const MyCartPage(),
-                                          //   ),
-                                          // );
+                                          
                                           context.push(const MyCartPage());
                                         },
                                         highlightColor: Colors.transparent,

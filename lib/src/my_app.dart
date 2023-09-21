@@ -4,6 +4,7 @@ import 'package:ecommerce/src/provider/bloc/get_product/order/order_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/get_product/product/product_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/login/login_bloc.dart';
 import 'package:ecommerce/src/provider/bloc/offers/offers_bloc.dart';
+import 'package:ecommerce/src/provider/bloc/payment/payment_bloc.dart';
 import 'package:ecommerce/src/provider/database/cloud_storage.dart';
 import 'package:ecommerce/src/utils/hive/hive.dart';
 import 'package:ecommerce/src/utils/hive/hive_key.dart';
@@ -48,20 +49,26 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (context) => LoginBloc()),
         BlocProvider(
-            create: (context) =>
-                ProductBloc()..add(const ProductEvent.getProduct())),
+          create: (context) =>
+              ProductBloc()..add(const ProductEvent.getProduct()),
+        ),
         BlocProvider(
-            create: (context) =>
-                ArrivalsBloc()..add(const ArrivalsEvent.getData())),
+          create: (context) =>
+              ArrivalsBloc()..add(const ArrivalsEvent.getData()),
+        ),
         BlocProvider(
-            create: (context) =>
-                FavouriteBloc()..add(const FavouriteEvent.getData())),
+          create: (context) =>
+              FavouriteBloc()..add(const FavouriteEvent.getData()),
+        ),
         BlocProvider(
-            lazy: true,
-            create: (context) => OrderBloc()..add(const OrderEvent.getData())),
+          lazy: true,
+          create: (context) => OrderBloc()..add(const OrderEvent.getData()),
+        ),
         BlocProvider(
-            lazy: true,
-            create: (context) => OffersBloc()..add(const OffersEvent.getOffers())),
+          lazy: true,
+          create: (context) => OffersBloc()..add(const OffersEvent.getOffers()),
+        ),
+        BlocProvider(create: (context) => PaymentBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

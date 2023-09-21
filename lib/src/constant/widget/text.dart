@@ -11,6 +11,7 @@ class FxText extends StatelessWidget {
   final TextAlign? textAlign;
   final int? maxLines;
   final bool? softWrap;
+  final double? letterSpacing;
 
   const FxText({
     super.key,
@@ -23,6 +24,7 @@ class FxText extends StatelessWidget {
     this.textAlign,
     this.maxLines,
     this.softWrap,
+    this.letterSpacing,
   });
 
   @override
@@ -37,6 +39,7 @@ class FxText extends StatelessWidget {
         fontSize: size,
         fontWeight: fontWeight,
         color: color,
+        letterSpacing: letterSpacing,
       ),
     );
   }

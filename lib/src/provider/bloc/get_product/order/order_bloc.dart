@@ -10,7 +10,7 @@ part 'order_state.dart';
 part 'order_bloc.freezed.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
-  late List<OrderProduct> allOrder;
+  List<OrderProduct> allOrder = [];
   OrderBloc() : super(const _Initial()) {
     on<OrderEvent>(
       (event, emit) async {
@@ -27,7 +27,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
                 (element.price * element.quantity).toInt();
           }
           if (allOrder.isNotEmpty) {
-            if (Global.offers != null) {
+            if (Global.offers!.discountPercentage != null) {
               Global.totalDiscountPrice.value = (Global.totalPrice.value *
                       (Global.offers!.discountPercentage ?? 0)) ~/
                   100;
@@ -80,14 +80,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
                 (element.price * element.quantity).toInt();
           }
           if (allOrder.isNotEmpty) {
-            if (Global.offers != null) {
+            emit(_Success(allOrder, true));
+            if (Global.offers!.discountPercentage != null) {
               Global.totalDiscountPrice.value = (Global.totalPrice.value *
                       Global.offers!.discountPercentage!) ~/
                   100;
             } else {
               Global.totalDiscountPrice.value = 0;
             }
-            emit(_Success(allOrder, true));
           } else {
             emit(const _Error(ConstString.errorMassage));
           }
@@ -96,7 +96,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             userUid: Global.users.userId!,
             orderId: event.orderId,
           );
-          if (Global.offers != null) {
+          if (Global.offers!.discountPercentage != null) {
             Global.totalDiscountPrice.value = (Global.totalPrice.value *
                     Global.offers!.discountPercentage!) ~/
                 100;
@@ -115,14 +115,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
                 (element.price * element.quantity).toInt();
           }
           if (allOrder.isNotEmpty) {
-            if (Global.offers != null) {
+            emit(_Success(allOrder, false));
+            if (Global.offers!.discountPercentage != null) {
               Global.totalDiscountPrice.value = (Global.totalPrice.value *
                       Global.offers!.discountPercentage!) ~/
                   100;
             } else {
               Global.totalDiscountPrice.value = 0;
             }
-            emit(_Success(allOrder, false));
           } else {
             emit(const _Error(ConstString.errorMassage));
           }
@@ -144,14 +144,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
                 (element.price * element.quantity).toInt();
           }
           if (allOrder.isNotEmpty) {
-            if (Global.offers != null) {
+            emit(_Success(allOrder, false));
+            if (Global.offers!.discountPercentage != null) {
               Global.totalDiscountPrice.value = (Global.totalPrice.value *
                       Global.offers!.discountPercentage!) ~/
                   100;
             } else {
               Global.totalDiscountPrice.value = 0;
             }
-            emit(_Success(allOrder, false));
           } else {
             emit(const _Error(ConstString.errorMassage));
           }

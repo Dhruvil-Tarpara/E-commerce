@@ -34,8 +34,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                     email: user.email,
                     emailVerified: user.emailVerified,
                     url: user.photoURL,
-                    address: null,
-                    country: null,
                   ));
               await HiveHelper.hiveHelper
                   .set(
@@ -47,8 +45,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                         email: user.email,
                         emailVerified: user.emailVerified,
                         url: user.photoURL,
-                        address: null,
-                        country: null,
                       ).toJson())
                   .then((value) => emit(const _Success()));
               Global.users =
@@ -77,8 +73,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                         email: user.email,
                         emailVerified: user.emailVerified,
                         url: user.photoURL,
-                        address: null,
-                        country: null,
                       ).toJson())
                   .then((value) => emit(const _Success()));
               Global.users =
@@ -104,8 +98,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                     email: user.email,
                     emailVerified: user.emailVerified,
                     url: user.photoURL,
-                    address: null,
-                    country: null,
                   ));
               await HiveHelper.hiveHelper.set(
                   HiveKeys.user,
@@ -116,8 +108,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                     email: user.email,
                     emailVerified: user.emailVerified,
                     url: user.photoURL,
-                    address: null,
-                    country: null,
                   ).toJson());
               Global.users =
                   Users.fromJson(HiveHelper.hiveHelper.get(HiveKeys.user));

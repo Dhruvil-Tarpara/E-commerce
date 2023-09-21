@@ -44,7 +44,8 @@ class CardPage extends StatelessWidget {
                         ? snapshot.data.toString().addSpaceEvery4Characters()
                         : "XXXX XXXX XXXX",
                     color: ConstColor.white,
-                    size: 16,
+                    size: 20,
+                    letterSpacing: 4,
                     fontWeight: FontWeight.w600,
                   );
                 },

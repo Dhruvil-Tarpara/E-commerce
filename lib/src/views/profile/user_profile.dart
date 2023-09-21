@@ -13,6 +13,7 @@ import 'package:ecommerce/src/views/profile/help.dart';
 import 'package:ecommerce/src/views/profile/privacy.dart';
 import 'package:ecommerce/src/views/profile/profile_option.dart';
 import 'package:ecommerce/src/views/profile/save_dialog.dart';
+import 'package:ecommerce/src/views/profile/shipping.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,29 +28,25 @@ class _UserProfilePageState extends State<UserProfilePage> {
   final TextEditingController _userName = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _address = TextEditingController();
-
   final ValueNotifier<bool> _editName = ValueNotifier<bool>(true);
-  final ValueNotifier<bool> _editAddress = ValueNotifier<bool>(true);
-  final ValueNotifier<Country> _initCountry =
-      ValueNotifier<Country>(Country.worldWide);
+
+  final ValueNotifier<Country?> _initCountry =
+      ValueNotifier<Country?>(Country.worldWide);
 
   final FocusNode _emailFocus = FocusNode();
-  final FocusNode _addressFocus = FocusNode();
-  Map<String, dynamic> country =
-      Global.users.country ?? Country.worldWide.toJson();
+
   @override
   void initState() {
     super.initState();
     _userName.text = Global.users.userName!;
     _email.text = Global.users.email!;
-    _address.text = Global.users.address ?? "Add your address";
-    _initCountry.value = Country.from(json: country);
+    _address.text = Global.users.address?.line1 ?? "Add your address";
+    _initCountry.value = Global.users.country ?? Country.worldWide;
   }
 
   pageClose() {
-    if (_address.text != Global.users.address ||
-        _userName.text != Global.users.userName ||
-        _initCountry.value != Country.from(json: country)) {
+    if (_userName.text != Global.users.userName ||
+        _initCountry.value != Global.users.country) {
       return showDialog(
         context: context,
         builder: (context) => const SaveDialog(),
@@ -65,8 +62,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 profileName: _userName.text,
                 emailVerified: Global.users.emailVerified,
                 url: Global.users.url,
-                address: _address.text,
-                country: _initCountry.value.toJson(),
+                country: _initCountry.value!,
               ),
             );
           }
@@ -83,7 +79,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
     _address.dispose();
     _editName.dispose();
     _userName.dispose();
-    _addressFocus.dispose();
     _emailFocus.dispose();
   }
 
@@ -211,41 +206,30 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     const Spacer(),
                     SizedBox(
                       width: width(context: context) * 0.58,
-                      child: ValueListenableBuilder(
-                        valueListenable: _editAddress,
-                        builder: (context, value, child) => FxTextFormField(
-                          focusNode: _addressFocus,
-                          readOnly: value,
-                          isDense: true,
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 10),
-                          controller: _address,
-                          textInputType: TextInputType.streetAddress,
-                          suffix: IconButton(
-                            onPressed: () {
-                              _editAddress.value = !_editAddress.value;
-                              if (value) {
-                                _addressFocus.requestFocus();
-                              } else {
-                                _addressFocus.unfocus();
-                              }
-                            },
-                            style: IconButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                maximumSize: Size.zero),
-                            icon: Icon(
-                              Icons.edit_location,
-                              color:
-                                  (value) ? ConstColor.grey : ConstColor.black,
-                            ),
-                          ),
-                          suffixIconConstraints:
-                              const BoxConstraints(maxHeight: 30, maxWidth: 30),
-                          textStyle: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                      child: FxTextFormField(
+                        readOnly: true,
+                        isDense: true,
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                        controller: _address,
+                        textInputType: TextInputType.streetAddress,
+                        suffix: IconButton(
+                          onPressed: () {
+                            context.push(const ShippingAddress());
+                          },
+                          style: IconButton.styleFrom(
+                              padding: EdgeInsets.zero, maximumSize: Size.zero),
+                          icon: Icon(
+                            Icons.edit_location,
                             color: ConstColor.black,
                           ),
+                        ),
+                        suffixIconConstraints:
+                            const BoxConstraints(maxHeight: 30, maxWidth: 30),
+                        textStyle: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: ConstColor.black,
                         ),
                       ),
                     ),
@@ -321,7 +305,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               children: [
                                 CircleAvatar(
                                   backgroundColor: ConstColor.white,
-                                  child: FxText(text: value.flagEmoji),
+                                  child: FxText(text: value!.flagEmoji),
                                 ),
                                 SizedBox(
                                   width: width(context: context) * 0.04,

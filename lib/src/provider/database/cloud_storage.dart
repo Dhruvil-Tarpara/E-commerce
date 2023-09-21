@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/src/provider/model/offer.dart';
 import 'package:ecommerce/src/provider/model/order.dart';
@@ -16,6 +18,7 @@ class FirebaseCloudHelper {
   final String _whishlistCollection = "whishlist_product";
   final String _orderCollection = "All_order";
   final String _offerCollection = "All_Offers";
+  final String _paymentCollection = "payment";
 
   /// creaet collection
   createCollection() {
@@ -135,6 +138,20 @@ class FirebaseCloudHelper {
         .delete();
   }
 
+  Future<void> clearOrderProduct({
+    required String userUid,
+  }) async {
+    QuerySnapshot querySnapshot = await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_orderCollection)
+        .get();
+
+    for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
+      await docSnapshot.reference.delete();
+    }
+  }
+
   /// Update quantitu
   Future<void> update({
     required String userUid,
@@ -153,9 +170,11 @@ class FirebaseCloudHelper {
   /// Add offer in firebase
   Future<void> addOffer({
     required Offers offers,
- 
   }) async {
-    await firebaseFirestore.collection(_offerCollection).doc(offers.id).set(offers.toJson());
+    await firebaseFirestore
+        .collection(_offerCollection)
+        .doc(offers.id)
+        .set(offers.toJson());
   }
 
   /// Get offerList in firebase
@@ -165,25 +184,22 @@ class FirebaseCloudHelper {
     return snapshot.docs.map((e) => Offers.stream(e)).toList();
   }
 
-  /// Upload movie image and create folder using userId
-  // Future<String?> uplodeImage({required String key, required File file}) async {
-  //   try {
-  //     await firebaseStorage.ref("${Global.users.id}/$key").putFile(file);
-  //     final url =
-  //         await firebaseStorage.ref("${Global.users.id}/$key").getDownloadURL();
-  //     return url;
-  //   } on FirebaseException catch (_) {
-  //     return null;
-  //   }
-  // }
-
-  // /// Delete image in folder
-  // Future<bool> deleteImage({required String key}) async {
-  //   try {
-  //     await firebaseStorage.ref("${Global.users.id}/$key").delete();
-  //     return true;
-  //   } on FirebaseException catch (_) {
-  //     return false;
-  //   }
-  // }
+  Future<void> addPayment({
+    required String userUid,
+    required String paymentId,
+    required List<OrderProduct> order,
+    required int offer,
+    required int ammount,
+  }) async {
+    await firebaseFirestore
+        .collection(_userCollection)
+        .doc(userUid)
+        .collection(_paymentCollection)
+        .doc(paymentId)
+        .set({
+      "ammount": ammount,
+      "order": jsonEncode(order),
+      "offer": offer,
+    });
+  }
 }

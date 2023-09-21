@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class FxTextFormField extends StatelessWidget {
   final TextEditingController? controller;
@@ -20,6 +21,7 @@ class FxTextFormField extends StatelessWidget {
   final BoxConstraints? suffixIconConstraints;
   final BoxConstraints? prefixIconConstraints;
   final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
 
   const FxTextFormField({
     super.key,
@@ -40,12 +42,15 @@ class FxTextFormField extends StatelessWidget {
     this.contentPadding,
     this.isDense,
     this.suffixIconConstraints,
-    this.prefixIconConstraints, this.focusNode,
+    this.prefixIconConstraints,
+    this.focusNode,
+    this.inputFormatters
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: inputFormatters,
       focusNode: focusNode,
       readOnly: readOnly ?? false,
       onChanged: onChanged,
