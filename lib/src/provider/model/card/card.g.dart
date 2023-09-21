@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: non_constant_identifier_names
+
 part of 'card.dart';
 
 // **************************************************************************
@@ -164,7 +166,7 @@ Map<String, dynamic> _$$_ThreeDSecureUsageToJson(
       'supported': instance.supported,
     };
 
-_$_Metadata _$$_MetadataFromJson(Map<String, dynamic> json) => _$_Metadata();
+_$_Metadata _$$_MetadataFromJson(Map<String, dynamic> json) => const _$_Metadata();
 
 Map<String, dynamic> _$$_MetadataToJson(_$_Metadata instance) =>
     <String, dynamic>{};

@@ -243,10 +243,9 @@ class PaymentHelper {
           await http.post(url, headers: headers, body: data);
       if (response.statusCode == 200) {
         String id = jsonDecode(response.body)["id"];
-        print(id);
+
         return id;
       } else {
-        print("Create PaymentIntents error : ${response.body}");
         return null;
       }
     } catch (e) {
