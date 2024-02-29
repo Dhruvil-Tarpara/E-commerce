@@ -1,16 +1,14 @@
-# ecommerce
+# Flutter eCommerce App with Firebase
 
-A new Flutter project.
+This is a sample Flutter eCommerce application integrated with Firebase for backend services. The app allows users to browse products, add them to the cart, and proceed with the checkout process. Firebase is used for authentication, database, and storage functionalities.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- User Authentication (Sign in, Sign up, Sign out)
+- Product browsing with categories
+- Product details display
+- Adding products to the cart
+- Cart management (Update quantity, Remove items)
+- Checkout process
+- Order history
+- Firebase integration for backend services
